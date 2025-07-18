@@ -1,10 +1,10 @@
-package com.example.ddd;
+package com.example.cqrs;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DddApplicationTests {
+class CqrsApplicationTests {
 
 	@Test
 	void contextLoads() {
