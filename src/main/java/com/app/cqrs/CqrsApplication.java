@@ -1,4 +1,4 @@
-package com.example.cqrs;
+package com.app.cqrs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
