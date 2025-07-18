@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  axon-server:
+    image: axoniq/axonserver:2025.1.1
+    container_name: axon-server
+    ports:
+      - "8024:8024"  # HTTP port for Axon Server UI
+      - "8124:8124"  # gRPC port for client connections
+    environment:
+      - AXONIQ_AXONSERVER_HOSTNAME=axon-server
+      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
+    volumes:
+      - axon-data:/data
+      - axon-events:/eventdata
+      - axon-config:/config
+    networks:
+      - axon-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8024/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  axon-data:
+  axon-events:
+  axon-config:
+
+networks:
+  axon-network:
+    driver: bridge
