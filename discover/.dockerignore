@@ -1,0 +1,30 @@
+# Exclude build outputs
+build/
+bin/
+.gradle/
+
+# Exclude IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Exclude OS files
+.DS_Store
+Thumbs.db
+
+# Exclude version control
+.git/
+.gitignore
+
+# Exclude other services
+products/
+
+# Exclude documentation
+README.md
+*.md
+
+# Exclude Docker files from other services
+products/Dockerfile
+docker-compose.yml
