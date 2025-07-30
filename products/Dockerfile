@@ -16,7 +16,7 @@ COPY products/src/ products/src/
 # Build the application
 RUN ./gradlew :products:build -x test --no-daemon
 
-FROM eclipse-temurin:24-jre-alpine
+FROM eclipse-temurin:24-jre-slim
 WORKDIR /app
 COPY --from=builder /app/products/build/libs/*.jar products.jar
 EXPOSE 8080
