@@ -2,3 +2,4 @@ rootProject.name = 'java-cqrs'
 
 include 'discover'
 include 'products'
+include 'gateway'

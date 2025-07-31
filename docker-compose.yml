@@ -12,10 +12,34 @@ services:
       - axon-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 45s
+
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      discover-server:
+        condition: service_healthy
+    networks:
+      - axon-network
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://discover-server:8761/eureka/
+      - EUREKA_CLIENT_INITIAL_INSTANCE_INFO_REPLICATION_INTERVAL_SECONDS=10
+      - EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS=10
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 10s
-      retries: 3
-      start_period: 40s
+      retries: 5
+      start_period: 60s
+    restart: on-failure
 
   axon-server:
     image: axoniq/axonserver:2025.1.1
