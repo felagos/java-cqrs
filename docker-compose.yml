@@ -27,6 +27,8 @@ services:
     depends_on:
       discover-server:
         condition: service_healthy
+      axon-server:
+        condition: service_healthy
     networks:
       - axon-network
     environment:
@@ -44,6 +46,8 @@ services:
       - "8080"
     depends_on:
       discover-server:
+        condition: service_healthy
+      axon-server:
         condition: service_healthy
     networks:
       - axon-network
@@ -68,6 +72,8 @@ services:
       - "8080"
     depends_on:
       discover-server:
+        condition: service_healthy
+      axon-server:
         condition: service_healthy
     networks:
       - axon-network
