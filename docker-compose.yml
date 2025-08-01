@@ -23,7 +23,7 @@ services:
       dockerfile: gateway/Dockerfile
     container_name: gateway-service
     ports:
-      - "8080:8082"
+      - "8080:8080"
     depends_on:
       discover-server:
         condition: service_healthy
@@ -34,7 +34,7 @@ services:
       - EUREKA_CLIENT_INITIAL_INSTANCE_INFO_REPLICATION_INTERVAL_SECONDS=10
       - EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS=10
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8082/actuator/health"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5
