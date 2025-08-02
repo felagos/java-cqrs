@@ -18,9 +18,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public Object createProduct(@Valid @RequestBody CreateProductDto createProductDto) {
-        var product = productMapper.toDomain(createProductDto);
-        return product;
+    public String createProduct(@Valid @RequestBody CreateProductDto createProductDto) {
+        return "Product created successfully with title: " + createProductDto.title();
     }
 
     @GetMapping
