@@ -7,6 +7,9 @@ COPY gradle/ gradle/
 COPY build.gradle settings.gradle ./
 COPY discover/build.gradle discover/
 
+# Fix line endings and make gradlew executable
+RUN sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew
+
 # Download dependencies (this layer will be cached unless dependencies change)
 RUN ./gradlew :discover:dependencies --no-daemon
 
