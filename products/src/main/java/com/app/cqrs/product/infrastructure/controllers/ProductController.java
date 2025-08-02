@@ -1,9 +1,10 @@
 package com.app.cqrs.product.infrastructure.controllers;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.web.bind.annotation.*;
 
+import com.app.cqrs.product.domain.Product;
 import com.app.cqrs.product.infrastructure.dtos.CreateProductDto;
+import com.app.cqrs.product.infrastructure.gateways.CommandGatewayWrapper;
 import com.app.cqrs.product.infrastructure.mappers.ProductMapper;
 
 import jakarta.validation.Valid;
@@ -13,17 +14,19 @@ import jakarta.validation.Valid;
 public class ProductController {
 
     private final ProductMapper productMapper;
-    private final CommandGateway commandGateway;
+    private final CommandGatewayWrapper<Product> commandGatewayWrapper;
 
-    public ProductController(ProductMapper productMapper, CommandGateway commandGateway) {
+    public ProductController(
+            ProductMapper productMapper,
+            CommandGatewayWrapper<Product> commandGatewayWrapper) {
         this.productMapper = productMapper;
-        this.commandGateway = commandGateway;
+        this.commandGatewayWrapper = commandGatewayWrapper;
     }
 
     @PostMapping
     public String createProduct(@Valid @RequestBody CreateProductDto createProductDto) {
         var product = productMapper.toDomain(createProductDto);
-        String response = this.commandGateway.sendAndWait(product);
+        var response = this.commandGatewayWrapper.<String>createCommand(product);
         return response;
     }
 
