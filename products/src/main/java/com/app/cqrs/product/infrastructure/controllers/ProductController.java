@@ -2,12 +2,14 @@ package com.app.cqrs.product.infrastructure.controllers;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.app.cqrs.product.infrastructure.dtos.CreateProductDto;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
     @PostMapping
-    public String createProduct() {
+    public String createProduct(@RequestBody CreateProductDto createProductDto) {
         return "Product created successfully!";
     }
 
