@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  discover-server:
+    build:
+      context: .
+      dockerfile: discover/Dockerfile
+    container_name: discover-service
+    ports:
+      - "8761:8761"
+    networks:
+      - axon-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8761/actuator/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 45s
+
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      discover-server:
+        condition: service_healthy
+      axon-server:
+        condition: service_healthy
+    networks:
+      - axon-network
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://discover-server:8761/eureka/
+      - EUREKA_CLIENT_INITIAL_INSTANCE_INFO_REPLICATION_INTERVAL_SECONDS=10
+      - EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS=10
+    restart: on-failure
+
+  axon-server:
+    image: axoniq/axonserver:2025.1.1
+    container_name: axon-server
+    ports:
+      - "8024:8024"  # HTTP port for Axon Server UI
+      - "8124:8124"  # gRPC port for client connections
+    environment:
+      - AXONIQ_AXONSERVER_HOSTNAME=axon-server
+      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
+    volumes:
+      - axon-data:/data
+      - axon-events:/eventdata
+      - axon-config:/config
+    networks:
+      - axon-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8024/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  axon-data:
+  axon-events:
+  axon-config:
+
+networks:
+  axon-network:
+    driver: bridge
