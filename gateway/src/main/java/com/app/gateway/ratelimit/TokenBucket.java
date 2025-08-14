@@ -44,28 +44,6 @@ public class TokenBucket {
     }
 
     /**
-     * Attempts to consume the specified number of tokens from the bucket.
-     *
-     * @param tokensRequested Number of tokens to consume
-     * @return true if the tokens were successfully consumed, false otherwise
-     */
-    public synchronized boolean allowRequest(long tokensRequested) {
-        if (tokensRequested <= 0) {
-            return true;
-        }
-
-        refill();
-        long currentTokens = tokens.get();
-
-        if (currentTokens >= tokensRequested) {
-            tokens.addAndGet(-tokensRequested);
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Refills the bucket based on the time elapsed since the last refill.
      */
     private void refill() {
