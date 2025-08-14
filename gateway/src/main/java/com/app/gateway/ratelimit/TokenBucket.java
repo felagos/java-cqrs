@@ -15,8 +15,8 @@ public class TokenBucket {
     /**
      * Creates a new TokenBucket with specified capacity and refill rate.
      *
-     * @param capacity    Maximum number of tokens the bucket can hold
-     * @param refillRate  Number of tokens added per second
+     * @param capacity   Maximum number of tokens the bucket can hold
+     * @param refillRate Number of tokens added per second
      */
     public TokenBucket(long capacity, long refillRate) {
         this.capacity = capacity;
@@ -28,17 +28,18 @@ public class TokenBucket {
     /**
      * Attempts to consume one token from the bucket.
      *
-     * @return true if a token was successfully consumed, false if no tokens available
+     * @return true if a token was successfully consumed, false if no tokens
+     *         available
      */
     public synchronized boolean allowRequest() {
         refill();
         long currentTokens = tokens.get();
-        
+
         if (currentTokens > 0) {
             tokens.decrementAndGet();
             return true;
         }
-        
+
         return false;
     }
 
@@ -52,15 +53,15 @@ public class TokenBucket {
         if (tokensRequested <= 0) {
             return true;
         }
-        
+
         refill();
         long currentTokens = tokens.get();
-        
+
         if (currentTokens >= tokensRequested) {
             tokens.addAndGet(-tokensRequested);
             return true;
         }
-        
+
         return false;
     }
 
@@ -70,16 +71,16 @@ public class TokenBucket {
     private void refill() {
         long currentTime = System.currentTimeMillis();
         long timePassed = currentTime - lastRefillTime;
-        
-        if (timePassed > 0) {
-            long tokensToAdd = (timePassed * refillRate) / 1000; // Convert milliseconds to seconds
-            
-            if (tokensToAdd > 0) {
-                long currentTokens = tokens.get();
-                long newTokens = Math.min(capacity, currentTokens + tokensToAdd);
-                tokens.set(newTokens);
-                lastRefillTime = currentTime;
-            }
+
+        long tokensToAdd = (timePassed * refillRate) / 1000; // Convert milliseconds to seconds
+
+        System.out.println("Refilling tokens: " + tokensToAdd + " added at " + currentTime);
+
+        if (tokensToAdd > 0) {
+            long currentTokens = tokens.get();
+            long newTokens = Math.min(capacity, currentTokens + tokensToAdd);
+            tokens.set(newTokens);
+            lastRefillTime = currentTime;
         }
     }
 
