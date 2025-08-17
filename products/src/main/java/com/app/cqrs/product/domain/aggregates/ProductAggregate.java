@@ -9,6 +9,7 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import com.app.cqrs.product.domain.commands.CreateProductCommand;
 import com.app.cqrs.product.domain.events.ProductCreatedEvent;
+import com.app.cqrs.product.domain.exceptions.InvalidProductException;
 
 @Aggregate
 public class ProductAggregate {
@@ -25,7 +26,7 @@ public class ProductAggregate {
     @CommandHandler
     public ProductAggregate(CreateProductCommand command) {
         if (command.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Invalid product price");
+            throw new InvalidProductException("Invalid product price");
         }
 
         var productCreatedEvent = new ProductCreatedEvent(
@@ -35,7 +36,7 @@ public class ProductAggregate {
             command.getQuantity()
         );
 
-        System.out.println("Product created: " + productCreatedEvent);
+        System.out.println("Product created: " + productCreatedEvent.getProductId());
 
         AggregateLifecycle.apply(productCreatedEvent);
     }
@@ -47,7 +48,7 @@ public class ProductAggregate {
         this.price = event.getPrice();
         this.quantity = event.getQuantity();
 
-        System.out.println("Product aggregate state restored: " + event);
+        System.out.println("Product aggregate state restored: " + event.getProductId());
     }
 
 }
