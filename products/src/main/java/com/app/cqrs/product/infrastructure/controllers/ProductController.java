@@ -25,6 +25,7 @@ public class ProductController {
     @PostMapping
     public String createProduct(@Valid @RequestBody CreateProductDto createProductDto) {
         var product = productMapper.toDomain(createProductDto);
+        System.out.println("Creating product: " + product);
         var response = this.productService.createProduct(product);
         return response;
     }

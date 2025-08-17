@@ -24,26 +24,30 @@ public class ProductAggregate {
 
     @CommandHandler
     public ProductAggregate(CreateProductCommand command) {
-        if (command.price().compareTo(BigDecimal.ZERO) <= 0) {
+        if (command.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Invalid product price");
         }
 
         var productCreatedEvent = new ProductCreatedEvent(
-            command.productId(),
-            command.title(),
-            command.price(),
-            command.quantity()
+            command.getProductId(),
+            command.getTitle(),
+            command.getPrice(),
+            command.getQuantity()
         );
+
+        System.out.println("Product created: " + productCreatedEvent);
 
         AggregateLifecycle.apply(productCreatedEvent);
     }
 
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {
-        this.productId = event.productId();
-        this.title = event.title();
-        this.price = event.price();
-        this.quantity = event.quantity();
+        this.productId = event.getProductId();
+        this.title = event.getTitle();
+        this.price = event.getPrice();
+        this.quantity = event.getQuantity();
+
+        System.out.println("Product aggregate state restored: " + event);
     }
 
 }
