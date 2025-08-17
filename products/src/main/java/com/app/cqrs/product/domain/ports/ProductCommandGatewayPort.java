@@ -1,7 +1,7 @@
 package com.app.cqrs.product.domain.ports;
 
-import com.app.cqrs.product.domain.Product;
+import com.app.cqrs.product.domain.commands.CreateProductCommand;
 
 public interface ProductCommandGatewayPort {
-    <R> R createProduct(Product product);
+    <R> R createProduct(CreateProductCommand product);
 }

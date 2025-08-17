@@ -2,7 +2,7 @@ package com.app.cqrs.product.application;
 
 import org.springframework.stereotype.Service;
 
-import com.app.cqrs.product.domain.Product;
+import com.app.cqrs.product.domain.commands.CreateProductCommand;
 import com.app.cqrs.product.domain.ports.ProductCommandGatewayPort;
 
 @Service
@@ -19,7 +19,7 @@ public class ProductService {
      * @param product the product to create
      * @return the response from the command execution
      */
-    public String createProduct(Product product) {
+    public String createProduct(CreateProductCommand product) {
         return productCommandGateway.createProduct(product);
     }
 }
