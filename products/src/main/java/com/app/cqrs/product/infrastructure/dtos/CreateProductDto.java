@@ -9,21 +9,15 @@ import java.util.Objects;
 public class CreateProductDto {
 
     @NotEmpty(message = "Title cannot be empty")
-    private final String title;
+    private String title;
 
     @NotNull(message = "Price cannot be null")
     @Positive(message = "Price must be positive")
-    private final BigDecimal price;
+    private BigDecimal price;
 
     @NotNull(message = "Quantity cannot be null")
     @Positive(message = "Quantity must be positive")
-    private final Integer quantity;
-
-    public CreateProductDto(String title, BigDecimal price, Integer quantity) {
-        this.title = title;
-        this.price = price;
-        this.quantity = quantity;
-    }
+    private Integer quantity;
 
     public String getTitle() {
         return title;
@@ -35,6 +29,18 @@ public class CreateProductDto {
 
     public Integer getQuantity() {
         return quantity;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Override

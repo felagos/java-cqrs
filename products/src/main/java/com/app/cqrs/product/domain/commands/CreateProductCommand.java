@@ -5,12 +5,15 @@ import java.math.BigDecimal;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class CreateProductCommand {
-    
+
     @TargetAggregateIdentifier
-    private final String productId;
-    private final String title;
-    private final BigDecimal price;
-    private final Integer quantity;
+    private String productId;
+    private String title;
+    private BigDecimal price;
+    private Integer quantity;
+
+    public CreateProductCommand() {
+    }
 
     public CreateProductCommand(String productId, String title, BigDecimal price, Integer quantity) {
         this.productId = productId;
