@@ -117,10 +117,33 @@ services:
       retries: 3
       start_period: 40s
 
+  mysql:
+    image: mysql:9.4.0
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=products
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=apppass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - axon-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
 volumes:
   axon-data:
   axon-events:
   axon-config:
+  mysql-data:
 
 networks:
   axon-network:
