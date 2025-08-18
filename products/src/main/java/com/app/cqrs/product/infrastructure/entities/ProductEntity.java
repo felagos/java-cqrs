@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class ProductEntity {
 
     @Id
-    @Column(name = "id", nullable = false, length = 36)
+    @Column(name = "id", nullable = false, unique = true, length = 36)
     private String id;
 
     @Column(name = "title", nullable = false)
