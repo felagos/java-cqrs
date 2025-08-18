@@ -4,11 +4,11 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.product.domain.commands.CreateProductCommand;
-import com.app.cqrs.product.domain.ports.ProductCommandGatewayPort;
+import com.app.cqrs.product.domain.ports.IProductCommandPort;
 
 
 @Component
-public class ProductCommandGateway implements ProductCommandGatewayPort {
+public class ProductCommandGateway implements IProductCommandPort {
 
     private final CommandGateway commandGateway;
 
