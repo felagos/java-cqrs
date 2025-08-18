@@ -2,7 +2,9 @@ package com.app.cqrs.product.infrastructure.mappers;
 
 import org.springframework.stereotype.Component;
 import com.app.cqrs.product.domain.commands.CreateProductCommand;
+import com.app.cqrs.product.domain.events.ProductCreatedEvent;
 import com.app.cqrs.product.infrastructure.dtos.CreateProductDto;
+import com.app.cqrs.product.infrastructure.entities.ProductEntity;
 
 @Component
 public class ProductMapper {
@@ -20,5 +22,14 @@ public class ProductMapper {
                 dto.getTitle(),
                 dto.getPrice(),
                 dto.getQuantity());
+    }
+
+    public ProductEntity toEntity(ProductCreatedEvent product) {
+        var entity = new ProductEntity();
+        entity.setId(product.getProductId());
+        entity.setTitle(product.getTitle());
+        entity.setPrice(product.getPrice());
+        entity.setQuantity(product.getQuantity());
+        return entity;
     }
 }

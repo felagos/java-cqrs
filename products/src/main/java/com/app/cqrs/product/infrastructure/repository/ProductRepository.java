@@ -22,4 +22,8 @@ public class ProductRepository implements IProductRepository {
         return product.isPresent();
     }
 
+    public void findByProductIdOrTitle(String id, String title) {
+        var product = this.productRepositoryJpa.findByIdOrTitle(id, title);
+    }
+
 }

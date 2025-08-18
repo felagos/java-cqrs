@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import com.app.cqrs.product.domain.commands.CreateProductCommand;
@@ -38,9 +39,7 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
         AggregateLifecycle.apply(productCreatedEvent);
     }
 
-    @Override
     @EventSourcingHandler
-
     public void on(ProductCreatedEvent event) {
         this.id = event.getProductId();
         this.title = event.getTitle();

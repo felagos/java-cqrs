@@ -40,6 +40,30 @@ subprojects {
         useJUnitPlatform()
     }
     
+    // Configure JVM arguments for XStream compatibility with Java 17+
+    tasks.withType(JavaExec) {
+        jvmArgs = [
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.util=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/java.util.concurrent=ALL-UNNAMED'
+        ]
+    }
+    
+    // Configure JVM arguments for Spring Boot run task
+    tasks.named('bootRun') {
+        jvmArgs = [
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.util=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/java.util.concurrent=ALL-UNNAMED'
+        ]
+    }
+    
     // Common dependencies for all sub-projects
     dependencies {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
