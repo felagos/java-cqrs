@@ -1,9 +1,9 @@
 package com.app.cqrs.product.domain.exceptions;
 
-public class ExistProductException extends RuntimeException {
+public class ExistingProductException extends RuntimeException {
     private String message;
 
-    public ExistProductException(String message) {
+    public ExistingProductException(String message) {
         super(message);
         this.message = message;
     }
