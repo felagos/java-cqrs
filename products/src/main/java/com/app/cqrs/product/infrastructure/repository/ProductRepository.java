@@ -16,4 +16,10 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void saveProduct() {}
 
+    @Override
+    public boolean existsProductById(String productId) {
+        var product = this.productRepositoryJpa.findById(productId);
+        return product.isPresent();
+    }
+
 }
