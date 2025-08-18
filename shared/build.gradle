@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+}
+
+description = 'Shared domain components and utilities'
+
+dependencies {
+    // Axon Framework
+    api 'org.axonframework:axon-spring-boot-starter:4.10.3'
+    
+    // Spring Boot
+    api 'org.springframework.boot:spring-boot-starter'
+    
+    // Test dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.axonframework:axon-test:4.10.3'
+}
+
+// Configure JAR to be plain JAR (not executable)
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+// Disable bootJar task since this is a library
+bootJar {
+    enabled = false
+}
