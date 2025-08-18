@@ -32,4 +32,12 @@ public class ProductMapper {
         entity.setQuantity(product.getQuantity());
         return entity;
     }
+
+    public ProductCreatedEvent toEvent(ProductEntity entity) {
+        return new ProductCreatedEvent(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getPrice(),
+                entity.getQuantity());
+    }
 }
