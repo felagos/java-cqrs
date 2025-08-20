@@ -1,4 +1,4 @@
-package com.app.cqrs.productCommand.domain.commands;
+package com.app.cqrs.productcommand.domain.commands;
 
 import java.math.BigDecimal;
 

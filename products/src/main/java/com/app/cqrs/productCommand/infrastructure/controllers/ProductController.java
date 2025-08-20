@@ -1,10 +1,10 @@
-package com.app.cqrs.productCommand.infrastructure.controllers;
+package com.app.cqrs.productcommand.infrastructure.controllers;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.app.cqrs.productCommand.application.ProductService;
-import com.app.cqrs.productCommand.infrastructure.dtos.CreateProductDto;
-import com.app.cqrs.productCommand.infrastructure.mappers.ProductMapper;
+import com.app.cqrs.productcommand.application.ProductService;
+import com.app.cqrs.productcommand.infrastructure.dtos.CreateProductDto;
+import com.app.cqrs.productcommand.infrastructure.mappers.ProductMapper;
 
 import jakarta.validation.Valid;
 

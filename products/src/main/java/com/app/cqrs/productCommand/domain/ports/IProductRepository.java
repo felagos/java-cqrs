@@ -1,6 +1,6 @@
-package com.app.cqrs.productCommand.domain.ports;
+package com.app.cqrs.productcommand.domain.ports;
 
-import com.app.cqrs.productCommand.domain.events.ProductCreatedEvent;
+import com.app.cqrs.productcommand.domain.events.ProductCreatedEvent;
 
 public interface IProductRepository {
     void saveProduct(ProductCreatedEvent product);

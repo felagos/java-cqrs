@@ -1,4 +1,4 @@
-package com.app.cqrs.productCommand.domain.aggregates;
+package com.app.cqrs.productcommand.domain.aggregates;
 
 import java.math.BigDecimal;
 
@@ -6,9 +6,10 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-import com.app.cqrs.productCommand.domain.commands.CreateProductCommand;
-import com.app.cqrs.productCommand.domain.events.ProductCreatedEvent;
-import com.app.cqrs.productCommand.domain.exceptions.InvalidProductException;
+
+import com.app.cqrs.productcommand.domain.commands.CreateProductCommand;
+import com.app.cqrs.productcommand.domain.events.ProductCreatedEvent;
+import com.app.cqrs.productcommand.domain.exceptions.InvalidProductException;
 import com.app.cqrs.shared.domain.aggregates.BaseAggregate;
 
 @Aggregate

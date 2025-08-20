@@ -1,4 +1,4 @@
-package com.app.cqrs.productCommand.domain.exceptions;
+package com.app.cqrs.productcommand.domain.exceptions;
 
 public class ExistingProductException extends RuntimeException {
     private String message;

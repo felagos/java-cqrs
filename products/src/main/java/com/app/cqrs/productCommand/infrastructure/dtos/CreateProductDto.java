@@ -1,4 +1,4 @@
-package com.app.cqrs.productCommand.infrastructure.dtos;
+package com.app.cqrs.productcommand.infrastructure.dtos;
 
 import java.math.BigDecimal;
 import jakarta.validation.constraints.NotEmpty;
