@@ -13,7 +13,7 @@ import com.app.cqrs.productcommand.domain.exceptions.InvalidProductException;
 import com.app.cqrs.shared.domain.aggregates.BaseAggregate;
 
 @Aggregate
-public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
+public class ProductAggregate extends BaseAggregate<ProductCreatedEvent, String> {
 
     private String title;
     private BigDecimal price;

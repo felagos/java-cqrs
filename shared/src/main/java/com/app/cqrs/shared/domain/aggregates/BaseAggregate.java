@@ -7,10 +7,10 @@ import org.axonframework.modelling.command.AggregateIdentifier;
  * Abstract base class for event-sourced aggregates.
  * Provides common event sourcing functionality that can be inherited by specific aggregates.
  */
-public abstract class BaseAggregate<T> {
+public abstract class BaseAggregate<T, U> {
 
     @AggregateIdentifier
-    protected String id;
+    protected U id;
 
     /**
      * Default constructor for aggregate instantiation.
@@ -22,7 +22,7 @@ public abstract class BaseAggregate<T> {
      * Constructor with aggregate identifier.
      * @param id the aggregate identifier
      */
-    public BaseAggregate(String id) {
+    public BaseAggregate(U id) {
         this.id = id;
     }
 
@@ -30,7 +30,7 @@ public abstract class BaseAggregate<T> {
      * Get the aggregate identifier.
      * @return the aggregate identifier
      */
-    public String getId() {
+    public U getId() {
         return id;
     }
 
@@ -48,6 +48,6 @@ public abstract class BaseAggregate<T> {
      * @return true if the aggregate has an identifier, false otherwise
      */
     protected boolean isInitialized() {
-        return id != null && !id.isEmpty();
+        return id != null;
     }
 }
