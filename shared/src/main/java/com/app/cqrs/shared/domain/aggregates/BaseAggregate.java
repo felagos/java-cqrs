@@ -4,24 +4,23 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 
 /**
- * Base class for event-sourced aggregates used in the application's CQRS/ES model.
+ * Base class for event-sourced aggregates in the application's CQRS/ES model.
  *
- * <p>This abstract aggregate provides a small, reusable contract for aggregates
- * that are reconstructed from events. Concrete aggregates should extend this
- * class and implement the {@code on(T event)} event handler to apply events
- * to the aggregate state.</p>
+ * <p>Provides a minimal, reusable contract for aggregates that are reconstituted
+ * from events. Concrete aggregate implementations should extend this class and
+ * implement the {@code on(T event)} event sourcing handler to apply events to
+ * the aggregate's state.</p>
  *
- * @param <T> the base event type (or a common super-type) handled by the aggregate
- * @param <U> the type used for the aggregate identifier (for example, {@code String} or {@code UUID})
+ * @param <T> the event type (or a common super-type) handled by the aggregate
  */
-public abstract class BaseAggregate<T, U> {
+public abstract class BaseAggregate<T> {
 
     /**
      * The aggregate identifier. Marked with Axon's {@link AggregateIdentifier}
      * so the framework can associate events with this aggregate instance.
      */
     @AggregateIdentifier
-    protected U id;
+    protected String id;
 
     /**
      * Protected no-arg constructor required by some serializers and frameworks.
@@ -35,7 +34,7 @@ public abstract class BaseAggregate<T, U> {
      *
      * @param id the aggregate identifier to assign
      */
-    public BaseAggregate(U id) {
+    public BaseAggregate(String id) {
         this.id = id;
     }
 
@@ -44,7 +43,7 @@ public abstract class BaseAggregate<T, U> {
      *
      * @return the aggregate id or {@code null} if not yet assigned
      */
-    public U getId() {
+    public String getId() {
         return id;
     }
 

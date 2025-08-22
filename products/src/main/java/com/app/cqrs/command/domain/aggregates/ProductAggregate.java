@@ -1,4 +1,4 @@
-package com.app.cqrs.productcommand.domain.aggregates;
+package com.app.cqrs.command.domain.aggregates;
 
 import java.math.BigDecimal;
 
@@ -7,13 +7,13 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import com.app.cqrs.productcommand.domain.commands.CreateProductCommand;
-import com.app.cqrs.productcommand.domain.events.ProductCreatedEvent;
-import com.app.cqrs.productcommand.domain.exceptions.InvalidProductException;
+import com.app.cqrs.command.domain.commands.CreateProductCommand;
+import com.app.cqrs.command.domain.events.ProductCreatedEvent;
+import com.app.cqrs.command.domain.exceptions.InvalidProductException;
 import com.app.cqrs.shared.domain.aggregates.BaseAggregate;
 
 @Aggregate
-public class ProductAggregate extends BaseAggregate<ProductCreatedEvent, String> {
+public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
 
     private String title;
     private BigDecimal price;

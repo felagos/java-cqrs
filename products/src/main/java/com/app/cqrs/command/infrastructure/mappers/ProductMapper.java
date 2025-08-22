@@ -1,11 +1,11 @@
-package com.app.cqrs.productcommand.infrastructure.mappers;
+package com.app.cqrs.command.infrastructure.mappers;
 
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.productcommand.domain.commands.CreateProductCommand;
-import com.app.cqrs.productcommand.domain.events.ProductCreatedEvent;
-import com.app.cqrs.productcommand.infrastructure.dtos.CreateProductDto;
-import com.app.cqrs.productcommand.infrastructure.entities.ProductEntity;
+import com.app.cqrs.command.domain.commands.CreateProductCommand;
+import com.app.cqrs.command.domain.events.ProductCreatedEvent;
+import com.app.cqrs.command.infrastructure.dtos.CreateProductDto;
+import com.app.cqrs.command.infrastructure.entities.ProductEntity;
 
 @Component
 public class ProductMapper {

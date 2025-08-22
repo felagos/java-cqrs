@@ -1,4 +1,4 @@
-package com.app.cqrs.productcommand.infrastructure.entities;
+package com.app.cqrs.command.infrastructure.entities;
 
 import java.math.BigDecimal;
 

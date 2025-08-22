@@ -1,10 +1,10 @@
-package com.app.cqrs.productcommand.infrastructure.gateways;
+package com.app.cqrs.command.infrastructure.gateways;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.productcommand.domain.commands.CreateProductCommand;
-import com.app.cqrs.productcommand.domain.ports.IProductCommandPort;
+import com.app.cqrs.command.domain.commands.CreateProductCommand;
+import com.app.cqrs.command.domain.ports.IProductCommandPort;
 
 
 @Component

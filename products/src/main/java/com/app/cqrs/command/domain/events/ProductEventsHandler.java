@@ -1,9 +1,9 @@
-package com.app.cqrs.productcommand.domain.events;
+package com.app.cqrs.command.domain.events;
 
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.productcommand.domain.ports.IProductRepository;
+import com.app.cqrs.command.domain.ports.IProductRepository;
 
 @Component
 public class ProductEventsHandler {

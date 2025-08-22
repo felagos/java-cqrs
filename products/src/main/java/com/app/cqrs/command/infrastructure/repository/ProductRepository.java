@@ -1,10 +1,10 @@
-package com.app.cqrs.productcommand.infrastructure.repository;
+package com.app.cqrs.command.infrastructure.repository;
 
 import org.springframework.stereotype.Repository;
 
-import com.app.cqrs.productcommand.domain.events.ProductCreatedEvent;
-import com.app.cqrs.productcommand.domain.ports.IProductRepository;
-import com.app.cqrs.productcommand.infrastructure.mappers.ProductMapper;
+import com.app.cqrs.command.domain.events.ProductCreatedEvent;
+import com.app.cqrs.command.domain.ports.IProductRepository;
+import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
 
 @Repository
 public class ProductRepository implements IProductRepository {

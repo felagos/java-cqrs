@@ -1,11 +1,11 @@
-package com.app.cqrs.productcommand.application;
+package com.app.cqrs.command.application;
 
 import org.springframework.stereotype.Service;
 
-import com.app.cqrs.productcommand.domain.commands.CreateProductCommand;
-import com.app.cqrs.productcommand.domain.exceptions.ExistingProductException;
-import com.app.cqrs.productcommand.domain.ports.IProductCommandPort;
-import com.app.cqrs.productcommand.domain.ports.IProductRepository;
+import com.app.cqrs.command.domain.commands.CreateProductCommand;
+import com.app.cqrs.command.domain.exceptions.ExistingProductException;
+import com.app.cqrs.command.domain.ports.IProductCommandPort;
+import com.app.cqrs.command.domain.ports.IProductRepository;
 
 @Service
 public class ProductService {
