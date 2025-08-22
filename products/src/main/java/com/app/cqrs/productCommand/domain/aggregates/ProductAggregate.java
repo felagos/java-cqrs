@@ -39,6 +39,7 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent, String>
         AggregateLifecycle.apply(productCreatedEvent);
     }
 
+    @Override
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {
         this.id = event.getProductId();
