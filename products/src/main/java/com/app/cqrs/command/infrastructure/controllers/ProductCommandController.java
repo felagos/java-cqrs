@@ -2,7 +2,7 @@ package com.app.cqrs.command.infrastructure.controllers;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.app.cqrs.command.application.ProductService;
+import com.app.cqrs.command.application.ProductCommandService;
 import com.app.cqrs.command.infrastructure.dtos.CreateProductDto;
 import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
 
@@ -10,14 +10,14 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class ProductCommandController {
 
     private final ProductMapper productMapper;
-    private final ProductService productService;
+    private final ProductCommandService productService;
 
-    public ProductController(
+    public ProductCommandController(
             ProductMapper productMapper,
-            ProductService productService) {
+            ProductCommandService productService) {
         this.productMapper = productMapper;
         this.productService = productService;
     }
@@ -27,12 +27,7 @@ public class ProductController {
         var product = productMapper.toDomain(createProductDto);
         return this.productService.createProduct(product);
     }
-
-    @GetMapping
-    public String getProduct() {
-        return "Product details";
-    }
-
+    
     @PutMapping
     public String updateProduct() {
         return "Product updated successfully!";
