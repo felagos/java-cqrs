@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.domain.ports.IProductQueryRepository;
 import com.app.cqrs.query.domain.queries.FilterProductQuery;
-import com.app.cqrs.query.domain.ProductFilter;
 
 @Component
 public class FilterProductQueryHandler {
