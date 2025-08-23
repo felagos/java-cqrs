@@ -6,6 +6,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.domain.ports.IProductQueryRepository;
+import com.app.cqrs.query.domain.queries.FindProductQuery;
 
 @Component
 public class ProductsQueryHandler {
@@ -17,7 +18,7 @@ public class ProductsQueryHandler {
     }
 
     @QueryHandler
-    public List<Product> findAllProducts() {        
+    public List<Product> findAllProducts(FindProductQuery query) {        
         return this.repository.findAll();
     }
 
