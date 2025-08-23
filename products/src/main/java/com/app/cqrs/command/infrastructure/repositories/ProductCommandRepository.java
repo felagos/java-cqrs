@@ -8,15 +8,14 @@ import org.springframework.stereotype.Repository;
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.domain.ports.IProductRepository;
 import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
-import com.app.cqrs.shared.infrastructure.repository.ProductRepositoryJpa;
 
 @Repository
-public class ProductRepository implements IProductRepository {
+public class ProductCommandRepository implements IProductRepository {
 
     private final ProductRepositoryJpa productRepositoryJpa;
     private final ProductMapper productMapper;
 
-    public ProductRepository(ProductRepositoryJpa productRepositoryJpa, ProductMapper productMapper) {
+    public ProductCommandRepository(ProductRepositoryJpa productRepositoryJpa, ProductMapper productMapper) {
         this.productRepositoryJpa = productRepositoryJpa;
         this.productMapper = productMapper;
     }

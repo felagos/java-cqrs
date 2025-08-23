@@ -1,4 +1,4 @@
-package com.app.cqrs.shared.infrastructure.repository;
+package com.app.cqrs.command.infrastructure.repositories;
 
 import java.util.Optional;
 
