@@ -3,6 +3,7 @@ package com.app.cqrs.query.application;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.app.cqrs.query.domain.Product;
+import com.app.cqrs.query.domain.ProductFilter;
 import com.app.cqrs.query.domain.ports.IProductQueryGateway;
 
 @Service
@@ -16,6 +17,13 @@ public class ProductQueryService {
 
     public List<Product> getAllProducts() {
         return this.productQueryGateway.findAll();
+    }
+
+    public List<Product> getFilteredProducts(ProductFilter filter) {
+        if (filter.isEmpty()) {
+            return getAllProducts();
+        }
+        return this.productQueryGateway.findByFilter();
     }
 
 }

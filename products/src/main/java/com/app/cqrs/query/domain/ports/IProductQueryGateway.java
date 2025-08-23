@@ -8,4 +8,6 @@ public interface IProductQueryGateway {
 
     List<Product> findAll();
 
+    List<Product> findByFilter();
+
 }
