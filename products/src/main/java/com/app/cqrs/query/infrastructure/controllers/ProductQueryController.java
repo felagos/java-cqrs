@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.cqrs.command.application.ProductQueryService;
+import com.app.cqrs.query.infrastructure.dtos.ProductDto;
+import com.app.cqrs.query.infrastructure.mappers.ProductMapper;
 import com.app.cqrs.query.domain.Product;
 
 @RestController
@@ -14,14 +16,17 @@ import com.app.cqrs.query.domain.Product;
 public class ProductQueryController {
 
     private final ProductQueryService productQueryService;
+    private final ProductMapper productMapper;
 
-    public ProductQueryController(ProductQueryService productQueryService) {
+    public ProductQueryController(ProductQueryService productQueryService, ProductMapper productMapper) {
         this.productQueryService = productQueryService;
+        this.productMapper = productMapper;
     }
 
     @GetMapping
-    public List<Product> getProduct() {
-        return this.productQueryService.getAllProducts();
+    public List<ProductDto> getProduct() {
+        var response = this.productQueryService.getAllProducts();
+        return this.productMapper.toDtoList(response);
     }
 
 }
