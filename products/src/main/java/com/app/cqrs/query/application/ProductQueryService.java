@@ -1,4 +1,4 @@
-package com.app.cqrs.command.application;
+package com.app.cqrs.query.application;
 
 import java.util.List;
 import org.springframework.stereotype.Service;

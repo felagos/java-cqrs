@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.cqrs.command.application.ProductQueryService;
+import com.app.cqrs.query.application.ProductQueryService;
 import com.app.cqrs.query.infrastructure.dtos.ProductDto;
 import com.app.cqrs.query.infrastructure.mappers.ProductMapper;
 

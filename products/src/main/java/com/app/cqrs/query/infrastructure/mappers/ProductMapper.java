@@ -12,11 +12,11 @@ import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 public class ProductMapper {
 
     public Product toDomain(ProductDto dto) {
-        return new Product(dto.id(), dto.title(), dto.price(), dto.quantity());
+    return new Product(dto.getId(), dto.getTitle(), dto.getPrice(), dto.getQuantity());
     }
 
     public ProductDto toDto(Product domain) {
-        return new ProductDto(domain.id(), domain.title(), domain.price(), domain.quantity());
+    return new ProductDto(domain.getId(), domain.getTitle(), domain.getPrice(), domain.getQuantity());
     }
 
     public List<ProductDto> toDtoList(List<Product> domains) {
