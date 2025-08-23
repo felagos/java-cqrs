@@ -6,6 +6,7 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.domain.ports.IProductQueryGateway;
+import com.app.cqrs.query.domain.ProductFilter;
 import com.app.cqrs.query.domain.queries.FilterProductQuery;
 import com.app.cqrs.query.domain.queries.FindProductQuery;
 
@@ -27,9 +28,9 @@ public class ProductQueryGateway implements IProductQueryGateway {
     }
 
     @Override
-    public List<Product> findByFilter() {
+    public List<Product> findByFilter(ProductFilter filter) {
         return this.queryGateway.query(
-                new FilterProductQuery(),
+                new FilterProductQuery(filter),
                 ResponseTypes.multipleInstancesOf(Product.class))
                 .join();
     }

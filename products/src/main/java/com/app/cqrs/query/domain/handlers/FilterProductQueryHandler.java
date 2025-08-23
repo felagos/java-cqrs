@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.domain.ports.IProductQueryRepository;
 import com.app.cqrs.query.domain.queries.FilterProductQuery;
-import com.app.cqrs.query.domain.queries.FindProductQuery;
+import com.app.cqrs.query.domain.ProductFilter;
 
 @Component
 public class FilterProductQueryHandler {
@@ -19,15 +19,9 @@ public class FilterProductQueryHandler {
         this.repository = repository;
     }
 
-
-    @QueryHandler
-    public List<Product> findAllProducts(FindProductQuery query) {        
-        return this.repository.findAll();
-    }
-
     @QueryHandler
     public List<Product> findProductsByFilter(FilterProductQuery query) {
-        return this.repository.findByFilter();
+        return this.repository.findByFilter(query.getFilter());
     }
 
 }

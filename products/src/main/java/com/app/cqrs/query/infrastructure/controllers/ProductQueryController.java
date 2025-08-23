@@ -25,22 +25,14 @@ public class ProductQueryController {
         this.productMapper = productMapper;
     }
 
-    @GetMapping("/all")
-    public List<ProductDto> getAllProducts() {
-        var response = this.productQueryService.getAllProducts();
-        return this.productMapper.toDtoList(response);
-    }
-
     @GetMapping()
-    public List<ProductDto> getFilteredProducts(
-        @RequestParam(required = false) String title,
-        @RequestParam(required = false) BigDecimal minPrice,
-        @RequestParam(required = false) BigDecimal maxPrice
-    ) {
+    public List<ProductDto> getProducts(
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
+            @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice) {
         var filter = new ProductFilter(title, minPrice, maxPrice);
-        var response = this.productQueryService.getFilteredProducts(filter);
+        var response = this.productQueryService.getAllProducts(filter);
         return this.productMapper.toDtoList(response);
     }
-
 
 }

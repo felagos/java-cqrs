@@ -15,15 +15,9 @@ public class ProductQueryService {
         this.productQueryGateway = productQueryGateway;
     }
 
-    public List<Product> getAllProducts() {
-        return this.productQueryGateway.findAll();
-    }
-
-    public List<Product> getFilteredProducts(ProductFilter filter) {
-        if (filter.isEmpty()) {
-            return getAllProducts();
-        }
-        return this.productQueryGateway.findByFilter();
+    public List<Product> getAllProducts(ProductFilter filter) {
+        if (filter.isEmpty()) return this.productQueryGateway.findAll();
+        return this.productQueryGateway.findByFilter(filter);
     }
 
 }
