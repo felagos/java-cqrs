@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.app.cqrs.command.application.ProductCommandService;
 import com.app.cqrs.command.infrastructure.dtos.CreateProductDto;
-import com.app.cqrs.shared.infrastructure.mappers.ProductMapper;
+import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
 
 import jakarta.validation.Valid;
 

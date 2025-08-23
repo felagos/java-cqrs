@@ -1,4 +1,4 @@
-package com.app.cqrs.shared.infrastructure.mappers;
+package com.app.cqrs.command.infrastructure.mappers;
 
 import org.springframework.stereotype.Component;
 

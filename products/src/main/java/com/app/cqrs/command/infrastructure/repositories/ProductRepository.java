@@ -1,4 +1,4 @@
-package com.app.cqrs.shared.infrastructure.repository;
+package com.app.cqrs.command.infrastructure.repositories;
 
 import java.util.Optional;
 
@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.domain.ports.IProductRepository;
-import com.app.cqrs.shared.infrastructure.mappers.ProductMapper;
+import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
+import com.app.cqrs.shared.infrastructure.repository.ProductRepositoryJpa;
 
 @Repository
 public class ProductRepository implements IProductRepository {
