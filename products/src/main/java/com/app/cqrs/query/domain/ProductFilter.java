@@ -1,11 +1,8 @@
 package com.app.cqrs.query.domain;
 
 import java.math.BigDecimal;
-import java.io.Serializable;
 
-public class ProductFilter implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class ProductFilter {
 
     private final String title;
     private final BigDecimal minPrice;
