@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.infrastructure.dtos.ProductDto;
+import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
 @Component("queryProductMapper")
 public class ProductMapper {
@@ -21,6 +22,14 @@ public class ProductMapper {
     public List<ProductDto> toDtoList(List<Product> domains) {
         return domains.stream()
                 .map(this::toDto)
+                .toList();
+    }
+
+    public List<Product> toDomainList(List<ProductEntity> dtos) {
+        return dtos.stream()
+                .map(entity -> {
+                    return new Product(entity.getId(), entity.getTitle(), entity.getPrice(), entity.getQuantity());
+                })
                 .toList();
     }
 
