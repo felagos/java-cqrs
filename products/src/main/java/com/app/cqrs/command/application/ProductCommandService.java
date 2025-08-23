@@ -5,17 +5,17 @@ import org.springframework.stereotype.Service;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.ports.IProductCommandPort;
-import com.app.cqrs.command.domain.ports.IProductRepository;
+import com.app.cqrs.command.domain.ports.IProductCommandRepository;
 
 @Service
 public class ProductCommandService {
 
     private final IProductCommandPort productCommandGateway;
-    private final IProductRepository productRepository;
+    private final IProductCommandRepository productRepository;
 
     public ProductCommandService(
             IProductCommandPort productCommandGateway,
-            IProductRepository productRepository) {
+            IProductCommandRepository productRepository) {
         this.productCommandGateway = productCommandGateway;
         this.productRepository = productRepository;
     }

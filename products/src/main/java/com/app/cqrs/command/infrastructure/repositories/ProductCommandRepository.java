@@ -6,11 +6,11 @@ import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 import org.springframework.stereotype.Repository;
 
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
-import com.app.cqrs.command.domain.ports.IProductRepository;
+import com.app.cqrs.command.domain.ports.IProductCommandRepository;
 import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
 
 @Repository
-public class ProductCommandRepository implements IProductRepository {
+public class ProductCommandRepository implements IProductCommandRepository {
 
     private final ProductRepositoryJpa productRepositoryJpa;
     private final ProductMapper productMapper;
