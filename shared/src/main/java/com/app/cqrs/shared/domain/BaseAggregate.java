@@ -1,4 +1,4 @@
-package com.app.cqrs.shared.domain.aggregates;
+package com.app.cqrs.shared.domain;
 
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;

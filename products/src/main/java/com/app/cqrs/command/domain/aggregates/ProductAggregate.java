@@ -10,7 +10,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
-import com.app.cqrs.shared.domain.aggregates.BaseAggregate;
+import com.app.cqrs.shared.domain.BaseAggregate;
 
 @Aggregate
 public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
