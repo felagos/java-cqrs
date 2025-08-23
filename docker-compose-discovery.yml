@@ -83,11 +83,35 @@ services:
       start_period: 30s
     restart: unless-stopped
 
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=app
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=products
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - axon-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
 volumes:
   axon-data:
   axon-events:
   axon-config:
   postgres-data:
+
+  mongo-data:
 
 
 networks:

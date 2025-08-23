@@ -49,6 +49,8 @@ services:
         condition: service_healthy
       axon-server:
         condition: service_healthy
+      mongo:
+        condition: service_healthy
     networks:
       - axon-network
     environment:
@@ -56,6 +58,7 @@ services:
       - EUREKA_CLIENT_INITIAL_INSTANCE_INFO_REPLICATION_INTERVAL_SECONDS=10
       - EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS=10
       - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - SPRING_DATA_MONGODB_URI=mongodb://app:secret@mongo:27017/products
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
@@ -76,6 +79,8 @@ services:
         condition: service_healthy
       axon-server:
         condition: service_healthy
+      mongo:
+        condition: service_healthy
     networks:
       - axon-network
     environment:
@@ -83,6 +88,7 @@ services:
       - EUREKA_CLIENT_INITIAL_INSTANCE_INFO_REPLICATION_INTERVAL_SECONDS=10
       - EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS=10
       - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - SPRING_DATA_MONGODB_URI=mongodb://app:secret@mongo:27017/products
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
@@ -138,11 +144,34 @@ services:
       start_period: 30s
     restart: unless-stopped
 
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=app
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=products
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - axon-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
 volumes:
   axon-data:
   axon-events:
   axon-config:
   postgres-data:
+  mongo-data:
 
 networks:
   axon-network:
