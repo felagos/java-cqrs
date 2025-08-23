@@ -14,7 +14,6 @@ public class ProductFilter {
         this.maxPrice = maxPrice;
     }
 
-    // JavaBean getters
     public String getTitle() {
         return title;
     }
@@ -29,8 +28,8 @@ public class ProductFilter {
 
     public boolean isEmpty() {
         return (this.title == null || this.title.isBlank()) &&
-                (this.minPrice == null) &&
-                (this.maxPrice == null);
+                (this.minPrice == null || this.minPrice.compareTo(BigDecimal.ZERO) <= 0) &&
+                (this.maxPrice == null || this.maxPrice.compareTo(BigDecimal.ZERO) <= 0);
     }
 
 }
