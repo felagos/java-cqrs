@@ -2,10 +2,13 @@ package com.app.cqrs.query.infrastructure.repositories;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.domain.ports.IProductQueryRepository;
 import com.app.cqrs.query.infrastructure.mappers.ProductMapper;
 
+@Component
 public class ProductQueryRepository implements IProductQueryRepository {
 
     private ProductQueryJpa repository;
