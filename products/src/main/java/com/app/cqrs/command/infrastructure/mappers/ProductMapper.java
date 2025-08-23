@@ -7,7 +7,7 @@ import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.infrastructure.dtos.CreateProductDto;
 import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
-@Component("sharedProductMapper")
+@Component("commandProductMapper")
 public class ProductMapper {
     public CreateProductDto toDto(CreateProductCommand product) {
         var createProduct = new CreateProductDto();
