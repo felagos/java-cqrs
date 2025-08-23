@@ -59,6 +59,7 @@ services:
       - EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS=10
       - AXON_AXONSERVER_SERVERS=axon-server:8124
       - SPRING_DATA_MONGODB_URI=mongodb://app:secret@mongo:27017/products
+      - PORT=0
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
@@ -89,6 +90,7 @@ services:
       - EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS=10
       - AXON_AXONSERVER_SERVERS=axon-server:8124
       - SPRING_DATA_MONGODB_URI=mongodb://app:secret@mongo:27017/products
+      - PORT=0
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
       interval: 30s
