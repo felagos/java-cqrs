@@ -1,0 +1,8 @@
+package com.app.cqrs.command.domain.ports;
+
+import com.app.cqrs.command.domain.events.ProductCreatedEvent;
+
+public interface IProductRepository {
+    void saveProduct(ProductCreatedEvent product);
+    boolean existsProductById(String productId);
+}

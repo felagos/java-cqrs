@@ -1,10 +1,13 @@
-package com.app.cqrs.command.infrastructure.repository;
+package com.app.cqrs.shared.infrastructure.repository;
 
+import java.util.Optional;
+
+import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 import org.springframework.stereotype.Repository;
 
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.domain.ports.IProductRepository;
-import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
+import com.app.cqrs.shared.infrastructure.mappers.ProductMapper;
 
 @Repository
 public class ProductRepository implements IProductRepository {
@@ -29,8 +32,8 @@ public class ProductRepository implements IProductRepository {
         return product.isPresent();
     }
 
-    public void findByProductIdOrTitle(String id, String title) {
-        this.productRepositoryJpa.findByIdOrTitle(id, title);
+    public Optional<ProductEntity> findByProductIdOrTitle(String id, String title) {
+        return this.productRepositoryJpa.findByIdOrTitle(id, title);
     }
 
 }

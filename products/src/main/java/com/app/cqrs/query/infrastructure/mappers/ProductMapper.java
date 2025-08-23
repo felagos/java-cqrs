@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.infrastructure.dtos.ProductDto;
 
-@Component
+@Component("queryProductMapper")
 public class ProductMapper {
 
     public Product toDomain(ProductDto dto) {

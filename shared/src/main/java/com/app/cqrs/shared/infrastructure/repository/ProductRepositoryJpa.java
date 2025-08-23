@@ -1,10 +1,9 @@
-package com.app.cqrs.command.infrastructure.repository;
+package com.app.cqrs.shared.infrastructure.repository;
 
 import java.util.Optional;
 
+import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 import org.springframework.data.repository.CrudRepository;
-
-import com.app.cqrs.command.infrastructure.entities.ProductEntity;
 
 public interface ProductRepositoryJpa extends CrudRepository<ProductEntity, String> {
 
