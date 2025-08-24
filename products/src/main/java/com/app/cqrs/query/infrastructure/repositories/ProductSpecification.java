@@ -1,30 +1,38 @@
 package com.app.cqrs.query.infrastructure.repositories;
 
-import java.util.regex.Pattern;
+import org.springframework.data.jpa.domain.Specification;
 
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import com.app.cqrs.query.domain.ProductFilter;
+import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
 public class ProductSpecification {
 
-    public static Query buildQuery(ProductFilter filter) {
-        Query query = new Query();
+    public static Specification<ProductEntity> whereLikeTitle(ProductFilter filter) {
+        return (root, query, criteriaBuilder) -> {
+            System.out.println("Filter Title: " + filter.getTitle());
+            if (!filter.hasTitle()) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.like(root.get("title"), "%" + filter.getTitle() + "%");
+        };
+    }
 
-        if (filter.hasTitle()) {
-            String quoted = Pattern.quote(filter.getTitle());
-            query.addCriteria(Criteria.where("title").regex(".*" + quoted + ".*", "i"));
-        }
+    public static Specification<ProductEntity> whereMinPrice(ProductFilter filter) {
+        return (root, query, criteriaBuilder) -> {
+            if (!filter.hasMinPrice()) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.greaterThanOrEqualTo(root.get("price"), filter.getMinPrice());
+        };
+    }
 
-        if (filter.hasMinPrice()) {
-            query.addCriteria(Criteria.where("price").gte(filter.getMinPrice()));
-        }
-
-        if (filter.hasMaxPrice()) {
-            query.addCriteria(Criteria.where("price").lte(filter.getMaxPrice()));
-        }
-
-        return query;
+    public static Specification<ProductEntity> whereMaxPrice(ProductFilter filter) {
+        return (root, query, criteriaBuilder) -> {
+            if (!filter.hasMaxPrice()) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.lessThanOrEqualTo(root.get("price"), filter.getMaxPrice());
+        };
     }
 
 }

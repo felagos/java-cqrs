@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.infrastructure.dtos.CreateProductDto;
-import com.app.cqrs.command.infrastructure.entities.ProductEntity;
+import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
 @Component("commandProductMapper")
 public class ProductMapper {
