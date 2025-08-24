@@ -12,7 +12,6 @@ public class ProductSpecification {
         Query query = new Query();
 
         if (filter.hasTitle()) {
-            // case-insensitive contains; use Pattern.quote to escape user input
             String quoted = Pattern.quote(filter.getTitle());
             query.addCriteria(Criteria.where("title").regex(".*" + quoted + ".*", "i"));
         }
