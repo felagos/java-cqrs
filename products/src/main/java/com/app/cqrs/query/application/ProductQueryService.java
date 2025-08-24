@@ -5,19 +5,19 @@ import org.springframework.stereotype.Service;
 import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.domain.ProductFilter;
 import com.app.cqrs.query.domain.ports.IProductQueryGateway;
+import com.app.cqrs.query.domain.strategies.ProductQueryFactory;
 
 @Service
 public class ProductQueryService {
 
-    private final IProductQueryGateway productQueryGateway;
+    private final ProductQueryFactory productQueryFactory;
 
     public ProductQueryService(IProductQueryGateway productQueryGateway) {
-        this.productQueryGateway = productQueryGateway;
+        this.productQueryFactory = new ProductQueryFactory(productQueryGateway);
     }
 
     public List<Product> getAllProducts(ProductFilter filter) {
-        if (filter.isEmpty()) return this.productQueryGateway.findAll();
-        return this.productQueryGateway.findByFilter(filter);
+        return this.productQueryFactory.create(filter).getProducts();
     }
 
 }
