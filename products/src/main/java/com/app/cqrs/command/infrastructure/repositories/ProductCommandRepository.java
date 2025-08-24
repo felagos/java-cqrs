@@ -2,7 +2,7 @@ package com.app.cqrs.command.infrastructure.repositories;
 
 import java.util.Optional;
 
-import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
+import com.app.cqrs.command.infrastructure.entities.ProductEntity;
 import org.springframework.stereotype.Repository;
 
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;

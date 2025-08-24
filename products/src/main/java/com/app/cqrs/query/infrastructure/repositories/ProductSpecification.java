@@ -2,7 +2,7 @@ package com.app.cqrs.query.infrastructure.repositories;
 
 import org.springframework.data.jpa.domain.Specification;
 import com.app.cqrs.query.domain.ProductFilter;
-import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
+import com.app.cqrs.query.infrastructure.entities.ProductEntity;
 
 public class ProductSpecification {
 
