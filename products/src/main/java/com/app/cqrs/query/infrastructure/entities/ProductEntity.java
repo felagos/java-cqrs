@@ -2,26 +2,19 @@ package com.app.cqrs.query.infrastructure.entities;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "products")
+@Document(collection = "products")
 public class ProductEntity {
 
     @Id
-    @Column(name = "id", nullable = false, unique = true, length = 36)
     private String id;
 
-    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "quantity", nullable = false)
     private int quantity;
 
     public String getId() {

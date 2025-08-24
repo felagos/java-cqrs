@@ -1,11 +1,8 @@
 package com.app.cqrs.query.infrastructure.repositories;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import com.app.cqrs.query.infrastructure.entities.ProductEntity;
 
-public interface ProductQueryJpa extends ListCrudRepository<ProductEntity, String>, JpaSpecificationExecutor<ProductEntity> {
-
-  
+public interface ProductQueryJpa extends MongoRepository<ProductEntity, String> {
 
 }
