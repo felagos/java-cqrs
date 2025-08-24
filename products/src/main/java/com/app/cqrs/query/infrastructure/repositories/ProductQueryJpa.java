@@ -1,13 +1,12 @@
 package com.app.cqrs.query.infrastructure.repositories;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.ListCrudRepository;
 
 import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
-public interface ProductQueryJpa extends CrudRepository<ProductEntity, String> {
+public interface ProductQueryJpa extends ListCrudRepository<ProductEntity, String>, JpaSpecificationExecutor<ProductEntity> {
 
-    public List<ProductEntity> findAll();
+  
 
 }
