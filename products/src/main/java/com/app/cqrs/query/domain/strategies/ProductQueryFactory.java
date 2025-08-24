@@ -12,9 +12,9 @@ public class ProductQueryFactory {
     }
 
     public ProductQueryStrategy create(ProductFilter filter) {
-        if (filter.isEmpty()) {
+        if (filter.isEmpty())
             return new ProductQueryAll(productQueryGateway);
-        }
+        
         return new ProductQueryFilterStrategy(productQueryGateway, filter);
     }
 
