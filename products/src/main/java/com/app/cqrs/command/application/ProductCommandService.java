@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.ports.IProductCommandPort;
-import com.app.cqrs.command.domain.ports.IProductCommandRepository;
+import com.app.cqrs.command.domain.services.ProductValidationService;
 
 @Service
 public class ProductCommandService {
@@ -13,13 +13,13 @@ public class ProductCommandService {
     private static final Logger logger = Logger.getLogger(ProductCommandService.class.getName());
 
     private final IProductCommandPort productCommandGateway;
-    private final IProductCommandRepository productRepository;
+    private final ProductValidationService productValidationService;
 
     public ProductCommandService(
             IProductCommandPort productCommandGateway,
-            IProductCommandRepository productRepository) {
+            ProductValidationService productValidationService) {
         this.productCommandGateway = productCommandGateway;
-        this.productRepository = productRepository;
+        this.productValidationService = productValidationService;
     }
 
     /**
@@ -42,11 +42,7 @@ public class ProductCommandService {
      * @throws ExistingProductException if a product with the same id already exists
      */
     public String createProduct(CreateProductCommand product) {
-        var existProduct = this.productRepository.existsProductByTitle(product.getTitle());
-
-        if (existProduct) {
-            throw new ExistingProductException("Product with title " + product.getTitle() + " already exists.");
-        }
+        this.productValidationService.validateTitleUniqueness(product.getTitle());
 
         var productCreated = productCommandGateway.createProduct(product);
 
