@@ -56,4 +56,9 @@ public class ProductEntity {
         this.quantity = quantity;
     }
 
+    @Override
+    public String toString() {
+        return "ProductEntity [id=" + id + ", title=" + title + ", price=" + price + ", quantity=" + quantity + "]";
+    }
+
 }

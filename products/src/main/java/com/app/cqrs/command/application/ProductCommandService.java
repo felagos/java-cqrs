@@ -1,7 +1,7 @@
 package com.app.cqrs.command.application;
 
 import org.springframework.stereotype.Service;
-
+import java.util.logging.Logger;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.ports.IProductCommandPort;
@@ -9,6 +9,8 @@ import com.app.cqrs.command.domain.ports.IProductCommandRepository;
 
 @Service
 public class ProductCommandService {
+
+    private static final Logger logger = Logger.getLogger(ProductCommandService.class.getName());
 
     private final IProductCommandPort productCommandGateway;
     private final IProductCommandRepository productRepository;
@@ -40,10 +42,12 @@ public class ProductCommandService {
      * @throws ExistingProductException if a product with the same id already exists
      */
     public String createProduct(CreateProductCommand product) {
-        var existProduct = this.productRepository.existsProductById(product.getProductId());
+        var existProduct = this.productRepository.existsProductByTitle(product.getTitle());
+
+        logger.info("Exists product with title: " + product.getTitle() + " ? " + existProduct);
 
         if (existProduct) {
-            throw new ExistingProductException("Product with ID " + product.getProductId() + " already exists.");
+            throw new ExistingProductException("Product with title " + product.getTitle() + " already exists.");
         }
 
         return productCommandGateway.createProduct(product);

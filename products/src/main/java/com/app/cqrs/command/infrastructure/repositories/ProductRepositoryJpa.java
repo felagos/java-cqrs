@@ -9,5 +9,7 @@ import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 public interface ProductRepositoryJpa extends CrudRepository<ProductEntity, String> {
 
     Optional<ProductEntity> findByIdOrTitle(String id, String title);
-    
+
+    Optional<ProductEntity> findByTitle(String title);
+
 }
