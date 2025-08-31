@@ -6,6 +6,7 @@ import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.ports.IProductCommandPort;
 import com.app.cqrs.command.domain.ports.IProductCommandRepository;
+import com.app.cqrs.query.domain.Product;
 
 @Service
 public class ProductCommandService {
@@ -44,12 +45,14 @@ public class ProductCommandService {
     public String createProduct(CreateProductCommand product) {
         var existProduct = this.productRepository.existsProductByTitle(product.getTitle());
 
-        logger.info("Exists product with title: " + product.getTitle() + " ? " + existProduct);
-
         if (existProduct) {
             throw new ExistingProductException("Product with title " + product.getTitle() + " already exists.");
         }
 
-        return productCommandGateway.createProduct(product);
+        var productCreated = productCommandGateway.createProduct(product);
+
+        logger.info("Product created with id: " + productCreated.getId());
+
+        return productCreated.getId();
     }
 }
