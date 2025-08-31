@@ -1,6 +1,7 @@
 package com.app.cqrs.command.infrastructure.repositories;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,8 @@ import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
 @Repository
 public class ProductCommandRepository implements IProductCommandRepository {
+
+    private static final Logger LOGGER = Logger.getLogger(ProductCommandRepository.class.getName());
 
     private final ProductRepositoryJpa productRepositoryJpa;
     private final ProductMapper productMapper;
@@ -23,12 +26,16 @@ public class ProductCommandRepository implements IProductCommandRepository {
     @Override
     public void saveProduct(ProductCreatedEvent product) {
         var entity = productMapper.toEntity(product);
+        LOGGER.info("Saving product: " + entity);
         productRepositoryJpa.save(entity);
     }
 
     @Override
-    public boolean existsProductById(String productId) {
-        var product = this.productRepositoryJpa.findById(productId);
+    public boolean existsProductByTitle(String productId) {
+        var product = this.productRepositoryJpa.findByTitle(productId);
+        if (product.isPresent()) {
+            LOGGER.info("Product found: " + product.get());
+        }
         return product.isPresent();
     }
 
