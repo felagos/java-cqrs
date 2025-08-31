@@ -6,7 +6,6 @@ import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.ports.IProductCommandPort;
 import com.app.cqrs.command.domain.ports.IProductCommandRepository;
-import com.app.cqrs.query.domain.Product;
 
 @Service
 public class ProductCommandService {
