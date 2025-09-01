@@ -1,6 +1,8 @@
 package com.app.cqrs.command.infrastructure.exceptions;
 
 import java.util.HashMap;
+
+import org.axonframework.commandhandling.CommandExecutionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -40,6 +42,13 @@ public class ProductErrorHandler {
 
     @ExceptionHandler(value = { Exception.class })
     public ResponseEntity<ErrorMessage<String>> handleGenericException(Exception ex) {
+        var error = new ErrorMessage<String>(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler(value = { CommandExecutionException.class })
+    public ResponseEntity<ErrorMessage<String>> handleCommandExecutionException(CommandExecutionException ex) {
         var error = new ErrorMessage<String>(ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
