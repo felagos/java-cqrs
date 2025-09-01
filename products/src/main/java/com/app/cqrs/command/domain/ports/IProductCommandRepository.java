@@ -5,5 +5,5 @@ import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 public interface IProductCommandRepository {
     void saveProduct(ProductCreatedEvent product);
 
-    boolean existsProductByTitle(String name);
+    boolean existsProductByIdOrTitle(String id, String title);
 }

@@ -31,8 +31,8 @@ public class ProductCommandRepository implements IProductCommandRepository {
     }
 
     @Override
-    public boolean existsProductByTitle(String productId) {
-        var product = this.productRepositoryJpa.findByTitle(productId);
+    public boolean existsProductByIdOrTitle(String productId, String title) {
+        var product = this.productRepositoryJpa.findByIdOrTitle(productId, title);
         if (product.isPresent()) {
             LOGGER.info("Product found: " + product.get());
         }

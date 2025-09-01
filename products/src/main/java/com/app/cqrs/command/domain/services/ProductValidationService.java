@@ -14,11 +14,11 @@ public class ProductValidationService {
         this.productRepository = productRepository;
     }
 
-    public void validateTitleUniqueness(String title) {
-        var existProduct = this.productRepository.existsProductByTitle(title);
+    public void validateTitleUniqueness(String id, String title) {
+        var existProduct = this.productRepository.existsProductByIdOrTitle(id, title);
 
         if (existProduct) {
-            throw new ExistingProductException("Product with title " + title + " already exists.");
+            throw new ExistingProductException("Product with title " + title + " and id " + id + " already exists.");
         }
     }
 
