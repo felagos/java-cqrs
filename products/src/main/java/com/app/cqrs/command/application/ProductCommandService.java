@@ -42,7 +42,7 @@ public class ProductCommandService {
      * @throws ExistingProductException if a product with the same id already exists
      */
     public String createProduct(CreateProductCommand product) {
-        this.productValidationService.validateTitleUniqueness(product.getTitle());
+        this.productValidationService.validateProductIdOrTitle(product.getProductId(), product.getTitle());
 
         var productCreated = productCommandGateway.createProduct(product);
 

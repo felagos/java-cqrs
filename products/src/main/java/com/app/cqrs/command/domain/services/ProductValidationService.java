@@ -14,7 +14,7 @@ public class ProductValidationService {
         this.productRepository = productRepository;
     }
 
-    public void validateTitleUniqueness(String id, String title) {
+    public void validateProductIdOrTitle(String id, String title) {
         var existProduct = this.productRepository.existsProductByIdOrTitle(id, title);
 
         if (existProduct) {
