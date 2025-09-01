@@ -23,15 +23,15 @@ public class ProductServiceErrorHandler {
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorMessage<HashMap<String, String>>> handleBindException(BindException ex) {
         var errorsFields = ex.getBindingResult().getAllErrors().stream()
-            .reduce(new HashMap<String, String>(), (acc, error) -> {
-                String fieldName = ((FieldError) error).getField();
-                String errorMessage = error.getDefaultMessage();
-                acc.put(fieldName, errorMessage);
-                return acc;
-            }, (map1, map2) -> {
-                map1.putAll(map2);
-                return map1;
-            });
+                .reduce(new HashMap<String, String>(), (acc, error) -> {
+                    String fieldName = ((FieldError) error).getField();
+                    String errorMessage = error.getDefaultMessage();
+                    acc.put(fieldName, errorMessage);
+                    return acc;
+                }, (map1, map2) -> {
+                    map1.putAll(map2);
+                    return map1;
+                });
 
         var error = new ErrorMessage<HashMap<String, String>>(errorsFields);
 
