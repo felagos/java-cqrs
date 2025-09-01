@@ -11,7 +11,7 @@ import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
 
 @ControllerAdvice
-public class ProductServiceErrorHandler {
+public class ProductErrorHandler {
 
     @ExceptionHandler(value = { InvalidProductException.class, ExistingProductException.class })
     public ResponseEntity<ErrorMessage<String>> handleInvalidProduct(RuntimeException ex) {
