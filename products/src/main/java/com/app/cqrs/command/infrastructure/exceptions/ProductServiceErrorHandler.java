@@ -1,15 +1,12 @@
 package com.app.cqrs.command.infrastructure.exceptions;
 
 import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
 
@@ -17,13 +14,14 @@ import com.app.cqrs.command.domain.exceptions.InvalidProductException;
 public class ProductServiceErrorHandler {
 
     @ExceptionHandler(value = { InvalidProductException.class, ExistingProductException.class })
-    public ResponseEntity<Map<String, String>> handleInvalidProduct(RuntimeException ex) {
-        var error = Map.of("error", ex.getMessage());
+    public ResponseEntity<ErrorMessage<String>> handleInvalidProduct(RuntimeException ex) {
+        var error = new ErrorMessage<String>(ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<Map<String, HashMap<String, String>>> handleBindException(BindException ex) {
+    public ResponseEntity<ErrorMessage<HashMap<String, String>>> handleBindException(BindException ex) {
         var errorsFields = ex.getBindingResult().getAllErrors().stream()
             .reduce(new HashMap<String, String>(), (acc, error) -> {
                 String fieldName = ((FieldError) error).getField();
@@ -35,14 +33,15 @@ public class ProductServiceErrorHandler {
                 return map1;
             });
 
-        var error = Map.of("errors", errorsFields);
+        var error = new ErrorMessage<HashMap<String, String>>(errorsFields);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(value = { Exception.class })
-    public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
-        var error = Map.of("error", ex.getMessage());
+    public ResponseEntity<ErrorMessage<String>> handleGenericException(Exception ex) {
+        var error = new ErrorMessage<String>(ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
