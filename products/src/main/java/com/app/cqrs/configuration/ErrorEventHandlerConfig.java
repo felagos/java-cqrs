@@ -1,7 +1,6 @@
 package com.app.cqrs.configuration;
 
 import org.axonframework.config.EventProcessingConfigurer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import com.app.cqrs.command.infrastructure.exceptions.ProductErrorEventHandler;
