@@ -1,4 +1,4 @@
-package com.app.cqrs.query.domain;
+package com.app.cqrs.shared.domain;
 
 import java.math.BigDecimal;
 import java.util.Objects;

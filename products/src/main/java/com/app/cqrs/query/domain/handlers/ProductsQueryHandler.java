@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
-import com.app.cqrs.query.domain.Product;
+
 import com.app.cqrs.query.domain.ports.IProductQueryRepository;
 import com.app.cqrs.query.domain.queries.FindProductQuery;
+import com.app.cqrs.shared.domain.Product;
 
 @Component
 public class ProductsQueryHandler {

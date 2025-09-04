@@ -2,10 +2,11 @@ package com.app.cqrs.query.application;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.app.cqrs.query.domain.Product;
+
 import com.app.cqrs.query.domain.ProductFilter;
 import com.app.cqrs.query.domain.ports.IProductQueryGateway;
 import com.app.cqrs.query.domain.strategies.ProductQueryFactory;
+import com.app.cqrs.shared.domain.Product;
 
 @Service
 public class ProductQueryService {

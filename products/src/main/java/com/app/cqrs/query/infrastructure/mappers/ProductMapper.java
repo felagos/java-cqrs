@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.query.domain.Product;
 import com.app.cqrs.query.infrastructure.dtos.ProductDto;
+import com.app.cqrs.shared.domain.Product;
 import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
 @Component("queryProductMapper")
