@@ -9,9 +9,17 @@ import com.app.cqrs.command.infrastructure.interceptors.CreateProductCommandInte
 @Configuration
 public class InterceptorConfig {
 
+    private final ApplicationContext context;
+    private final CommandBus commandBus;
+
+
+    public InterceptorConfig(ApplicationContext context, CommandBus commandBus) {
+        this.context = context;
+        this.commandBus = commandBus;
+    }
+
     @Autowired
-    public void registerCreateProductCommandInterceptor(ApplicationContext context, CommandBus commandBus) {
-        context.getBean(CreateProductCommandInterceptor.class);
+    public void registerCreateProductCommandInterceptor() {
         commandBus.registerDispatchInterceptor(context.getBean(CreateProductCommandInterceptor.class));
     }
 

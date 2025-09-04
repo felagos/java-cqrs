@@ -9,11 +9,16 @@ import com.app.cqrs.command.infrastructure.exceptions.ProductErrorEventHandler;
 @Configuration
 public class ErrorEventHandlerConfig {
 
-    @Autowired
-    public void configure(EventProcessingConfigurer config) {
-        config.registerListenerInvocationErrorHandler(
-                "product",
-                conf -> new ProductErrorEventHandler());
+    private EventProcessingConfigurer config;
+
+    public ErrorEventHandlerConfig(EventProcessingConfigurer config) {
+        this.config = config;
+    }
+
+    public void configure() {
+        this.config.registerListenerInvocationErrorHandler(
+                "product-group",
+                _ -> new ProductErrorEventHandler());
     }
 
 }
