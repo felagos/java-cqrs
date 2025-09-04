@@ -9,12 +9,20 @@ import jakarta.persistence.Table;
 @Table(name = "products_lookup")
 public class ProductLookupEntity {
 
-     @Id
+    @Id
     @Column(name = "id", nullable = false, unique = true, length = 36)
     private String id;
 
     @Column(name = "title", nullable = false, unique = true)
     private String title;
+
+    public ProductLookupEntity() {
+    }
+
+    public ProductLookupEntity(String id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 
     public String getId() {
         return id;
