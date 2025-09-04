@@ -5,9 +5,10 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.ports.IProductLookupRepository;
+import com.app.cqrs.shared.constansts.ProcessGroups;
 
 @Component
-@ProcessingGroup("product-group")
+@ProcessingGroup(ProcessGroups.PRODUCT_GROUP)
 public class ProductLookupEventHandler {
 
     private final IProductLookupRepository productLookupRepository;

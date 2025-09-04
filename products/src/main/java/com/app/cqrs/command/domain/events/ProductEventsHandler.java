@@ -6,9 +6,10 @@ import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.stereotype.Component;
 import java.util.logging.Logger;
 import com.app.cqrs.command.domain.ports.IProductCommandRepository;
+import com.app.cqrs.shared.constansts.ProcessGroups;
 
 @Component
-@ProcessingGroup("product-group")
+@ProcessingGroup(ProcessGroups.PRODUCT_GROUP)
 public class ProductEventsHandler {
 
     private static final Logger LOGGER = Logger.getLogger(ProductEventsHandler.class.getName());

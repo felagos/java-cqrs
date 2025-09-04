@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import com.app.cqrs.command.infrastructure.exceptions.ProductErrorEventHandler;
+import com.app.cqrs.shared.constansts.ProcessGroups;
 
 @Configuration
 public class ErrorEventHandlerConfig {
@@ -17,7 +18,7 @@ public class ErrorEventHandlerConfig {
 
     public void configure() {
         this.config.registerListenerInvocationErrorHandler(
-                "product-group",
+                ProcessGroups.PRODUCT_GROUP,
                 _ -> new ProductErrorEventHandler());
     }
 
