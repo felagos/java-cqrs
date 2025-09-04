@@ -41,10 +41,8 @@ public class ProductErrorHandler {
     }
 
     @ExceptionHandler(value = { Exception.class })
-    public ResponseEntity<ErrorMessage<String>> handleGenericException(Exception ex) {
-        var error = new ErrorMessage<String>(ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    public ResponseEntity<ErrorMessage<String>> handleGenericException(Exception ex) throws Exception {
+        throw ex;
     }
 
     @ExceptionHandler(value = { CommandExecutionException.class })

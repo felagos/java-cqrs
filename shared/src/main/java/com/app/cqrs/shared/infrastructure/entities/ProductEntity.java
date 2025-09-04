@@ -15,7 +15,7 @@ public class ProductEntity {
     @Column(name = "id", nullable = false, unique = true, length = 36)
     private String id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     @Column(name = "price", nullable = false)
