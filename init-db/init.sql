@@ -8,6 +8,14 @@ CREATE TABLE products (
     PRIMARY KEY (id)
 );
 
+
+CREATE TABLE products_lookup (
+    id varchar(36) NOT NULL,
+    title varchar(255) NOT NULL UNIQUE,
+    PRIMARY KEY (id)
+);
+
+
 /* TRUNCATE TABLE IF EXISTS products; */
 
 INSERT INTO products (id,price,quantity,title) VALUES
