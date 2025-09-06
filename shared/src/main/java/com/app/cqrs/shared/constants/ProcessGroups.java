@@ -1,4 +1,4 @@
-package com.app.cqrs.shared.constansts;
+package com.app.cqrs.shared.constants;
 
 public class ProcessGroups {
 
