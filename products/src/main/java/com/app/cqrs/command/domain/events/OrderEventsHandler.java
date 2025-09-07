@@ -5,9 +5,10 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.ports.IOrderRepository;
+import com.app.cqrs.shared.constants.ProcessGroups;
 
 @Component
-@ProcessingGroup("order-group")
+@ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class OrderEventsHandler {
 
     private final IOrderRepository orderRepository;
