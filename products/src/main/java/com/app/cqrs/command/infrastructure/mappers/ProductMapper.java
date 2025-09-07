@@ -1,5 +1,7 @@
 package com.app.cqrs.command.infrastructure.mappers;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
@@ -19,7 +21,7 @@ public class ProductMapper {
 
     public CreateProductCommand toDomain(CreateProductDto dto) {
         return new CreateProductCommand(
-                java.util.UUID.randomUUID().toString(),
+                UUID.randomUUID().toString(),
                 dto.getTitle(),
                 dto.getPrice(),
                 dto.getQuantity());
