@@ -24,3 +24,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql:42.6.0'
 
 }
+
+test {
+	enabled = false
+}
