@@ -28,8 +28,6 @@ public class ProductEventsHandler {
     public void on(ProductCreatedEvent productCreatedEvent) throws Exception {
         LOGGER.info("Handling ProductCreatedEvent for product: " + productCreatedEvent.getProductId());
         productRepository.saveProduct(productCreatedEvent);
-
-        throw new Exception("some error");
     }
 
 }
