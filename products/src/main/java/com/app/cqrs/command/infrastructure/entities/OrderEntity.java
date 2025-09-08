@@ -11,24 +11,25 @@ import jakarta.persistence.Table;
 @Table(name = "orders")
 public class OrderEntity {
 
+
     @Id
-    @Column(unique = true, nullable = false, length = 36)
+    @Column(name = "order_id", unique = true, nullable = false, length = 36)
     public String orderId;
 
-    @Column(nullable = false, length = 36)
+    @Column(name = "product_id", nullable = false, length = 36)
     private String productId;
 
-    @Column(nullable = false, length = 36)
+    @Column(name = "user_id", nullable = false, length = 36)
     private String userId;
 
-    @Column(nullable = false)
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(nullable = false, length = 36)
+    @Column(name = "address_id", nullable = false, length = 36)
     private String addressId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;
 
     public String getOrderId() {
