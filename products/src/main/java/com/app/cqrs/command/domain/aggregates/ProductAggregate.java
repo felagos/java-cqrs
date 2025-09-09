@@ -1,6 +1,7 @@
 package com.app.cqrs.command.domain.aggregates;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -16,6 +17,8 @@ import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
 @Aggregate
 public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
+
+    private final Logger logger = Logger.getLogger(ProductAggregate.class.getName());
 
     private String title;
     private BigDecimal price;
@@ -36,7 +39,7 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
                 command.getPrice(),
                 command.getQuantity());
 
-        System.out.println("Product created: " + productCreatedEvent.getProductId());
+        logger.info("Product created: " + productCreatedEvent.getProductId());
 
         AggregateLifecycle.apply(productCreatedEvent);
     }
@@ -57,7 +60,7 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
         this.price = event.getPrice();
         this.quantity = event.getQuantity();
 
-        System.out.println("Product aggregate state restored: " + event.getProductId());
+        logger.info("Product aggregate state restored: " + event.getProductId());
 
     }
 
