@@ -10,6 +10,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
+import com.app.cqrs.command.domain.exceptions.ReserveProductException;
 import com.app.cqrs.shared.domain.BaseAggregate;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
@@ -41,7 +42,11 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
     }
 
     @CommandHandler
-    public void handle(ReserveProductCommand command) {}
+    public void handle(ReserveProductCommand command) {
+        if(this.quantity < command.getQuantity()) {
+            throw new ReserveProductException("Insufficient product quantity");
+        }
+    }
 
 
     @Override

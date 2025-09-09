@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
+import com.app.cqrs.command.domain.exceptions.ReserveProductException;
 
 @ControllerAdvice
 public class ProductErrorHandler {
 
-    @ExceptionHandler(value = { InvalidProductException.class, ExistingProductException.class })
+    @ExceptionHandler(value = { InvalidProductException.class, ExistingProductException.class,
+            ReserveProductException.class })
     public ResponseEntity<ErrorMessage<String>> handleInvalidProduct(RuntimeException ex) {
         var error = new ErrorMessage<String>(ex.getMessage());
 
