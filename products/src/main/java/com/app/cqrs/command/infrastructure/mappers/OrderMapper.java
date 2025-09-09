@@ -10,6 +10,7 @@ import com.app.cqrs.command.domain.commands.CreateOrderCommand;
 import com.app.cqrs.command.domain.events.OrderCreatedEvent;
 import com.app.cqrs.command.infrastructure.dtos.OrderCreateDto;
 import com.app.cqrs.command.infrastructure.entities.OrderEntity;
+import com.app.cqrs.shared.domain.commands.ReservedCommandEvent;
 
 @Component
 public class OrderMapper {
@@ -45,6 +46,14 @@ public class OrderMapper {
                 entity.getQuantity(),
                 entity.getAddressId(),
                 entity.getOrderStatus());
+    }
+
+    public ReservedCommandEvent toReservationCommand(OrderCreatedEvent event) {
+        return new ReservedCommandEvent(
+                event.getProductId(),
+                event.getQuantity(),
+                event.getOrderId(),
+                event.getUserId());
     }
 
 }
