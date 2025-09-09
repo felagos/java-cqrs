@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
 import com.app.cqrs.command.domain.ports.IOrderCommandPort;
-import com.app.cqrs.shared.domain.commands.ReservedCommandEvent;
+import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
 @Component
 public class OrderCommandGateway implements IOrderCommandPort {
@@ -24,7 +24,7 @@ public class OrderCommandGateway implements IOrderCommandPort {
     }
 
     @Override
-    public void sendReservation(ReservedCommandEvent event, CommandCallback<ReservedCommandEvent, Object> callback) {
+    public void sendReservation(ReserveProductCommand event, CommandCallback<ReserveProductCommand, Object> callback) {
         this.commandGateway.send(event, callback);
     }
 

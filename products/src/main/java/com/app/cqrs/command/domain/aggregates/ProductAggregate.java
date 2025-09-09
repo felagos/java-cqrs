@@ -11,6 +11,7 @@ import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
 import com.app.cqrs.shared.domain.BaseAggregate;
+import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
 @Aggregate
 public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
@@ -38,6 +39,10 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
 
         AggregateLifecycle.apply(productCreatedEvent);
     }
+
+    @CommandHandler
+    public void handle(ReserveProductCommand command) {}
+
 
     @Override
     @EventSourcingHandler

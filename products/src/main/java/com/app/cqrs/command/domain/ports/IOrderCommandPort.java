@@ -4,11 +4,11 @@ import org.axonframework.commandhandling.CommandCallback;
 
 import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.shared.domain.commands.ReservedCommandEvent;
+import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
 public interface IOrderCommandPort {
 
     Order createOrder(CreateOrderCommand order);
-    void sendReservation(ReservedCommandEvent event, CommandCallback<ReservedCommandEvent, Object> callback);
+    void sendReservation(ReserveProductCommand event, CommandCallback<ReserveProductCommand, Object> callback);
 
 }

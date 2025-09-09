@@ -2,7 +2,7 @@ package com.app.cqrs.shared.domain.commands;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class ReservedCommandEvent {
+public class ReserveProductCommand {
 
     @TargetAggregateIdentifier
     private final String productId;
@@ -10,14 +10,14 @@ public class ReservedCommandEvent {
     private final String orderId;
     private final String userId;
 
-    public ReservedCommandEvent() {
+    public ReserveProductCommand() {
         this.productId = null;
         this.quantity = 0;
         this.orderId = null;
         this.userId = null;
     }
 
-    public ReservedCommandEvent(String productId, int quantity, String orderId, String userId) {
+    public ReserveProductCommand(String productId, int quantity, String orderId, String userId) {
         this.productId = productId;
         this.quantity = quantity;
         this.orderId = orderId;

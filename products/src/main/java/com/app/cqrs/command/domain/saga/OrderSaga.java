@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.events.OrderCreatedEvent;
 import com.app.cqrs.command.domain.ports.IOrderCommandPort;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
-import com.app.cqrs.shared.domain.commands.ReservedCommandEvent;
+import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
 @Saga
 @Component
@@ -29,7 +29,7 @@ public class OrderSaga {
     public void handle(OrderCreatedEvent event) {
         var reservedProduct = orderMapper.toReservationCommand(event);
 
-        CommandCallback<ReservedCommandEvent, Object> callback = (commandMessage, commandResultMessage) -> {
+        CommandCallback<ReserveProductCommand, Object> callback = (commandMessage, commandResultMessage) -> {
             if (commandResultMessage.isExceptional()) {
                 logger.severe("Failed to reserve product: "
                         + commandResultMessage.optionalExceptionResult().get().getMessage());
