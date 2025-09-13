@@ -10,7 +10,7 @@ import com.app.cqrs.command.domain.services.ProductValidationService;
 @Service
 public class ProductCommandService {
 
-    private static final Logger logger = Logger.getLogger(ProductCommandService.class.getName());
+    private final Logger logger = Logger.getLogger(ProductCommandService.class.getName());
 
     private final IProductCommandPort productCommandGateway;
     private final ProductValidationService productValidationService;

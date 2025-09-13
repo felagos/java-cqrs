@@ -12,12 +12,12 @@ import com.app.cqrs.command.domain.commands.CreateProductCommand;
 @Component
 public class CreateProductCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
 
-    private static final Logger logger = Logger.getLogger(CreateProductCommandInterceptor.class.getName());
+    private final Logger logger = Logger.getLogger(CreateProductCommandInterceptor.class.getName());
 
     @Override
     public BiFunction<Integer, CommandMessage<?>, CommandMessage<?>> handle(
             List<? extends CommandMessage<?>> messages) {
-        return (index, message) -> {
+        return (_, message) -> {
             if (CreateProductCommand.class.equals(message.getPayloadType())) {
                 CreateProductCommand command = (CreateProductCommand) message.getPayload();
 
