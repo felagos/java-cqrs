@@ -7,6 +7,7 @@ import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.events.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.IOrderCommandPort;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
@@ -31,14 +32,20 @@ public class OrderSaga {
 
         CommandCallback<ReserveProductCommand, Object> callback = (commandMessage, commandResultMessage) -> {
             if (commandResultMessage.isExceptional()) {
-                logger.severe("Failed to reserve product: "
-                        + commandResultMessage.optionalExceptionResult().get().getMessage());
+                var message = commandResultMessage.optionalExceptionResult().get().getMessage();
+                logger.severe("Failed to reserve product: " + message);
             } else {
                 logger.info("Successfully reserved product: " + commandMessage.getPayload());
             }
         };
 
         this.orderCommandPort.sendReservation(reservedProduct, callback);
+    }
+
+    @SagaEventHandler(associationProperty = "orderId")
+    public void handle(ProductReservedEvent event) {
+        logger.info("Product reserved for order: " + event.getOrderId());
+
     }
 
 }
