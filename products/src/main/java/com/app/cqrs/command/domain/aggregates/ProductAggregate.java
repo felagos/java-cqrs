@@ -10,6 +10,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
+import com.app.cqrs.command.domain.events.ProductReservedEvent;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
 import com.app.cqrs.command.domain.exceptions.ReserveProductException;
 import com.app.cqrs.shared.domain.BaseAggregate;
@@ -46,11 +47,21 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
 
     @CommandHandler
     public void handle(ReserveProductCommand command) {
-        if(this.quantity < command.getQuantity()) {
+        if (this.quantity < command.getQuantity()) {
             throw new ReserveProductException("Insufficient product quantity");
         }
-    }
 
+        var productReservedEvent = new ProductReservedEvent(
+                command.getProductId(),
+                command.getQuantity(),
+                command.getOrderId(),
+                command.getUserId());
+
+        logger.info("Product reserved: " + productReservedEvent.getProductId() + " for order "
+                + productReservedEvent.getOrderId());
+        
+                AggregateLifecycle.apply(productReservedEvent);
+    }
 
     @Override
     @EventSourcingHandler
@@ -62,6 +73,13 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
 
         logger.info("Product aggregate state restored: " + event.getProductId());
 
+    }
+
+    @EventSourcingHandler
+    public void on(ProductReservedEvent event) {
+        this.quantity -= event.getQuantity();
+
+        logger.info("Product aggregate state restored: " + event.getProductId());
     }
 
 }

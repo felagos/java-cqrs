@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.events.ProductCreatedEvent;
 import com.app.cqrs.command.infrastructure.dtos.CreateProductDto;
+import com.app.cqrs.shared.domain.Product;
 import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 
 @Component("commandProductMapper")
@@ -25,6 +26,14 @@ public class ProductMapper {
                 dto.getTitle(),
                 dto.getPrice(),
                 dto.getQuantity());
+    }
+
+    public Product toDomain(ProductEntity entity) {
+        return new Product(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getPrice(),
+                entity.getQuantity());
     }
 
     public ProductEntity toEntity(ProductCreatedEvent product) {
