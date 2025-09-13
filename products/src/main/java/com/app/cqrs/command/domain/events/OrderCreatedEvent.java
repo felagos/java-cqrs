@@ -58,4 +58,10 @@ public class OrderCreatedEvent {
         this.orderStatus = orderStatus;
     }
 
+    @Override
+    public String toString() {
+        return "OrderCreatedEvent [orderId=" + orderId + ", productId=" + productId + ", userId=" + userId
+                + ", quantity=" + quantity + ", addressId=" + addressId + ", orderStatus=" + orderStatus + "]";
+    }
+
 }

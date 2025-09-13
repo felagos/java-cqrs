@@ -20,7 +20,11 @@ public class OrderCommandGateway implements IOrderCommandPort {
 
     @Override
     public Order createOrder(CreateOrderCommand order) {
-        throw new UnsupportedOperationException("Unimplemented method 'createOrder'");
+        String response = this.commandGateway.sendAndWait(order);
+
+        System.out.println("Created Order: " + response);
+
+        return new Order(response, order.getProductId(), order.getUserId(), order.getQuantity(), order.getAddressId(), order.getOrderStatus());
     }
 
     @Override
