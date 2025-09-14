@@ -42,7 +42,6 @@ public class OrderSaga {
                 var message = exception.getMessage();
                 logger.severe("Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
                 logger.severe("Exception type: " + exception.getClass().getSimpleName());
-                // Here you could emit a ProductReservationFailedEvent
             } else {
                 logger.info("Successfully reserved product: " + commandMessage.getPayload());
             }
