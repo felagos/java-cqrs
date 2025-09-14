@@ -22,8 +22,6 @@ public class OrderCommandGateway implements IOrderCommandPort {
     public Order createOrder(CreateOrderCommand order) {
         String response = this.commandGateway.sendAndWait(order);
 
-        System.out.println("Created Order: " + response);
-
         return new Order(response, order.getProductId(), order.getUserId(), order.getQuantity(), order.getAddressId(), order.getOrderStatus());
     }
 

@@ -24,7 +24,7 @@ public class OrderEventsHandler {
     @EventHandler
     public void on(OrderCreatedEvent event) {
         LOGGER.info("Handling OrderCreatedEvent for order: " + event);
-        orderRepository.createOrder(event);
+        this.orderRepository.createOrder(event);
     }
 
 }

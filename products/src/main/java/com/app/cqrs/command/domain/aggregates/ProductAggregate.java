@@ -59,8 +59,8 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
 
         logger.info("Product reserved: " + productReservedEvent.getProductId() + " for order "
                 + productReservedEvent.getOrderId());
-        
-                AggregateLifecycle.apply(productReservedEvent);
+
+        AggregateLifecycle.apply(productReservedEvent);
     }
 
     @Override

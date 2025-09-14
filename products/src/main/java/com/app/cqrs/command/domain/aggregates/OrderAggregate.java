@@ -5,7 +5,6 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-import org.springframework.beans.BeanUtils;
 
 import com.app.cqrs.command.domain.OrderStatus;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
@@ -27,8 +26,14 @@ public class OrderAggregate {
 
     @CommandHandler
     public OrderAggregate(CreateOrderCommand createOrderCommand) {
-        OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
-        BeanUtils.copyProperties(createOrderCommand, orderCreatedEvent);
+        var orderCreatedEvent = new OrderCreatedEvent();
+
+        orderCreatedEvent.setOrderId(createOrderCommand.getOrderId());
+        orderCreatedEvent.setProductId(createOrderCommand.getProductId());
+        orderCreatedEvent.setUserId(createOrderCommand.getUserId());
+        orderCreatedEvent.setQuantity(createOrderCommand.getQuantity());
+        orderCreatedEvent.setAddressId(createOrderCommand.getAddressId());
+        orderCreatedEvent.setOrderStatus(createOrderCommand.getOrderStatus());
 
         AggregateLifecycle.apply(orderCreatedEvent);
     }

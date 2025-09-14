@@ -5,7 +5,6 @@ import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
-import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.events.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.IOrderCommandPort;
@@ -13,7 +12,6 @@ import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
 @Saga
-@Component
 public class OrderSaga {
 
     private final Logger logger = Logger.getLogger(OrderSaga.class.getName());
