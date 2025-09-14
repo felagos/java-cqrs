@@ -37,7 +37,6 @@ public class OrderSaga {
     private transient IUserPaymentDetailGateway userPaymentDetailGateway;
 
     public OrderSaga() {
-        this.logger = this.logger;
     }
 
     private Logger getLogger() {
@@ -50,7 +49,7 @@ public class OrderSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(OrderCreatedEvent event) {
-        this.logger.info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
+        this.getLogger().info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
 
         var reservedProduct = orderMapper.toReservationCommand(event);
 
@@ -58,32 +57,31 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                this.logger.severe(
-                        "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
-                this.logger.severe("Exception type: " + exception.getClass().getSimpleName());
+                this.getLogger().severe(
+                       "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
+                this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
             } else {
-                this.logger.info("Successfully reserved product: " + commandMessage.getPayload());
+                this.getLogger().info("Successfully reserved product: " + commandMessage.getPayload());
             }
         };
 
-        this.logger.info("Sending reservation command for product: " + reservedProduct.getProductId());
+        this.getLogger().info("Sending reservation command for product: " + reservedProduct.getProductId());
         this.orderCommandPort.sendReservation(reservedProduct, callback);
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(ProductReservedEvent event) {
-        this.logger.info("Product reserved for order: " + event.getOrderId());
+        this.getLogger().info("Product reserved for order: " + event.getOrderId());
 
         var productDetailsQuery = new FetchUserPaymentDetailsQuery(event.getUserId());
 
         var userDetails = this.userPaymentDetailGateway.findUserByPaymentDetails(productDetailsQuery);
 
         if (userDetails.isEmpty()) {
-            this.logger.severe("User details not found for userId: " + event.getUserId());
+            this.getLogger().severe("User details not found for userId: " + event.getUserId());
             return;
-        }
-        else {
-            this.logger.info("User details found for userId: " + event.getUserId());
+        } else {
+            this.getLogger().info("User details found for userId: " + event.getUserId());
         }
     }
 
