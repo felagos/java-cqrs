@@ -10,18 +10,18 @@ CREATE TABLE products (
 
 
 CREATE TABLE products_lookup (
-    id varchar(36) NOT NULL,
+    id varchar(46) NOT NULL,
     title varchar(255) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
 
 CREATE TABLE orders (
-    order_id varchar(36) NOT NULL PRIMARY KEY,
-    product_id varchar(36) NOT NULL,
-    user_id varchar(36) NOT NULL,
+    order_id varchar(46) NOT NULL PRIMARY KEY,
+    product_id varchar(46) NOT NULL,
+    user_id varchar(46) NOT NULL,
     quantity int NOT NULL,
-    address_id varchar(36) NOT NULL,
+    address_id varchar(46) NOT NULL,
     order_status varchar(50) NOT NULL,
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id)
 );
