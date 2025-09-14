@@ -31,6 +31,7 @@ public class OrderSaga {
     private transient EmailService emailService;
 
     public OrderSaga() {
+        this.logger = getLogger();
     }
 
     private Logger getLogger() {
@@ -51,7 +52,8 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                getLogger().severe("Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
+                getLogger().severe(
+                        "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
                 getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
             } else {
                 getLogger().info("Successfully reserved product: " + commandMessage.getPayload());
@@ -65,15 +67,6 @@ public class OrderSaga {
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(ProductReservedEvent event) {
         getLogger().info("Product reserved for order: " + event.getOrderId());
-        
-        getLogger().info("Sending confirmation email for order: " + event.getOrderId());
-
-        try {
-            emailService.sendProductReservationEmail(event);
-            getLogger().info("Confirmation email sent for order: " + event.getOrderId());
-        } catch (Exception e) {
-            getLogger().severe("Failed to send confirmation email for order: " + event.getOrderId() + ". Error: " + e.getMessage());
-        }
     }
 
 }
