@@ -36,5 +36,10 @@ public class ReserveProductCommand {
         return userId;
     }
 
+    @Override
+    public String toString() {
+        return "ReserveProductCommand [productId=" + productId + ", quantity=" + quantity + ", orderId=" + orderId
+                + ", userId=" + userId + "]";
+    }
 
 }

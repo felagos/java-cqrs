@@ -19,7 +19,7 @@ import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class OrderSaga {
 
-    private final Logger logger = Logger.getLogger(OrderSaga.class.getName());
+    private transient Logger logger;
 
     @Autowired
     private transient IOrderCommandPort orderCommandPort;
@@ -33,10 +33,17 @@ public class OrderSaga {
     public OrderSaga() {
     }
 
+    private Logger getLogger() {
+        if (logger == null) {
+            logger = Logger.getLogger(OrderSaga.class.getName());
+        }
+        return logger;
+    }
+
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(OrderCreatedEvent event) {
-        logger.info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
+        getLogger().info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
 
         var reservedProduct = orderMapper.toReservationCommand(event);
 
@@ -44,26 +51,28 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                logger.severe("Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
-                logger.severe("Exception type: " + exception.getClass().getSimpleName());
+                getLogger().severe("Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
+                getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
             } else {
-                logger.info("Successfully reserved product: " + commandMessage.getPayload());
+                getLogger().info("Successfully reserved product: " + commandMessage.getPayload());
             }
         };
 
-        logger.info("Sending reservation command for product: " + reservedProduct.getProductId());
+        getLogger().info("Sending reservation command for product: " + reservedProduct.getProductId());
         this.orderCommandPort.sendReservation(reservedProduct, callback);
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(ProductReservedEvent event) {
-        logger.info("Product reserved for order: " + event.getOrderId());
+        getLogger().info("Product reserved for order: " + event.getOrderId());
         
+        getLogger().info("Sending confirmation email for order: " + event.getOrderId());
+
         try {
             emailService.sendProductReservationEmail(event);
-            logger.info("Confirmation email sent for order: " + event.getOrderId());
+            getLogger().info("Confirmation email sent for order: " + event.getOrderId());
         } catch (Exception e) {
-            logger.severe("Failed to send confirmation email for order: " + event.getOrderId() + ". Error: " + e.getMessage());
+            getLogger().severe("Failed to send confirmation email for order: " + event.getOrderId() + ". Error: " + e.getMessage());
         }
     }
 
