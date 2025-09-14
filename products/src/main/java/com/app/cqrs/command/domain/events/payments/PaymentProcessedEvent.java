@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.events;
+package com.app.cqrs.command.domain.events.payments;
 
 public class PaymentProcessedEvent {
 

@@ -1,7 +1,7 @@
 package com.app.cqrs.command.domain.ports;
 
 import com.app.cqrs.command.domain.Order;
-import com.app.cqrs.command.domain.events.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 
 public interface IOrderRepository {
 

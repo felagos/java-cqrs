@@ -9,8 +9,8 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
-import com.app.cqrs.command.domain.events.ProductCreatedEvent;
-import com.app.cqrs.command.domain.events.ProductReservedEvent;
+import com.app.cqrs.command.domain.events.products.ProductCreatedEvent;
+import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
 import com.app.cqrs.command.domain.exceptions.ReserveProductException;
 import com.app.cqrs.shared.domain.BaseAggregate;

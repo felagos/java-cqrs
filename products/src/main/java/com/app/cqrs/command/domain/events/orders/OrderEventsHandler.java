@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.events;
+package com.app.cqrs.command.domain.events.orders;
 
 import java.util.logging.Logger;
 

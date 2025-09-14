@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.events;
+package com.app.cqrs.command.domain.events.products;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;

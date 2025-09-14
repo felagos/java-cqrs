@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
-import com.app.cqrs.command.domain.events.ProductReservedEvent;
+import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.IEmailPort;
 
 @Service

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.OrderStatus;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.command.domain.events.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.infrastructure.dtos.OrderCreateDto;
 import com.app.cqrs.command.infrastructure.entities.OrderEntity;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;

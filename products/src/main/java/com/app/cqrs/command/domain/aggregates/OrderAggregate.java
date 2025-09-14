@@ -10,7 +10,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import com.app.cqrs.command.domain.OrderStatus;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.command.domain.events.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 
 @Aggregate
 public class OrderAggregate {

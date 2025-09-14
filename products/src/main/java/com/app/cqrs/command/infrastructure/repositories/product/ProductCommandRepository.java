@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import org.springframework.stereotype.Repository;
 
-import com.app.cqrs.command.domain.events.ProductCreatedEvent;
+import com.app.cqrs.command.domain.events.products.ProductCreatedEvent;
 import com.app.cqrs.command.domain.ports.IProductCommandRepository;
 import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
 import com.app.cqrs.shared.domain.Product;

@@ -2,7 +2,7 @@ package com.app.cqrs.command.domain.ports;
 
 import java.util.Optional;
 
-import com.app.cqrs.command.domain.events.ProductCreatedEvent;
+import com.app.cqrs.command.domain.events.products.ProductCreatedEvent;
 import com.app.cqrs.shared.domain.Product;
 
 public interface IProductCommandRepository {

@@ -6,7 +6,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import com.app.cqrs.command.domain.events.PaymentProcessedEvent;
+import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.command.domain.exceptions.InvalidPaymentException;
 import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
 
