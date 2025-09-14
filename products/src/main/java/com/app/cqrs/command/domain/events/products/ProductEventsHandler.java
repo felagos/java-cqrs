@@ -5,7 +5,7 @@ import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.stereotype.Component;
 import java.util.logging.Logger;
-import com.app.cqrs.command.domain.ports.IProductCommandRepository;
+import com.app.cqrs.command.domain.ports.products.IProductCommandRepository;
 import com.app.cqrs.shared.constants.ProcessGroups;
 import com.app.cqrs.shared.domain.Product;
 

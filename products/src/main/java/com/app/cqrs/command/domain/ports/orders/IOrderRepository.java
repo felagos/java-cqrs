@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.ports;
+package com.app.cqrs.command.domain.ports.orders;
 
 import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;

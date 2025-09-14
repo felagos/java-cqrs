@@ -9,7 +9,7 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
-import com.app.cqrs.command.domain.ports.IOrderCommandPort;
+import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
 import com.app.cqrs.command.domain.services.EmailService;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.command.infrastructure.mappers.ProductMapper;

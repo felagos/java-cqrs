@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.command.domain.ports.IOrderCommandPort;
+import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
 import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 

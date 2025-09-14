@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.command.domain.ports.IEmailPort;
+import com.app.cqrs.command.domain.ports.email.IEmailPort;
 
 @Component
 public class MockEmailSender implements IEmailPort {

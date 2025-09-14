@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.Payment;
-import com.app.cqrs.command.domain.ports.IPaymentRepository;
+import com.app.cqrs.command.domain.ports.payments.IPaymentRepository;
 
 @Component
 public class PaymentEventsHandler {

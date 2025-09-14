@@ -3,7 +3,7 @@ package com.app.cqrs.command.infrastructure.repositories.product;
 import org.springframework.stereotype.Repository;
 
 import com.app.cqrs.command.domain.ProductLookup;
-import com.app.cqrs.command.domain.ports.IProductLookupRepository;
+import com.app.cqrs.command.domain.ports.products.IProductLookupRepository;
 import com.app.cqrs.command.infrastructure.entities.ProductLookupEntity;
 
 @Repository

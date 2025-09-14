@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.ports;
+package com.app.cqrs.command.domain.ports.payments;
 
 import com.app.cqrs.command.domain.Payment;
 

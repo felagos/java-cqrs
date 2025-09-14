@@ -6,7 +6,7 @@ import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.command.domain.ports.IOrderRepository;
+import com.app.cqrs.command.domain.ports.orders.IOrderRepository;
 import com.app.cqrs.shared.constants.ProcessGroups;
 
 @Component

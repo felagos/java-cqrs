@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
-import com.app.cqrs.command.domain.ports.IProductCommandPort;
+import com.app.cqrs.command.domain.ports.products.IProductCommandPort;
 import com.app.cqrs.shared.domain.Product;
 
 

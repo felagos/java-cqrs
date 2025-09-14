@@ -1,7 +1,7 @@
 package com.app.cqrs.command.infrastructure.repositories.payment;
 
 import com.app.cqrs.command.domain.Payment;
-import com.app.cqrs.command.domain.ports.IPaymentRepository;
+import com.app.cqrs.command.domain.ports.payments.IPaymentRepository;
 import com.app.cqrs.command.infrastructure.mappers.PaymentMapper;
 
 public class PaymentRepository implements IPaymentRepository {
