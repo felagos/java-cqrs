@@ -5,6 +5,7 @@ import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.app.cqrs.command.domain.events.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.IOrderCommandPort;
@@ -15,28 +16,37 @@ import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 public class OrderSaga {
 
     private final Logger logger = Logger.getLogger(OrderSaga.class.getName());
-    private final transient IOrderCommandPort orderCommandPort;
-    private final OrderMapper orderMapper;
+    
+    @Autowired
+    private transient IOrderCommandPort orderCommandPort;
+    
+    @Autowired
+    private transient OrderMapper orderMapper;
 
-    public OrderSaga(IOrderCommandPort orderCommandPort, OrderMapper orderMapper) {
-        this.orderCommandPort = orderCommandPort;
-        this.orderMapper = orderMapper;
+    // No-args constructor required by Axon Framework
+    public OrderSaga() {
     }
 
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(OrderCreatedEvent event) {
+        logger.info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
+        
         var reservedProduct = orderMapper.toReservationCommand(event);
 
         CommandCallback<ReserveProductCommand, Object> callback = (commandMessage, commandResultMessage) -> {
             if (commandResultMessage.isExceptional()) {
-                var message = commandResultMessage.optionalExceptionResult().get().getMessage();
-                logger.severe("Failed to reserve product: " + message);
+                var exception = commandResultMessage.optionalExceptionResult().get();
+                var message = exception.getMessage();
+                logger.severe("Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
+                logger.severe("Exception type: " + exception.getClass().getSimpleName());
+                // Here you could emit a ProductReservationFailedEvent
             } else {
                 logger.info("Successfully reserved product: " + commandMessage.getPayload());
             }
         };
 
+        logger.info("Sending reservation command for product: " + reservedProduct.getProductId());
         this.orderCommandPort.sendReservation(reservedProduct, callback);
     }
 

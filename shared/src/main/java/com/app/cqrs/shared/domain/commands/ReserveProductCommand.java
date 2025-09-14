@@ -5,16 +5,12 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class ReserveProductCommand {
 
     @TargetAggregateIdentifier
-    private final String productId;
-    private final int quantity;
-    private final String orderId;
-    private final String userId;
+    private String productId;
+    private int quantity;
+    private String orderId;
+    private String userId;
 
     public ReserveProductCommand() {
-        this.productId = null;
-        this.quantity = 0;
-        this.orderId = null;
-        this.userId = null;
     }
 
     public ReserveProductCommand(String productId, int quantity, String orderId, String userId) {
