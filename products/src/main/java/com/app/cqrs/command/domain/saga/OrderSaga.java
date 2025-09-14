@@ -13,7 +13,10 @@ import com.app.cqrs.command.domain.ports.IOrderCommandPort;
 import com.app.cqrs.command.domain.services.EmailService;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.shared.constants.ProcessGroups;
+import com.app.cqrs.shared.domain.PaymentDetails;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
+import com.app.cqrs.shared.domain.ports.IUserPaymentDetailGateway;
+import com.app.cqrs.shared.domain.query.FetchUserPaymentDetailsQuery;
 
 @Saga
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
@@ -30,8 +33,11 @@ public class OrderSaga {
     @Autowired
     private transient EmailService emailService;
 
+    @Autowired
+    private transient IUserPaymentDetailGateway userPaymentDetailGateway;
+
     public OrderSaga() {
-        this.logger = getLogger();
+        this.logger = this.logger;
     }
 
     private Logger getLogger() {
@@ -44,7 +50,7 @@ public class OrderSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(OrderCreatedEvent event) {
-        getLogger().info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
+        this.logger.info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
 
         var reservedProduct = orderMapper.toReservationCommand(event);
 
@@ -52,21 +58,33 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                getLogger().severe(
+                this.logger.severe(
                         "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
-                getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+                this.logger.severe("Exception type: " + exception.getClass().getSimpleName());
             } else {
-                getLogger().info("Successfully reserved product: " + commandMessage.getPayload());
+                this.logger.info("Successfully reserved product: " + commandMessage.getPayload());
             }
         };
 
-        getLogger().info("Sending reservation command for product: " + reservedProduct.getProductId());
+        this.logger.info("Sending reservation command for product: " + reservedProduct.getProductId());
         this.orderCommandPort.sendReservation(reservedProduct, callback);
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(ProductReservedEvent event) {
-        getLogger().info("Product reserved for order: " + event.getOrderId());
+        this.logger.info("Product reserved for order: " + event.getOrderId());
+
+        var productDetailsQuery = new FetchUserPaymentDetailsQuery(event.getUserId());
+
+        var userDetails = this.userPaymentDetailGateway.findUserByPaymentDetails(productDetailsQuery);
+
+        if (userDetails.isEmpty()) {
+            this.logger.severe("User details not found for userId: " + event.getUserId());
+            return;
+        }
+        else {
+            this.logger.info("User details found for userId: " + event.getUserId());
+        }
     }
 
 }
