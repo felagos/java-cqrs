@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.app.cqrs.command.domain.events.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.IOrderCommandPort;
+import com.app.cqrs.command.domain.services.EmailService;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.shared.constants.ProcessGroups;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
@@ -25,6 +26,9 @@ public class OrderSaga {
 
     @Autowired
     private transient OrderMapper orderMapper;
+
+    @Autowired
+    private transient EmailService emailService;
 
     public OrderSaga() {
     }
@@ -54,7 +58,13 @@ public class OrderSaga {
     @SagaEventHandler(associationProperty = "orderId")
     public void handle(ProductReservedEvent event) {
         logger.info("Product reserved for order: " + event.getOrderId());
-
+        
+        try {
+            emailService.sendProductReservationEmail(event);
+            logger.info("Confirmation email sent for order: " + event.getOrderId());
+        } catch (Exception e) {
+            logger.severe("Failed to send confirmation email for order: " + event.getOrderId() + ". Error: " + e.getMessage());
+        }
     }
 
 }
