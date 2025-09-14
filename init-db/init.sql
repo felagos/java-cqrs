@@ -27,6 +27,13 @@ CREATE TABLE orders (
 );
 
 
+CREATE TABLE payments (
+    payment_id varchar(46) NOT NULL PRIMARY KEY,
+    order_id varchar(46) NOT NULL,
+    CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+
 /* TRUNCATE TABLE IF EXISTS products; */
 
 INSERT INTO products (id,price,quantity,title) VALUES
@@ -42,3 +49,7 @@ INSERT INTO products_lookup (id,title) VALUES
 INSERT INTO orders (order_id, product_id, user_id, quantity, address_id, order_status) VALUES
     ('a1b2c3d4-e5f6-7890-abcd-1234567890ab', 'cda771ec-1080-416c-bad1-5bf49fe72df6', 'user-001', 1, 'addr-001', 'CREATED'),
     ('b2c3d4e5-f6a1-8901-bcda-2345678901bc', '85a6a910-2e49-4314-9662-407a718d9586', 'user-002', 2, 'addr-002', 'APPROVED');
+
+INSERT INTO payments (payment_id, order_id) VALUES
+    ('pay-001-a1b2c3d4-e5f6-7890-abcd-1234567890ab', 'a1b2c3d4-e5f6-7890-abcd-1234567890ab'),
+    ('pay-002-b2c3d4e5-f6a1-8901-bcda-2345678901bc', 'b2c3d4e5-f6a1-8901-bcda-2345678901bc');
