@@ -8,13 +8,13 @@ import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
 import com.app.cqrs.command.domain.services.EmailService;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
 import com.app.cqrs.shared.constants.ProcessGroups;
-import com.app.cqrs.shared.domain.PaymentDetails;
 import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 import com.app.cqrs.shared.domain.ports.IUserPaymentDetailGateway;
@@ -54,7 +54,7 @@ public class OrderSaga {
 
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
-    public void handle(OrderCreatedEvent event) {
+    public void onOrderCreated(OrderCreatedEvent event) {
         this.getLogger()
                 .info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
 
@@ -77,7 +77,7 @@ public class OrderSaga {
     }
 
     @SagaEventHandler(associationProperty = "orderId")
-    public void handle(ProductReservedEvent event) {
+    public void onProductReserved(ProductReservedEvent event) {
         this.getLogger().info("Product reserved for order: " + event.getOrderId());
 
         var productDetailsQuery = new FetchUserPaymentDetailsQuery(event.getUserId());
@@ -102,6 +102,11 @@ public class OrderSaga {
             this.getLogger()
                     .info("Payment processed for order: " + event.getOrderId() + " with response: " + paymentResponse);
         }
+    }
+
+    @SagaEventHandler(associationProperty = "orderId")
+    public void onPayment(PaymentProcessedEvent processedEvent) {
+        this.getLogger().info("Payment processed for order: " + processedEvent.getOrderId());
     }
 
 }
