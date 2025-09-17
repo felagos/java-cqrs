@@ -84,6 +84,10 @@ public class OrderSaga {
 
         var userDetails = this.userPaymentDetailGateway.findUserByPaymentDetails(productDetailsQuery);
 
+        this.getLogger().info("Fetching user details for userId: " + event.getUserId());
+        this.getLogger().info("Using query: " + productDetailsQuery);
+        this.getLogger().info("Fetched user details: " + userDetails);
+
         if (userDetails.isEmpty()) {
             this.getLogger().severe("User details not found for userId: " + event.getUserId());
             return;

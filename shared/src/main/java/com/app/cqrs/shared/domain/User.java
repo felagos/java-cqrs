@@ -46,4 +46,10 @@ public class User {
         this.paymentDetails = paymentDetails;
     }
 
+    @Override
+    public String toString() {
+        return "User [firstName=" + firstName + ", lastName=" + lastName + ", userId=" + userId + ", paymentDetails="
+                + paymentDetails + "]";
+    }
+
 }

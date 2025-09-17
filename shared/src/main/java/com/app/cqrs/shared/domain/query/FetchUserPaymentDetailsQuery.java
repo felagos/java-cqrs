@@ -19,4 +19,9 @@ public class FetchUserPaymentDetailsQuery {
         this.userId = userId;
     }
 
+    @Override
+    public String toString() {
+        return "FetchUserPaymentDetailsQuery [userId=" + userId + "]";
+    }
+
 }
