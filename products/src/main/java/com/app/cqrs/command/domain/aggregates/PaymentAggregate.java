@@ -23,6 +23,15 @@ public class PaymentAggregate {
     @CommandHandler
     public PaymentAggregate(ProcessPaymentCommand processPaymentCommand) {
 
+        this.validatePaymentDetails(processPaymentCommand);
+
+        var paymentProcessedEvent = new PaymentProcessedEvent(processPaymentCommand.getPaymentId(),
+                processPaymentCommand.getOrderId());
+
+        AggregateLifecycle.apply(paymentProcessedEvent);
+    }
+
+    private void validatePaymentDetails(ProcessPaymentCommand processPaymentCommand) {
         if (processPaymentCommand.getPaymentDetails() == null) {
             throw new InvalidPaymentException("Missing payment details");
         }
@@ -34,15 +43,10 @@ public class PaymentAggregate {
         if (processPaymentCommand.getPaymentId() == null) {
             throw new InvalidPaymentException("Missing paymentId");
         }
-
-        var paymentProcessedEvent = new PaymentProcessedEvent(processPaymentCommand.getPaymentId(),
-                processPaymentCommand.getOrderId());
-
-        AggregateLifecycle.apply(paymentProcessedEvent);
     }
 
     @EventSourcingHandler
-    protected void on(PaymentProcessedEvent paymentProcessedEvent) {
+    protected void handlePaymentProcessedEvent(PaymentProcessedEvent paymentProcessedEvent) {
         this.paymentId = paymentProcessedEvent.getPaymentId();
         this.orderId = paymentProcessedEvent.getOrderId();
     }

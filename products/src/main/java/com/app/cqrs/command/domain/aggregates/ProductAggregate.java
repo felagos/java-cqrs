@@ -66,17 +66,20 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
     @Override
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {
+        handleProductCreatedEvent(event);
+    }
+
+    public void handleProductCreatedEvent(ProductCreatedEvent event) {
         this.id = event.getProductId();
         this.title = event.getTitle();
         this.price = event.getPrice();
         this.quantity = event.getQuantity();
 
         logger.info("Product aggregate state restored: " + event.getProductId());
-
     }
 
     @EventSourcingHandler
-    public void on(ProductReservedEvent event) {
+    public void handleProductReservedEvent(ProductReservedEvent event) {
         this.quantity -= event.getQuantity();
 
         logger.info("Product aggregate state restored: " + event.getProductId());
