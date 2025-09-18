@@ -7,6 +7,8 @@ import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
@@ -99,6 +101,10 @@ public class OrderSaga {
     @SagaEventHandler(associationProperty = "orderId")
     public void onPayment(PaymentProcessedEvent processedEvent) {
         this.getLogger().info("Payment processed for order: " + processedEvent.getOrderId());
+
+        var approvedOrder = new ApproveOrderCommand(processedEvent.getOrderId());
+
+        this.orderCommandPort.sendApprovedPayment(approvedOrder);
     }
 
 }

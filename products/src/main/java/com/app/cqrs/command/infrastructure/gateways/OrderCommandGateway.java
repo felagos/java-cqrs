@@ -7,6 +7,7 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.Order;
+import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
 import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
 import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
@@ -37,6 +38,11 @@ public class OrderCommandGateway implements IOrderCommandPort {
     @Override
     public String sendPayment(ProcessPaymentCommand payment) {
         return this.commandGateway.sendAndWait(payment, 10, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public String sendApprovedPayment(ApproveOrderCommand command) {
+        return this.commandGateway.sendAndWait(command);
     }
 
 }
