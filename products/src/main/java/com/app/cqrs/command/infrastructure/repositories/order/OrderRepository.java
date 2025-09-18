@@ -29,16 +29,8 @@ public class OrderRepository implements IOrderRepository {
 
     @Override
     public boolean updateOrderStatus(String orderId, OrderStatus orderStatus) {
-        var entity = ordersRepositoryJpa.findById(orderId);
-        if (entity.isPresent()) {
-            var order = entity.get();
-
-            order.setOrderStatus(orderStatus);
-            ordersRepositoryJpa.save(order);
-
-            return true;
-        }
-        return false;
+        int updatedRows = ordersRepositoryJpa.updateOrderStatusById(orderId, orderStatus);
+        return updatedRows > 0;
     }
 
 }
