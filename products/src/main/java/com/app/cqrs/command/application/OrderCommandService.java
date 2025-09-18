@@ -1,9 +1,8 @@
 package com.app.cqrs.command.application;
 
 import org.springframework.stereotype.Service;
-
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.command.domain.ports.IOrderCommandPort;
+import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
 
 @Service
 public class OrderCommandService {

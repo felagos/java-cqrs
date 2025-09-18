@@ -2,7 +2,6 @@ package com.app.cqrs.shared.infrastructure.gateways;
 
 import java.util.Optional;
 
-import org.axonframework.messaging.responsetypes.ResponseType;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;

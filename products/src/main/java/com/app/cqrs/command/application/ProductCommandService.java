@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
-import com.app.cqrs.command.domain.ports.IProductCommandPort;
+import com.app.cqrs.command.domain.ports.products.IProductCommandPort;
 import com.app.cqrs.command.domain.services.ProductValidationService;
 
 @Service
