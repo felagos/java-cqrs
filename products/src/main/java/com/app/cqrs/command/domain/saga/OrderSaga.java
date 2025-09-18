@@ -3,12 +3,13 @@ package com.app.cqrs.command.domain.saga;
 import java.util.logging.Logger;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.config.ProcessingGroup;
+import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
+import com.app.cqrs.command.domain.events.orders.OrderApprovedEvent;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
@@ -20,6 +21,8 @@ import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 import com.app.cqrs.shared.domain.ports.IUserPaymentDetailGateway;
 import com.app.cqrs.shared.domain.query.FetchUserPaymentDetailsQuery;
 import com.app.cqrs.shared.utils.IdGenerator;
+import com.app.cqrs.command.domain.ports.email.IEmailPort;
+import com.app.cqrs.shared.utils.EmailContentBuilder;
 
 @Saga
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
@@ -35,6 +38,9 @@ public class OrderSaga {
 
     @Autowired
     private transient IUserPaymentDetailGateway userPaymentDetailGateway;
+
+    @Autowired
+    private transient IEmailPort emailService;
 
     public OrderSaga() {
     }
@@ -105,6 +111,26 @@ public class OrderSaga {
         var approvedOrder = new ApproveOrderCommand(processedEvent.getOrderId());
 
         this.orderCommandPort.sendApprovedPayment(approvedOrder);
+    }
+
+    @EndSaga
+    @SagaEventHandler(associationProperty = "orderId")
+    public void onApprovedOrder(OrderApprovedEvent approvedEvent) {
+        this.getLogger().info("Order approved for order: " + approvedEvent.getOrderId());
+
+        try {
+            String subject = EmailContentBuilder.buildOrderConfirmationSubject(approvedEvent.getOrderId());
+            String body = EmailContentBuilder.buildOrderConfirmationBody(approvedEvent.getOrderId());
+
+            emailService.sendEmail("customer@example.com", subject, body);
+
+            this.getLogger().info("Confirmation email sent for order: " + approvedEvent.getOrderId());
+        } catch (Exception e) {
+            this.getLogger().severe("Failed to send confirmation email for order: " + approvedEvent.getOrderId()
+                    + ". Error: " + e.getMessage());
+        }
+
+        this.getLogger().info("Ending saga for order: " + approvedEvent.getOrderId());
     }
 
 }
