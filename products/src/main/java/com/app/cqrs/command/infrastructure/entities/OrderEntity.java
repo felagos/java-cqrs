@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 @Table(name = "orders")
 public class OrderEntity {
 
-
     @Id
     @Column(name = "order_id", unique = true, nullable = false, length = 36)
     public String orderId;

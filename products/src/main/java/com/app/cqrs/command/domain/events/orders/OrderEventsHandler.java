@@ -27,4 +27,10 @@ public class OrderEventsHandler {
         this.orderRepository.createOrder(event);
     }
 
+    @EventHandler
+    public void handleApprovedOrderEvent(OrderApprovedEvent event) {
+        LOGGER.info("Handling OrderApprovedEvent for order: " + event);
+        this.orderRepository.updateOrderStatus(event.getOrderId(), event.getOrderStatus());
+    }
+
 }

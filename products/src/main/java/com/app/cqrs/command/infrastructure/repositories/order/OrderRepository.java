@@ -3,6 +3,7 @@ package com.app.cqrs.command.infrastructure.repositories.order;
 import org.springframework.stereotype.Repository;
 
 import com.app.cqrs.command.domain.Order;
+import com.app.cqrs.command.domain.OrderStatus;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.ports.orders.IOrderRepository;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
@@ -24,6 +25,20 @@ public class OrderRepository implements IOrderRepository {
         var orderCreated = ordersRepositoryJpa.save(orderEntity);
 
         return this.orderMapper.toDomain(orderCreated);
+    }
+
+    @Override
+    public boolean updateOrderStatus(String orderId, OrderStatus orderStatus) {
+        var entity = ordersRepositoryJpa.findById(orderId);
+        if (entity.isPresent()) {
+            var order = entity.get();
+
+            order.setOrderStatus(orderStatus);
+            ordersRepositoryJpa.save(order);
+
+            return true;
+        }
+        return false;
     }
 
 }

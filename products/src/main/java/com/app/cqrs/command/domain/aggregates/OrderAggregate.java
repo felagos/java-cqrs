@@ -9,7 +9,9 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import com.app.cqrs.command.domain.OrderStatus;
+import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
+import com.app.cqrs.command.domain.events.orders.OrderApprovedEvent;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 
 @Aggregate
@@ -44,6 +46,13 @@ public class OrderAggregate {
         AggregateLifecycle.apply(orderCreatedEvent);
     }
 
+    @CommandHandler
+    public void onApprovedOrder(ApproveOrderCommand approveOrderCommand) {
+        var orderApprovedEvent = new OrderApprovedEvent(approveOrderCommand.getOrderId());
+
+        AggregateLifecycle.apply(orderApprovedEvent);
+    }
+
     @EventSourcingHandler
     public void handleOrderCreatedEvent(OrderCreatedEvent orderCreatedEvent) throws Exception {
         this.orderId = orderCreatedEvent.getOrderId();
@@ -51,6 +60,12 @@ public class OrderAggregate {
         this.userId = orderCreatedEvent.getUserId();
         this.addressId = orderCreatedEvent.getAddressId();
         this.quantity = orderCreatedEvent.getQuantity();
+        this.orderStatus = orderCreatedEvent.getOrderStatus();
+    }
+
+    @EventSourcingHandler
+    public void handleApprovedOrderEvent(OrderCreatedEvent orderCreatedEvent) throws Exception {
+        this.orderId = orderCreatedEvent.getOrderId();
         this.orderStatus = orderCreatedEvent.getOrderStatus();
     }
 
