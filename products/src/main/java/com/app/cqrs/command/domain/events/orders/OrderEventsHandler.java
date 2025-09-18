@@ -22,7 +22,7 @@ public class OrderEventsHandler {
     }
 
     @EventHandler
-    public void on(OrderCreatedEvent event) {
+    public void handleOrderCreatedEvent(OrderCreatedEvent event) {
         LOGGER.info("Handling OrderCreatedEvent for order: " + event);
         this.orderRepository.createOrder(event);
     }

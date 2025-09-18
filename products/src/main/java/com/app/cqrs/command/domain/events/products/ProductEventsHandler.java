@@ -26,13 +26,13 @@ public class ProductEventsHandler {
     }
 
     @EventHandler
-    public void on(ProductCreatedEvent productCreatedEvent) {
+    public void handleProductCreatedEvent(ProductCreatedEvent productCreatedEvent) {
         LOGGER.info("Handling ProductCreatedEvent for product: " + productCreatedEvent.getProductId());
         productRepository.saveProduct(productCreatedEvent);
     }
 
     @EventHandler
-    public void on(ProductReservedEvent productReservedEvent) {
+    public void handleProductReservedEvent(ProductReservedEvent productReservedEvent) {
         LOGGER.info("Handling ProductReservedEvent for product: " + productReservedEvent.getProductId());
 
         var productOptional = productRepository.findProductById(productReservedEvent.getProductId());

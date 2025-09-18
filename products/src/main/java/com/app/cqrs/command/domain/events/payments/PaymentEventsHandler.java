@@ -20,7 +20,7 @@ public class PaymentEventsHandler {
     }
 
     @EventHandler
-    public void on(PaymentProcessedEvent event) {
+    public void handlePaymentProcessedEvent(PaymentProcessedEvent event) {
         logger.info("PaymentProcessedEvent is called for orderId: " + event.getOrderId());
 
         var payment = new Payment(event.getPaymentId(), event.getOrderId());

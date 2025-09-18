@@ -18,7 +18,7 @@ public class ProductLookupEventHandler {
     }
 
     @EventHandler
-    public void on(ProductCreatedEvent event) {
+    public void handleProductCreatedEvent(ProductCreatedEvent event) {
         productLookupRepository.save(event.getProductId(), event.getTitle());
     }
 
