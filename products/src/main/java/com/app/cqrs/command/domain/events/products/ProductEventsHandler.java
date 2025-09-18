@@ -10,7 +10,7 @@ import com.app.cqrs.shared.constants.ProcessGroups;
 import com.app.cqrs.shared.domain.Product;
 
 @Component
-@ProcessingGroup(ProcessGroups.PRODUCT_GROUP)
+@ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class ProductEventsHandler {
 
     private final Logger LOGGER = Logger.getLogger(ProductEventsHandler.class.getName());

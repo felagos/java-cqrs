@@ -11,9 +11,7 @@ import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
-import com.app.cqrs.command.domain.services.EmailService;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
-import com.app.cqrs.command.infrastructure.mappers.ProductMapper;
 import com.app.cqrs.shared.constants.ProcessGroups;
 import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
@@ -25,8 +23,6 @@ import com.app.cqrs.shared.utils.IdGenerator;
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class OrderSaga {
 
-    private final ProductMapper commandProductMapper;
-
     private transient Logger logger;
 
     @Autowired
@@ -36,13 +32,9 @@ public class OrderSaga {
     private transient OrderMapper orderMapper;
 
     @Autowired
-    private transient EmailService emailService;
-
-    @Autowired
     private transient IUserPaymentDetailGateway userPaymentDetailGateway;
 
-    public OrderSaga(ProductMapper commandProductMapper) {
-        this.commandProductMapper = commandProductMapper;
+    public OrderSaga() {
     }
 
     private Logger getLogger() {

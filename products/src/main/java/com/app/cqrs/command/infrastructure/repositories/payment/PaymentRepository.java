@@ -1,9 +1,11 @@
 package com.app.cqrs.command.infrastructure.repositories.payment;
 
+import org.springframework.stereotype.Repository;
 import com.app.cqrs.command.domain.Payment;
 import com.app.cqrs.command.domain.ports.payments.IPaymentRepository;
 import com.app.cqrs.command.infrastructure.mappers.PaymentMapper;
 
+@Repository
 public class PaymentRepository implements IPaymentRepository {
 
     private final PaymentRepositoryJpa paymentRepositoryJpa;

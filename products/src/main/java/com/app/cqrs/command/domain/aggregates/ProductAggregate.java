@@ -46,7 +46,7 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
     }
 
     @CommandHandler
-    public void handle(ReserveProductCommand command) {
+    public void handleReservation(ReserveProductCommand command) {
         if (this.quantity < command.getQuantity()) {
             throw new ReserveProductException("Insufficient product quantity");
         }
@@ -63,13 +63,8 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
         AggregateLifecycle.apply(productReservedEvent);
     }
 
-    @Override
     @EventSourcingHandler
-    public void on(ProductCreatedEvent event) {
-        handleProductCreatedEvent(event);
-    }
-
-    public void handleProductCreatedEvent(ProductCreatedEvent event) {
+    public void onProductCreatedEvent(ProductCreatedEvent event) {
         this.id = event.getProductId();
         this.title = event.getTitle();
         this.price = event.getPrice();
