@@ -45,4 +45,14 @@ public class OrderCommandGateway implements IOrderCommandPort {
         return this.commandGateway.sendAndWait(command);
     }
 
+    @Override
+    public void sendPaymentAsync(ProcessPaymentCommand payment, CommandCallback<ProcessPaymentCommand, Object> callback) {
+        this.commandGateway.send(payment, callback);
+    }
+
+    @Override
+    public void sendApprovedPaymentAsync(ApproveOrderCommand command, CommandCallback<ApproveOrderCommand, Object> callback) {
+        this.commandGateway.send(command, callback);
+    }
+
 }

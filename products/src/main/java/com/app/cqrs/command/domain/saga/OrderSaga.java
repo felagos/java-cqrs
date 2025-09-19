@@ -98,10 +98,21 @@ public class OrderSaga {
             var processPaymentCommand = new ProcessPaymentCommand(IdGenerator.Uuid(), event.getOrderId(),
                     userDetails.get().getPaymentDetails());
 
-            var paymentResponse = this.orderCommandPort.sendPayment(processPaymentCommand);
+            CommandCallback<ProcessPaymentCommand, Object> paymentCallback = (commandMessage, commandResultMessage) -> {
+                if (commandResultMessage.isExceptional()) {
+                    var exception = commandResultMessage.optionalExceptionResult().get();
+                    var message = exception.getMessage();
+                    this.getLogger().severe(
+                            "Failed to process payment: " + message + " for command: " + commandMessage.getPayload());
+                    this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+                } else {
+                    this.getLogger().info("Successfully sent payment command: " + commandMessage.getPayload());
+                }
+            };
 
-            this.getLogger()
-                    .info("Payment processed for order: " + event.getOrderId() + " with response: " + paymentResponse);
+            this.orderCommandPort.sendPaymentAsync(processPaymentCommand, paymentCallback);
+
+            this.getLogger().info("Payment command sent for order: " + event.getOrderId());
         }
     }
 
@@ -111,7 +122,21 @@ public class OrderSaga {
 
         var approvedOrder = new ApproveOrderCommand(processedEvent.getOrderId());
 
-        this.orderCommandPort.sendApprovedPayment(approvedOrder);
+        CommandCallback<ApproveOrderCommand, Object> approvalCallback = (commandMessage, commandResultMessage) -> {
+            if (commandResultMessage.isExceptional()) {
+                var exception = commandResultMessage.optionalExceptionResult().get();
+                var message = exception.getMessage();
+                this.getLogger().severe(
+                        "Failed to approve order: " + message + " for command: " + commandMessage.getPayload());
+                this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+            } else {
+                this.getLogger().info("Successfully sent order approval command: " + commandMessage.getPayload());
+            }
+        };
+
+        this.orderCommandPort.sendApprovedPaymentAsync(approvedOrder, approvalCallback);
+        
+        this.getLogger().info("Order approval command sent for order: " + processedEvent.getOrderId());
     }
 
     @EndSaga

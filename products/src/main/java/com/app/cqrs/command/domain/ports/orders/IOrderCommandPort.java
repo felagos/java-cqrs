@@ -14,5 +14,9 @@ public interface IOrderCommandPort {
     void sendReservation(ReserveProductCommand event, CommandCallback<ReserveProductCommand, Object> callback);
     String sendPayment(ProcessPaymentCommand payment);
     String sendApprovedPayment(ApproveOrderCommand command);
+    
+    // Async versions to prevent saga timeouts
+    void sendPaymentAsync(ProcessPaymentCommand payment, CommandCallback<ProcessPaymentCommand, Object> callback);
+    void sendApprovedPaymentAsync(ApproveOrderCommand command, CommandCallback<ApproveOrderCommand, Object> callback);
 
 }

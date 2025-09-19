@@ -41,7 +41,7 @@ services:
     image: axoniq/axonserver:2025.1.1
     container_name: axon-server
     ports:
-      - "8024:8024"  # HTTP port for Axon Server UI
+      - "8090:8024"  # HTTP port for Axon Server UI (changed from 8024 to avoid Windows reserved ports)
       - "8124:8124"  # gRPC port for client connections
     environment:
       - AXONIQ_AXONSERVER_HOSTNAME=axon-server

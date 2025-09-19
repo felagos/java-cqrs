@@ -18,4 +18,9 @@ public class ApproveOrderCommand {
         return orderId;
     }
 
+    @Override
+    public String toString() {
+        return "ApproveOrderCommand [orderId=" + orderId + "]";
+    }
+
 }
