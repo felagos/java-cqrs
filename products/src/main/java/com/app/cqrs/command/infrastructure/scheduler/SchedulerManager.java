@@ -1,7 +1,6 @@
 package com.app.cqrs.command.infrastructure.scheduler;
 
-import java.time.Instant;
-
+import java.time.Duration;
 import org.axonframework.deadline.DeadlineManager;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ public class SchedulerManager implements ISchedulerManager {
     }
 
     @Override
-    public <T> void schedule(Instant triggerDateTime, String deadlineName, T messageOrPayload) {
+    public <T> void schedule(Duration triggerDateTime, String deadlineName, T messageOrPayload) {
         this.deadLineManager.schedule(triggerDateTime, deadlineName, messageOrPayload);
     }
 

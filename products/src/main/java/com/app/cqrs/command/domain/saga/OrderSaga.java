@@ -2,6 +2,8 @@ package com.app.cqrs.command.domain.saga;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.modelling.saga.EndSaga;
@@ -18,6 +20,7 @@ import com.app.cqrs.command.domain.events.orders.RejectOrderEvent;
 import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
+import com.app.cqrs.command.domain.ports.scheduler.ISchedulerManager;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.shared.constants.ProcessGroups;
 import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
@@ -46,6 +49,9 @@ public class OrderSaga {
     @Autowired
     private transient IEmailPort emailService;
 
+    @Autowired
+    private transient ISchedulerManager schedulerManager;
+
     public OrderSaga() {
     }
 
@@ -60,10 +66,9 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
+
                 logger.error("Failed to reserve product: {} for command: {}", message, commandMessage.getPayload());
                 logger.error("Exception type: {}", exception.getClass().getSimpleName());
-
-                SagaLifecycle.end();
             } else {
                 logger.info("Successfully reserved product: {}", commandMessage.getPayload());
             }
@@ -94,6 +99,11 @@ public class OrderSaga {
         } else {
             logger.info("User details found for userId: {}", event.getUserId());
 
+            this.schedulerManager.schedule(
+                    Duration.ofSeconds(10),
+                    "payment-deadline-" + event.getOrderId(),
+                    event);
+
             var processPaymentCommand = new ProcessPaymentCommand(IdGenerator.Uuid(), event.getOrderId(),
                     userDetails.get().getPaymentDetails());
 
@@ -117,7 +127,7 @@ public class OrderSaga {
     }
 
     @SagaEventHandler(associationProperty = "orderId")
-    public void onPayment(PaymentProcessedEvent processedEvent) {
+    public void onPaymentProcess(PaymentProcessedEvent processedEvent) {
         logger.info("Payment processed for order: {}", processedEvent.getOrderId());
 
         var approvedOrder = new ApproveOrderCommand(processedEvent.getOrderId());
