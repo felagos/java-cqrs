@@ -13,4 +13,8 @@ public interface IProductCommandRepository {
     Optional<Product> findProductById(String productId);
 
     boolean updateQuantityProduct(String productId, Integer newQuantity);
+
+    boolean decrementQuantityProduct(String productId, Integer decrementBy);
+
+    boolean incrementQuantityProduct(String productId, Integer incrementBy);
 }

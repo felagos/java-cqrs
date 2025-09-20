@@ -57,19 +57,42 @@ public class ProductCommandRepository implements IProductCommandRepository {
 
     @Override
     public boolean updateQuantityProduct(String productId, Integer newQuantity) {
-        Optional<ProductEntity> existingProduct = this.productRepositoryJpa.findById(productId);
-
-        if (existingProduct.isEmpty()) {
+        int updatedRows = this.productRepositoryJpa.updateProductQuantity(productId, newQuantity);
+        
+        if (updatedRows == 0) {
             LOGGER.warning("Attempted to update non-existent product with ID: " + productId);
             return false;
         }
+        
+        LOGGER.info("Product quantity updated for ID: " + productId + " to quantity: " + newQuantity);
+        
+        return true;
+    }
 
-        var productEntity = existingProduct.get();
-        productEntity.setQuantity(newQuantity);
+    @Override
+    public boolean decrementQuantityProduct(String productId, Integer decrementBy) {
+        int updatedRows = this.productRepositoryJpa.decrementProductQuantity(productId, decrementBy);
+        
+        if (updatedRows == 0) {
+            LOGGER.warning("Failed to decrement quantity for product ID: " + productId + ". Product not found or insufficient quantity.");
+            return false;
+        }
+        
+        LOGGER.info("Product quantity decremented by " + decrementBy + " for product ID: " + productId);
+        
+        return true;
+    }
 
-        this.productRepositoryJpa.save(productEntity);
-
-        LOGGER.info("Product updated: " + productEntity);
+    @Override
+    public boolean incrementQuantityProduct(String productId, Integer incrementBy) {
+        int updatedRows = this.productRepositoryJpa.incrementProductQuantity(productId, incrementBy);
+        
+        if (updatedRows == 0) {
+            LOGGER.warning("Failed to increment quantity for product ID: " + productId + ". Product not found.");
+            return false;
+        }
+        
+        LOGGER.info("Product quantity incremented by " + incrementBy + " for product ID: " + productId);
         
         return true;
     }
