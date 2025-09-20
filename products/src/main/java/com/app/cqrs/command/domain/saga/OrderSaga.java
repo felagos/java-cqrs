@@ -72,6 +72,9 @@ public class OrderSaga {
                 this.getLogger().severe(
                         "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
                 this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+                
+                // End saga as product reservation failed
+                SagaLifecycle.end();
             } else {
                 this.getLogger().info("Successfully reserved product: " + commandMessage.getPayload());
             }
@@ -95,6 +98,9 @@ public class OrderSaga {
 
         if (userDetails.isEmpty()) {
             this.getLogger().severe("User details not found for userId: " + event.getUserId());
+
+            this.cancelReservation(event, "User details not found");
+
             return;
         } else {
             this.getLogger().info("User details found for userId: " + event.getUserId());
@@ -110,6 +116,7 @@ public class OrderSaga {
                             "Failed to process payment: " + message + " for command: " + commandMessage.getPayload());
                     this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
 
+                    this.cancelReservation(event, "Payment processing failed: " + message);
                 } else {
                     this.getLogger().info("Successfully sent payment command: " + commandMessage.getPayload());
                 }
@@ -134,6 +141,10 @@ public class OrderSaga {
                 this.getLogger().severe(
                         "Failed to approve order: " + message + " for command: " + commandMessage.getPayload());
                 this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+                
+                // Note: We need the original ProductReservedEvent to cancel reservation
+                // This would require storing the event or implementing a different cancellation approach
+                this.getLogger().severe("Order approval failed - manual intervention required for order: " + processedEvent.getOrderId());
             } else {
                 this.getLogger().info("Successfully sent order approval command: " + commandMessage.getPayload());
             }
