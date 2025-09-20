@@ -1,6 +1,7 @@
 package com.app.cqrs.command.domain.events.products;
 
 import java.math.BigDecimal;
+import lombok.Value;
 
 /**
  * Event indicating that a new product has been successfully created.
@@ -8,33 +9,12 @@ import java.math.BigDecimal;
  * <p>This event is published when a product is created through the command handling
  * process and contains all the essential information about the newly created product.
  */
+@Value
 public class ProductCreatedEvent {
     
-    private final String productId;
-    private final String title;
-    private final BigDecimal price;
-    private final Integer quantity;
+    String productId;
+    String title;
+    BigDecimal price;
+    Integer quantity;
 
-    public ProductCreatedEvent(String productId, String title, BigDecimal price, Integer quantity) {
-        this.productId = productId;
-        this.title = title;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
 }

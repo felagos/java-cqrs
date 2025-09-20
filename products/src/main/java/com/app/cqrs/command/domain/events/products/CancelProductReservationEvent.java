@@ -2,9 +2,9 @@ package com.app.cqrs.command.domain.events.products;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
 @Builder
 public class CancelProductReservationEvent {
@@ -14,11 +14,5 @@ public class CancelProductReservationEvent {
     private final String userId;
     private final int quantity;
     private final String reason;
-
-    @Override
-    public String toString() {
-        return "CancelProductReservationEvent [productId=" + productId + ", orderId=" + orderId + ", userId=" + userId
-                + ", quantity=" + quantity + ", reason=" + reason + "]";
-    }
 
 }

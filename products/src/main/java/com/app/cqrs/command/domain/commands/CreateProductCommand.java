@@ -3,7 +3,13 @@ package com.app.cqrs.command.domain.commands;
 import java.math.BigDecimal;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateProductCommand {
 
     @TargetAggregateIdentifier
@@ -12,29 +18,4 @@ public class CreateProductCommand {
     private BigDecimal price;
     private Integer quantity;
 
-    public CreateProductCommand() {
-    }
-
-    public CreateProductCommand(String productId, String title, BigDecimal price, Integer quantity) {
-        this.productId = productId;
-        this.title = title;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
 }

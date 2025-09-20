@@ -4,11 +4,9 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @Builder
 public class CancelProductReservationCommand {
@@ -19,11 +17,5 @@ public class CancelProductReservationCommand {
     private final String userId;
     private final int quantity;
     private final String reason;
-
-    @Override
-    public String toString() {
-        return "CancelProductReservationCommand [productId=" + productId + ", orderId=" + orderId + ", userId=" + userId
-                + ", quantity=" + quantity + ", reason=" + reason + "]";
-    }
 
 }

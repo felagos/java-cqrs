@@ -11,6 +11,9 @@ dependencies {
     implementation 'org.axonframework:axon-spring-boot-starter:4.10.3'
     testImplementation 'org.axonframework:axon-test:4.10.3'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 jar {

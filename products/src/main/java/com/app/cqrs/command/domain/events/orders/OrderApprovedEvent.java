@@ -1,7 +1,9 @@
 package com.app.cqrs.command.domain.events.orders;
 
 import com.app.cqrs.command.domain.OrderStatus;
+import lombok.Data;
 
+@Data
 public class OrderApprovedEvent {
 
     private String orderId;
@@ -10,14 +12,6 @@ public class OrderApprovedEvent {
     public OrderApprovedEvent(String orderId) {
         this.orderId = orderId;
         this.orderStatus = OrderStatus.APPROVED;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
     }
 
 }
