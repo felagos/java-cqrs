@@ -9,8 +9,8 @@ import org.axonframework.modelling.saga.SagaLifecycle;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.app.cqrs.command.application.OrderCommandService;
 import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
+import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.command.domain.events.orders.OrderApprovedEvent;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
@@ -30,8 +30,6 @@ import com.app.cqrs.shared.utils.EmailContentBuilder;
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class OrderSaga {
 
-    private final OrderCommandService orderCommandService;
-
     private transient Logger logger;
 
     @Autowired
@@ -46,8 +44,7 @@ public class OrderSaga {
     @Autowired
     private transient IEmailPort emailService;
 
-    public OrderSaga(OrderCommandService orderCommandService) {
-        this.orderCommandService = orderCommandService;
+    public OrderSaga() {
     }
 
     private Logger getLogger() {
@@ -72,7 +69,7 @@ public class OrderSaga {
                 this.getLogger().severe(
                         "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
                 this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
-                
+
                 // End saga as product reservation failed
                 SagaLifecycle.end();
             } else {
@@ -81,7 +78,7 @@ public class OrderSaga {
         };
 
         this.getLogger().info("Sending reservation command for product: " + reservedProduct.getProductId());
-        this.orderCommandPort.sendReservation(reservedProduct, callback);
+        this.orderCommandPort.send(reservedProduct, callback);
     }
 
     @SagaEventHandler(associationProperty = "orderId")
@@ -122,7 +119,7 @@ public class OrderSaga {
                 }
             };
 
-            this.orderCommandPort.sendPaymentAsync(processPaymentCommand, paymentCallback);
+            this.orderCommandPort.send(processPaymentCommand, paymentCallback);
 
             this.getLogger().info("Payment command sent for order: " + event.getOrderId());
         }
@@ -141,18 +138,22 @@ public class OrderSaga {
                 this.getLogger().severe(
                         "Failed to approve order: " + message + " for command: " + commandMessage.getPayload());
                 this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
-                
-                // Note: We need the original ProductReservedEvent to cancel reservation
-                // This would require storing the event or implementing a different cancellation approach
-                this.getLogger().severe("Order approval failed - manual intervention required for order: " + processedEvent.getOrderId());
+
+                this.getLogger().severe("Order approval failed - manual intervention required for order: "
+                        + processedEvent.getOrderId());
             } else {
                 this.getLogger().info("Successfully sent order approval command: " + commandMessage.getPayload());
             }
         };
 
-        this.orderCommandPort.sendApprovedPaymentAsync(approvedOrder, approvalCallback);
+        this.orderCommandPort.send(approvedOrder, approvalCallback);
 
         this.getLogger().info("Order approval command sent for order: " + processedEvent.getOrderId());
+    }
+
+    @SagaEventHandler(associationProperty = "orderId")
+    public void onCancelProductReservation(CancelProductReservationCommand event) {
+        this.getLogger().info("Cancelling product reservation for order: " + event.getOrderId());
     }
 
     @EndSaga
@@ -180,9 +181,8 @@ public class OrderSaga {
     private void cancelReservation(ProductReservedEvent event, String reason) {
         var cancelProduct = this.orderMapper.toCancelReservation(event, reason);
 
-        this.orderCommandPort.sendCancelReservation(cancelProduct);
+        this.orderCommandPort.sendSync(cancelProduct);
 
-  
     }
 
 }
