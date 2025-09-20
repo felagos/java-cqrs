@@ -8,7 +8,9 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
+import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
+import com.app.cqrs.command.domain.events.products.CancelProductReservationEvent;
 import com.app.cqrs.command.domain.events.products.ProductCreatedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.exceptions.InvalidProductException;
@@ -63,6 +65,20 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
         AggregateLifecycle.apply(productReservedEvent);
     }
 
+    @CommandHandler
+    public void handleCancelReservation(CancelProductReservationCommand command) {
+
+        var cancelProductEvent = CancelProductReservationEvent.builder()
+                .productId(command.getProductId())
+                .quantity(command.getQuantity())
+                .orderId(command.getOrderId())
+                .userId(command.getUserId())
+                .reason(command.getReason())
+                .build();
+
+        AggregateLifecycle.apply(cancelProductEvent);
+    }
+
     @EventSourcingHandler
     public void onProductCreatedEvent(ProductCreatedEvent event) {
         this.id = event.getProductId();
@@ -74,10 +90,17 @@ public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
     }
 
     @EventSourcingHandler
-    public void handleProductReservedEvent(ProductReservedEvent event) {
+    public void onProductReservedEvent(ProductReservedEvent event) {
         this.quantity -= event.getQuantity();
 
         logger.info("Product aggregate state restored: " + event.getProductId());
+    }
+
+    @EventSourcingHandler
+    public void onCancelProductReservationEvent(CancelProductReservationEvent event) {
+        this.quantity += event.getQuantity();
+
+        logger.info("Product reservation cancelled: " + event.getProductId() + " for order " + event.getOrderId());
     }
 
 }
