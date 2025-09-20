@@ -1,7 +1,8 @@
 package com.app.cqrs.command.application;
 
 import org.springframework.stereotype.Service;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.ports.products.IProductCommandPort;
@@ -10,7 +11,7 @@ import com.app.cqrs.command.domain.services.ProductValidationService;
 @Service
 public class ProductCommandService {
 
-    private final Logger logger = Logger.getLogger(ProductCommandService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ProductCommandService.class);
 
     private final IProductCommandPort productCommandGateway;
     private final ProductValidationService productValidationService;
@@ -46,7 +47,7 @@ public class ProductCommandService {
 
         var productCreated = productCommandGateway.createProduct(product);
 
-        logger.info("Product created with id: " + productCreated.getId());
+        logger.info("Product created with id: {}", productCreated.getId());
 
         return productCreated.getId();
     }

@@ -1,6 +1,7 @@
 package com.app.cqrs.command.domain.events.orders;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
@@ -13,7 +14,7 @@ import com.app.cqrs.shared.constants.ProcessGroups;
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class OrderEventsHandler {
 
-    private final Logger LOGGER = Logger.getLogger(OrderEventsHandler.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderEventsHandler.class);
 
     private final IOrderRepository orderRepository;
 

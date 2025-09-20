@@ -1,6 +1,7 @@
 package com.app.cqrs.command.infrastructure.email;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import com.app.cqrs.command.domain.ports.email.IEmailPort;
 @Component
 public class MockEmailSender implements IEmailPort {
 
-    private final Logger logger = Logger.getLogger(MockEmailSender.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(MockEmailSender.class);
 
     @Override
     public void sendEmail(String to, String subject, String body) {

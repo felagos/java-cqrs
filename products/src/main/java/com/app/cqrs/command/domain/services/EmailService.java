@@ -1,6 +1,7 @@
 package com.app.cqrs.command.domain.services;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import com.app.cqrs.command.domain.ports.email.IEmailPort;
 @Service
 public class EmailService {
 
-    private final Logger logger = Logger.getLogger(EmailService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private final IEmailPort emailPort;
 
@@ -23,7 +24,7 @@ public class EmailService {
         String body = buildEmailBody(event);
         String userEmail = getUserEmail(event.getUserId());
 
-        logger.info("Sending email to: " + userEmail + " with subject: " + subject + " and body: " + body);
+        logger.info("Sending email to: {} with subject: {} and body: {}", userEmail, subject, body);
 
         emailPort.sendEmail(userEmail, subject, body);
     }

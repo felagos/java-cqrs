@@ -4,7 +4,8 @@ import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.stereotype.Component;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.app.cqrs.command.domain.ports.products.IProductCommandRepository;
 import com.app.cqrs.shared.constants.ProcessGroups;
 
@@ -12,7 +13,7 @@ import com.app.cqrs.shared.constants.ProcessGroups;
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class ProductEventsHandler {
 
-    private final Logger LOGGER = Logger.getLogger(ProductEventsHandler.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductEventsHandler.class);
     private final IProductCommandRepository productRepository;
 
     public ProductEventsHandler(IProductCommandRepository productRepository) {
@@ -42,7 +43,7 @@ public class ProductEventsHandler {
             LOGGER.info("Successfully decremented product quantity by " + productReservedEvent.getQuantity() +
                     " for product ID: " + productReservedEvent.getProductId());
         } else {
-            LOGGER.severe(
+            LOGGER.error(
                     "Failed to decrement product quantity for product ID: " + productReservedEvent.getProductId() +
                             ". Product not found or insufficient quantity.");
         }
@@ -60,7 +61,7 @@ public class ProductEventsHandler {
             LOGGER.info("Successfully incremented product quantity by " + event.getQuantity() +
                     " for product ID: " + event.getProductId());
         } else {
-            LOGGER.severe("Failed to increment product quantity for product ID: " + event.getProductId() +
+            LOGGER.error("Failed to increment product quantity for product ID: " + event.getProductId() +
                     ". Product not found.");
         }
     }

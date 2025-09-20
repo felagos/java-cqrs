@@ -1,6 +1,7 @@
 package com.app.cqrs.command.domain.events.payments;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,7 @@ import com.app.cqrs.command.domain.ports.payments.IPaymentRepository;
 @Component
 public class PaymentEventsHandler {
 
-    private final Logger logger = Logger.getLogger(PaymentEventsHandler.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(PaymentEventsHandler.class);
 
     private final IPaymentRepository paymentRepository;
     private final PaymentDomainMapper paymentDomainMapper;

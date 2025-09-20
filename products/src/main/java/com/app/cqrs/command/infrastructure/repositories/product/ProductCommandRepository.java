@@ -1,7 +1,8 @@
 package com.app.cqrs.command.infrastructure.repositories.product;
 
 import java.util.Optional;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ import com.app.cqrs.shared.infrastructure.entities.ProductEntity;
 @Repository
 public class ProductCommandRepository implements IProductCommandRepository {
 
-    private final Logger LOGGER = Logger.getLogger(ProductCommandRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductCommandRepository.class);
 
     private final ProductRepositoryJpa productRepositoryJpa;
     private final ProductMapper productMapper;
@@ -60,7 +61,7 @@ public class ProductCommandRepository implements IProductCommandRepository {
         int updatedRows = this.productRepositoryJpa.updateProductQuantity(productId, newQuantity);
         
         if (updatedRows == 0) {
-            LOGGER.warning("Attempted to update non-existent product with ID: " + productId);
+            LOGGER.warn("Attempted to update non-existent product with ID: " + productId);
             return false;
         }
         
@@ -74,7 +75,7 @@ public class ProductCommandRepository implements IProductCommandRepository {
         int updatedRows = this.productRepositoryJpa.decrementProductQuantity(productId, decrementBy);
         
         if (updatedRows == 0) {
-            LOGGER.warning("Failed to decrement quantity for product ID: " + productId + ". Product not found or insufficient quantity.");
+            LOGGER.warn("Failed to decrement quantity for product ID: " + productId + ". Product not found or insufficient quantity.");
             return false;
         }
         
@@ -88,7 +89,7 @@ public class ProductCommandRepository implements IProductCommandRepository {
         int updatedRows = this.productRepositoryJpa.incrementProductQuantity(productId, incrementBy);
         
         if (updatedRows == 0) {
-            LOGGER.warning("Failed to increment quantity for product ID: " + productId + ". Product not found.");
+            LOGGER.warn("Failed to increment quantity for product ID: " + productId + ". Product not found.");
             return false;
         }
         

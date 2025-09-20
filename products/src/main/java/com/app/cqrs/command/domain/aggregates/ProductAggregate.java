@@ -1,7 +1,8 @@
 package com.app.cqrs.command.domain.aggregates;
 
 import java.math.BigDecimal;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -21,7 +22,7 @@ import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 @Aggregate
 public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
 
-    private final Logger logger = Logger.getLogger(ProductAggregate.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ProductAggregate.class);
 
     private String title;
     private BigDecimal price;

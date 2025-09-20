@@ -1,6 +1,7 @@
 package com.app.cqrs.command.domain.aggregates;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -18,7 +19,7 @@ import com.app.cqrs.command.domain.events.orders.RejectOrderEvent;
 @Aggregate
 public class OrderAggregate {
 
-    private final Logger logger = Logger.getLogger(OrderAggregate.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(OrderAggregate.class);
 
     @AggregateIdentifier
     private String orderId;
@@ -42,7 +43,7 @@ public class OrderAggregate {
         orderCreatedEvent.setAddressId(createOrderCommand.getAddressId());
         orderCreatedEvent.setOrderStatus(createOrderCommand.getOrderStatus());
 
-        this.logger.info("OrderCreatedEvent: " + orderCreatedEvent);
+        logger.info("OrderCreatedEvent: " + orderCreatedEvent);
 
         AggregateLifecycle.apply(orderCreatedEvent);
     }

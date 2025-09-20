@@ -1,6 +1,7 @@
 package com.app.cqrs.command.domain.saga;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.modelling.saga.EndSaga;
@@ -50,7 +51,7 @@ public class OrderSaga {
 
     private Logger getLogger() {
         if (logger == null) {
-            logger = Logger.getLogger(OrderSaga.class.getName());
+            logger = LoggerFactory.getLogger(OrderSaga.class);
         }
         return logger;
     }
@@ -67,9 +68,9 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                this.getLogger().severe(
+                this.getLogger().error(
                         "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
-                this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+                this.getLogger().error("Exception type: " + exception.getClass().getSimpleName());
 
                 // End saga as product reservation failed
                 SagaLifecycle.end();
@@ -95,7 +96,7 @@ public class OrderSaga {
         this.getLogger().info("Fetched user details: " + userDetails);
 
         if (userDetails.isEmpty()) {
-            this.getLogger().severe("User details not found for userId: " + event.getUserId());
+            this.getLogger().error("User details not found for userId: " + event.getUserId());
 
             this.cancelReservation(event, "User details not found");
 
@@ -110,9 +111,9 @@ public class OrderSaga {
                 if (commandResultMessage.isExceptional()) {
                     var exception = commandResultMessage.optionalExceptionResult().get();
                     var message = exception.getMessage();
-                    this.getLogger().severe(
+                    this.getLogger().error(
                             "Failed to process payment: " + message + " for command: " + commandMessage.getPayload());
-                    this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+                    this.getLogger().error("Exception type: " + exception.getClass().getSimpleName());
 
                     this.cancelReservation(event, "Payment processing failed: " + message);
                 } else {
@@ -136,11 +137,11 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                this.getLogger().severe(
+                this.getLogger().error(
                         "Failed to approve order: " + message + " for command: " + commandMessage.getPayload());
-                this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+                this.getLogger().error("Exception type: " + exception.getClass().getSimpleName());
 
-                this.getLogger().severe("Order approval failed - manual intervention required for order: "
+                this.getLogger().error("Order approval failed - manual intervention required for order: "
                         + processedEvent.getOrderId());
             } else {
                 this.getLogger().info("Successfully sent order approval command: " + commandMessage.getPayload());
@@ -174,7 +175,7 @@ public class OrderSaga {
 
             this.getLogger().info("Confirmation email sent for order: " + approvedEvent.getOrderId());
         } catch (Exception e) {
-            this.getLogger().severe("Failed to send confirmation email for order: " + approvedEvent.getOrderId()
+            this.getLogger().error("Failed to send confirmation email for order: " + approvedEvent.getOrderId()
                     + ". Error: " + e.getMessage());
         }
 

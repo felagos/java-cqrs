@@ -1,6 +1,7 @@
 package com.app.cqrs.command.infrastructure.gateways;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import com.app.cqrs.shared.domain.Product;
 @Component
 public class ProductCommandGateway implements IProductCommandPort {
 
-    private final Logger logger = Logger.getLogger(ProductCommandGateway.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ProductCommandGateway.class);
 
     private final CommandGateway commandGateway;
 
@@ -26,7 +27,7 @@ public class ProductCommandGateway implements IProductCommandPort {
 
         var createdProduct = new Product(product.getProductId(), product.getTitle(), product.getPrice(), product.getQuantity());
 
-        logger.info("Created Product: " + response);
+        logger.info("Created Product: {}", response);
 
         return createdProduct;
     }
