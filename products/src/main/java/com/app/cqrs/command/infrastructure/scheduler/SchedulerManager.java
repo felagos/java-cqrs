@@ -16,8 +16,13 @@ public class SchedulerManager implements ISchedulerManager {
     }
 
     @Override
-    public <T> void schedule(Duration triggerDateTime, String deadlineName, T messageOrPayload) {
-        this.deadLineManager.schedule(triggerDateTime, deadlineName, messageOrPayload);
+    public <T> String schedule(Duration triggerDateTime, String deadlineName, T messageOrPayload) {
+        return this.deadLineManager.schedule(triggerDateTime, deadlineName, messageOrPayload);
+    }
+
+    @Override
+    public void cancelAllDeadline(String deadlineName, String scheduleId) {
+        this.deadLineManager.cancelSchedule(deadlineName, scheduleId);
     }
 
 }

@@ -4,6 +4,8 @@ import java.time.Duration;
 
 public interface ISchedulerManager {
 
-    <T> void schedule(Duration triggerDateTime, String deadlineName, T messageOrPayload);
+    <T> String schedule(Duration triggerDateTime, String deadlineName, T messageOrPayload);
+
+    void cancelAllDeadline(String deadlineName, String scheduleId);
 
 }

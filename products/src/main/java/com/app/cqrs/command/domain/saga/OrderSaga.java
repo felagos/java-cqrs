@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.config.ProcessingGroup;
+import org.axonframework.deadline.annotation.DeadlineHandler;
 import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.SagaLifecycle;
@@ -52,8 +53,12 @@ public class OrderSaga {
     @Autowired
     private transient ISchedulerManager schedulerManager;
 
+    private String deadlineId;
+
     public OrderSaga() {
     }
+
+    private final String PAYMENT_DEADLINE = "payment-deadline-process";
 
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
@@ -99,9 +104,9 @@ public class OrderSaga {
         } else {
             logger.info("User details found for userId: {}", event.getUserId());
 
-            this.schedulerManager.schedule(
+            this.deadlineId = this.schedulerManager.schedule(
                     Duration.ofSeconds(10),
-                    "payment-deadline-" + event.getOrderId(),
+                    PAYMENT_DEADLINE,
                     event);
 
             var processPaymentCommand = new ProcessPaymentCommand(IdGenerator.Uuid(), event.getOrderId(),
@@ -129,6 +134,8 @@ public class OrderSaga {
     @SagaEventHandler(associationProperty = "orderId")
     public void onPaymentProcess(PaymentProcessedEvent processedEvent) {
         logger.info("Payment processed for order: {}", processedEvent.getOrderId());
+
+        this.cancelDeadline();
 
         var approvedOrder = new ApproveOrderCommand(processedEvent.getOrderId());
 
@@ -195,6 +202,21 @@ public class OrderSaga {
         var cancelProduct = this.orderMapper.toCancelReservation(event, reason);
 
         this.orderCommandPort.sendSync(cancelProduct);
+
+    }
+
+    @DeadlineHandler(deadlineName = PAYMENT_DEADLINE)
+    public void handlePaymentDeadline(ProductReservedEvent productReservedEvent) {
+        logger.info("Handling payment deadline for order: {}", productReservedEvent.getOrderId());
+
+        this.cancelReservation(productReservedEvent, "Payment deadline exceeded");
+    }
+
+    private void cancelDeadline() {
+        if (this.deadlineId != null && !this.deadlineId.isEmpty()) {
+            this.schedulerManager.cancelAllDeadline(PAYMENT_DEADLINE, this.deadlineId);
+            this.deadlineId = null;
+        }
 
     }
 
