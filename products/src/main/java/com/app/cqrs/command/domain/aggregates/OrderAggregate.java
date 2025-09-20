@@ -7,12 +7,13 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-
 import com.app.cqrs.command.domain.OrderStatus;
 import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
+import com.app.cqrs.command.domain.commands.RejectOrderCommand;
 import com.app.cqrs.command.domain.events.orders.OrderApprovedEvent;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.orders.RejectOrderEvent;
 
 @Aggregate
 public class OrderAggregate {
@@ -53,8 +54,18 @@ public class OrderAggregate {
         AggregateLifecycle.apply(orderApprovedEvent);
     }
 
+    @CommandHandler
+    public void onRejectOrder(RejectOrderCommand rejectOrderCommand) {
+        var orderRejectedEvent = RejectOrderEvent.builder()
+                .orderId(rejectOrderCommand.getOrderId())
+                .reason(rejectOrderCommand.getReason())
+                .build();
+
+        AggregateLifecycle.apply(orderRejectedEvent);
+    }
+
     @EventSourcingHandler
-    public void handleOrderCreatedEvent(OrderCreatedEvent orderCreatedEvent) throws Exception {
+    public void handleOrderCreatedEvent(OrderCreatedEvent orderCreatedEvent) {
         this.orderId = orderCreatedEvent.getOrderId();
         this.productId = orderCreatedEvent.getProductId();
         this.userId = orderCreatedEvent.getUserId();
@@ -64,9 +75,14 @@ public class OrderAggregate {
     }
 
     @EventSourcingHandler
-    public void handleApprovedOrderEvent(OrderCreatedEvent orderCreatedEvent) throws Exception {
+    public void handleApprovedOrderEvent(OrderCreatedEvent orderCreatedEvent) {
         this.orderId = orderCreatedEvent.getOrderId();
         this.orderStatus = orderCreatedEvent.getOrderStatus();
+    }
+
+    @EventSourcingHandler
+    public void handleRejectOrderEvent(RejectOrderEvent rejectOrderEvent) {
+        this.orderStatus = rejectOrderEvent.getOrderStatus();
     }
 
 }

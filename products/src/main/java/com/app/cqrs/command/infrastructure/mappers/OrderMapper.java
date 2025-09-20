@@ -8,6 +8,7 @@ import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.OrderStatus;
 import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
+import com.app.cqrs.command.domain.commands.RejectOrderCommand;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.infrastructure.dtos.OrderCreateDto;
@@ -64,6 +65,13 @@ public class OrderMapper {
                 .productId(event.getProductId())
                 .quantity(event.getQuantity())
                 .userId(event.getUserId())
+                .reason(reason)
+                .build();
+    }
+
+    public RejectOrderCommand toRejectOrderCommand(String orderId, String reason) {
+        return RejectOrderCommand.builder()
+                .orderId(orderId)
                 .reason(reason)
                 .build();
     }

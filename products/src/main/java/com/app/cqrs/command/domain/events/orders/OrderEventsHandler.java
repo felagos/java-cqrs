@@ -33,4 +33,10 @@ public class OrderEventsHandler {
         this.orderRepository.updateOrderStatus(event.getOrderId(), event.getOrderStatus());
     }
 
+    @EventHandler
+    public void handleRejectOrderEvent(RejectOrderEvent event) {
+        LOGGER.info("Handling RejectOrderEvent for order: " + event);
+        this.orderRepository.updateOrderStatus(event.getOrderId(), event.getOrderStatus());
+    }
+
 }

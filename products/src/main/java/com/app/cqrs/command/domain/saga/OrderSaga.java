@@ -154,6 +154,10 @@ public class OrderSaga {
     @SagaEventHandler(associationProperty = "orderId")
     public void onCancelProductReservation(CancelProductReservationCommand event) {
         this.getLogger().info("Cancelling product reservation for order: " + event.getOrderId());
+
+        var rejectOrder = this.orderMapper.toRejectOrderCommand(event.getOrderId(), event.getReason());
+
+        this.orderCommandPort.sendSync(rejectOrder);
     }
 
     @EndSaga
