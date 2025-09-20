@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.OrderStatus;
+import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.infrastructure.dtos.OrderCreateDto;
 import com.app.cqrs.command.infrastructure.entities.OrderEntity;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
@@ -54,6 +56,16 @@ public class OrderMapper {
                 event.getQuantity(),
                 event.getOrderId(),
                 event.getUserId());
+    }
+
+    public CancelProductReservationCommand toCancelReservation(ProductReservedEvent event, String reason) {
+        return CancelProductReservationCommand.builder()
+                .orderId(event.getOrderId())
+                .productId(event.getProductId())
+                .quantity(event.getQuantity())
+                .userId(event.getUserId())
+                .reason(reason)
+                .build();
     }
 
 }

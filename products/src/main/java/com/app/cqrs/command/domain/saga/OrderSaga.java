@@ -9,6 +9,7 @@ import org.axonframework.modelling.saga.SagaLifecycle;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.app.cqrs.command.application.OrderCommandService;
 import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
 import com.app.cqrs.command.domain.events.orders.OrderApprovedEvent;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
@@ -29,6 +30,8 @@ import com.app.cqrs.shared.utils.EmailContentBuilder;
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class OrderSaga {
 
+    private final OrderCommandService orderCommandService;
+
     private transient Logger logger;
 
     @Autowired
@@ -43,7 +46,8 @@ public class OrderSaga {
     @Autowired
     private transient IEmailPort emailService;
 
-    public OrderSaga() {
+    public OrderSaga(OrderCommandService orderCommandService) {
+        this.orderCommandService = orderCommandService;
     }
 
     private Logger getLogger() {
@@ -105,6 +109,7 @@ public class OrderSaga {
                     this.getLogger().severe(
                             "Failed to process payment: " + message + " for command: " + commandMessage.getPayload());
                     this.getLogger().severe("Exception type: " + exception.getClass().getSimpleName());
+
                 } else {
                     this.getLogger().info("Successfully sent payment command: " + commandMessage.getPayload());
                 }
@@ -135,7 +140,7 @@ public class OrderSaga {
         };
 
         this.orderCommandPort.sendApprovedPaymentAsync(approvedOrder, approvalCallback);
-        
+
         this.getLogger().info("Order approval command sent for order: " + processedEvent.getOrderId());
     }
 
@@ -159,6 +164,14 @@ public class OrderSaga {
         this.getLogger().info("Ending saga for order: " + approvedEvent.getOrderId());
 
         SagaLifecycle.end();
+    }
+
+    private void cancelReservation(ProductReservedEvent event, String reason) {
+        var cancelProduct = this.orderMapper.toCancelReservation(event, reason);
+
+        this.orderCommandPort.sendCancelReservation(cancelProduct);
+
+  
     }
 
 }

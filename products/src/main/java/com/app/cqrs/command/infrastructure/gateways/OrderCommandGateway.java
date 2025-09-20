@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.app.cqrs.command.domain.Order;
 import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
+import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.command.domain.commands.CreateOrderCommand;
 import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
 import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
@@ -46,13 +47,20 @@ public class OrderCommandGateway implements IOrderCommandPort {
     }
 
     @Override
-    public void sendPaymentAsync(ProcessPaymentCommand payment, CommandCallback<ProcessPaymentCommand, Object> callback) {
+    public void sendPaymentAsync(ProcessPaymentCommand payment,
+            CommandCallback<ProcessPaymentCommand, Object> callback) {
         this.commandGateway.send(payment, callback);
     }
 
     @Override
-    public void sendApprovedPaymentAsync(ApproveOrderCommand command, CommandCallback<ApproveOrderCommand, Object> callback) {
+    public void sendApprovedPaymentAsync(ApproveOrderCommand command,
+            CommandCallback<ApproveOrderCommand, Object> callback) {
         this.commandGateway.send(command, callback);
+    }
+
+    @Override
+    public String sendCancelReservation(CancelProductReservationCommand command) {
+        return this.commandGateway.sendAndWait(command);
     }
 
 }
