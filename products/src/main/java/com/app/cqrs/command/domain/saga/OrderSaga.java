@@ -13,6 +13,7 @@ import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
 import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.command.domain.events.orders.OrderApprovedEvent;
 import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
+import com.app.cqrs.command.domain.events.orders.RejectOrderEvent;
 import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
@@ -179,6 +180,15 @@ public class OrderSaga {
 
         this.getLogger().info("Ending saga for order: " + approvedEvent.getOrderId());
 
+        SagaLifecycle.end();
+    }
+
+    @EndSaga
+    @SagaEventHandler(associationProperty = "orderId")
+    public void onRejectOrder(RejectOrderEvent rejectedEvent) {
+        this.getLogger().info("Order rejected for order: " + rejectedEvent.getOrderId()
+                + ". Reason: " + rejectedEvent.getReason());
+        this.getLogger().info("Ending saga for order: " + rejectedEvent.getOrderId());
         SagaLifecycle.end();
     }
 
