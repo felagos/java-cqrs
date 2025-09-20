@@ -32,7 +32,7 @@ import com.app.cqrs.shared.utils.EmailContentBuilder;
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
 public class OrderSaga {
 
-    private transient Logger logger;
+    private static final Logger logger = LoggerFactory.getLogger(OrderSaga.class);
 
     @Autowired
     private transient IOrderCommandPort orderCommandPort;
@@ -49,18 +49,10 @@ public class OrderSaga {
     public OrderSaga() {
     }
 
-    private Logger getLogger() {
-        if (logger == null) {
-            logger = LoggerFactory.getLogger(OrderSaga.class);
-        }
-        return logger;
-    }
-
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void onOrderCreated(OrderCreatedEvent event) {
-        this.getLogger()
-                .info("Starting saga for order: " + event.getOrderId() + " with product: " + event.getProductId());
+        logger.info("Starting saga for order: {} with product: {}", event.getOrderId(), event.getProductId());
 
         var reservedProduct = orderMapper.toReservationCommand(event);
 
@@ -68,41 +60,39 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                this.getLogger().error(
-                        "Failed to reserve product: " + message + " for command: " + commandMessage.getPayload());
-                this.getLogger().error("Exception type: " + exception.getClass().getSimpleName());
+                logger.error("Failed to reserve product: {} for command: {}", message, commandMessage.getPayload());
+                logger.error("Exception type: {}", exception.getClass().getSimpleName());
 
-                // End saga as product reservation failed
                 SagaLifecycle.end();
             } else {
-                this.getLogger().info("Successfully reserved product: " + commandMessage.getPayload());
+                logger.info("Successfully reserved product: {}", commandMessage.getPayload());
             }
         };
 
-        this.getLogger().info("Sending reservation command for product: " + reservedProduct.getProductId());
+        logger.info("Sending reservation command for product: {}", reservedProduct.getProductId());
         this.orderCommandPort.send(reservedProduct, callback);
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     public void onProductReserved(ProductReservedEvent event) {
-        this.getLogger().info("Product reserved for order: " + event.getOrderId());
+        logger.info("Product reserved for order: {}", event.getOrderId());
 
         var productDetailsQuery = new FetchUserPaymentDetailsQuery(event.getUserId());
 
         var userDetails = this.userPaymentDetailGateway.findUserByPaymentDetails(productDetailsQuery);
 
-        this.getLogger().info("Fetching user details for userId: " + event.getUserId());
-        this.getLogger().info("Using query: " + productDetailsQuery);
-        this.getLogger().info("Fetched user details: " + userDetails);
+        logger.info("Fetching user details for userId: {}", event.getUserId());
+        logger.info("Using query: {}", productDetailsQuery);
+        logger.info("Fetched user details: {}", userDetails);
 
         if (userDetails.isEmpty()) {
-            this.getLogger().error("User details not found for userId: " + event.getUserId());
+            logger.error("User details not found for userId: {}", event.getUserId());
 
             this.cancelReservation(event, "User details not found");
 
             return;
         } else {
-            this.getLogger().info("User details found for userId: " + event.getUserId());
+            logger.info("User details found for userId: {}", event.getUserId());
 
             var processPaymentCommand = new ProcessPaymentCommand(IdGenerator.Uuid(), event.getOrderId(),
                     userDetails.get().getPaymentDetails());
@@ -111,25 +101,24 @@ public class OrderSaga {
                 if (commandResultMessage.isExceptional()) {
                     var exception = commandResultMessage.optionalExceptionResult().get();
                     var message = exception.getMessage();
-                    this.getLogger().error(
-                            "Failed to process payment: " + message + " for command: " + commandMessage.getPayload());
-                    this.getLogger().error("Exception type: " + exception.getClass().getSimpleName());
+                    logger.error("Failed to process payment: {} for command: {}", message, commandMessage.getPayload());
+                    logger.error("Exception type: {}", exception.getClass().getSimpleName());
 
                     this.cancelReservation(event, "Payment processing failed: " + message);
                 } else {
-                    this.getLogger().info("Successfully sent payment command: " + commandMessage.getPayload());
+                    logger.info("Successfully sent payment command: {}", commandMessage.getPayload());
                 }
             };
 
             this.orderCommandPort.send(processPaymentCommand, paymentCallback);
 
-            this.getLogger().info("Payment command sent for order: " + event.getOrderId());
+            logger.info("Payment command sent for order: {}", event.getOrderId());
         }
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     public void onPayment(PaymentProcessedEvent processedEvent) {
-        this.getLogger().info("Payment processed for order: " + processedEvent.getOrderId());
+        logger.info("Payment processed for order: {}", processedEvent.getOrderId());
 
         var approvedOrder = new ApproveOrderCommand(processedEvent.getOrderId());
 
@@ -137,25 +126,24 @@ public class OrderSaga {
             if (commandResultMessage.isExceptional()) {
                 var exception = commandResultMessage.optionalExceptionResult().get();
                 var message = exception.getMessage();
-                this.getLogger().error(
-                        "Failed to approve order: " + message + " for command: " + commandMessage.getPayload());
-                this.getLogger().error("Exception type: " + exception.getClass().getSimpleName());
+                logger.error("Failed to approve order: {} for command: {}", message, commandMessage.getPayload());
+                logger.error("Exception type: {}", exception.getClass().getSimpleName());
 
-                this.getLogger().error("Order approval failed - manual intervention required for order: "
-                        + processedEvent.getOrderId());
+                logger.error("Order approval failed - manual intervention required for order: {}",
+                        processedEvent.getOrderId());
             } else {
-                this.getLogger().info("Successfully sent order approval command: " + commandMessage.getPayload());
+                logger.info("Successfully sent order approval command: {}", commandMessage.getPayload());
             }
         };
 
         this.orderCommandPort.send(approvedOrder, approvalCallback);
 
-        this.getLogger().info("Order approval command sent for order: " + processedEvent.getOrderId());
+        logger.info("Order approval command sent for order: {}", processedEvent.getOrderId());
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     public void onCancelProductReservation(CancelProductReservationCommand event) {
-        this.getLogger().info("Cancelling product reservation for order: " + event.getOrderId());
+        logger.info("Cancelling product reservation for order: {}", event.getOrderId());
 
         var rejectOrder = this.orderMapper.toRejectOrderCommand(event.getOrderId(), event.getReason());
 
@@ -165,7 +153,7 @@ public class OrderSaga {
     @EndSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void onApprovedOrder(OrderApprovedEvent approvedEvent) {
-        this.getLogger().info("Order approved for order: " + approvedEvent.getOrderId());
+        logger.info("Order approved for order: {}", approvedEvent.getOrderId());
 
         try {
             String subject = EmailContentBuilder.buildOrderConfirmationSubject(approvedEvent.getOrderId());
@@ -173,13 +161,13 @@ public class OrderSaga {
 
             emailService.sendEmail("customer@example.com", subject, body);
 
-            this.getLogger().info("Confirmation email sent for order: " + approvedEvent.getOrderId());
+            logger.info("Confirmation email sent for order: {}", approvedEvent.getOrderId());
         } catch (Exception e) {
-            this.getLogger().error("Failed to send confirmation email for order: " + approvedEvent.getOrderId()
-                    + ". Error: " + e.getMessage());
+            logger.error("Failed to send confirmation email for order: {}. Error: {}",
+                    approvedEvent.getOrderId(), e.getMessage());
         }
 
-        this.getLogger().info("Ending saga for order: " + approvedEvent.getOrderId());
+        logger.info("Ending saga for order: {}", approvedEvent.getOrderId());
 
         SagaLifecycle.end();
     }
@@ -187,9 +175,9 @@ public class OrderSaga {
     @EndSaga
     @SagaEventHandler(associationProperty = "orderId")
     public void onRejectOrder(RejectOrderEvent rejectedEvent) {
-        this.getLogger().info("Order rejected for order: " + rejectedEvent.getOrderId()
-                + ". Reason: " + rejectedEvent.getReason());
-        this.getLogger().info("Ending saga for order: " + rejectedEvent.getOrderId());
+        logger.info("Order rejected for order: {}. Reason: {}",
+                rejectedEvent.getOrderId(), rejectedEvent.getReason());
+        logger.info("Ending saga for order: {}", rejectedEvent.getOrderId());
         SagaLifecycle.end();
     }
 
