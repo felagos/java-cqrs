@@ -233,7 +233,6 @@ public class OrderSaga {
                 rejectedEvent.getOrderId(), rejectedEvent.getReason());
         logger.info("Ending saga for order: {}", rejectedEvent.getOrderId());
         
-        // Create order object and emit query update for rejected order
         var order = Order.builder()
                 .orderId(rejectedEvent.getOrderId())
                 .productId(this.productId)
