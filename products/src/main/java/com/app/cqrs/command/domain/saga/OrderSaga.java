@@ -57,6 +57,8 @@ public class OrderSaga {
     @Autowired
     private transient IQueryUpdateEmitterPort queryUpdateEmitter;
 
+    private final String PAYMENT_DEADLINE = "payment-deadline-process";
+
     private String deadlineId;
     private String orderId;
     private String productId;
@@ -66,8 +68,6 @@ public class OrderSaga {
 
     public OrderSaga() {
     }
-
-    private final String PAYMENT_DEADLINE = "payment-deadline-process";
 
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
@@ -125,10 +125,12 @@ public class OrderSaga {
         } else {
             logger.info("User details found for userId: {}", event.getUserId());
 
-            /* this.deadlineId = this.schedulerManager.schedule(
-                    Duration.ofSeconds(10),
-                    PAYMENT_DEADLINE,
-                    event); */
+            /*
+             * this.deadlineId = this.schedulerManager.schedule(
+             * Duration.ofSeconds(10),
+             * PAYMENT_DEADLINE,
+             * event);
+             */
 
             var processPaymentCommand = new ProcessPaymentCommand(IdGenerator.Uuid(), event.getOrderId(),
                     userDetails.get().getPaymentDetails());
@@ -218,7 +220,8 @@ public class OrderSaga {
                 .orderStatus(approvedEvent.getOrderStatus())
                 .build();
 
-        this.queryUpdateEmitter.emit(FindOrderQuery.class, query -> query.getOrderId().equals(approvedEvent.getOrderId()), order);
+        this.queryUpdateEmitter.emit(FindOrderQuery.class,
+                query -> query.getOrderId().equals(approvedEvent.getOrderId()), order);
         logger.info("Order update emitted for order: {}", approvedEvent.getOrderId());
 
         SagaLifecycle.end();
@@ -230,7 +233,7 @@ public class OrderSaga {
         logger.info("Order rejected for order: {}. Reason: {}",
                 rejectedEvent.getOrderId(), rejectedEvent.getReason());
         logger.info("Ending saga for order: {}", rejectedEvent.getOrderId());
-        
+
         var order = Order.builder()
                 .orderId(rejectedEvent.getOrderId())
                 .productId(this.productId)
@@ -240,9 +243,10 @@ public class OrderSaga {
                 .orderStatus(rejectedEvent.getOrderStatus())
                 .build();
 
-        this.queryUpdateEmitter.emit(FindOrderQuery.class, query -> query.getOrderId().equals(rejectedEvent.getOrderId()), order);
+        this.queryUpdateEmitter.emit(FindOrderQuery.class,
+                query -> query.getOrderId().equals(rejectedEvent.getOrderId()), order);
         logger.info("Query update emitted for rejected order: {}", rejectedEvent.getOrderId());
-        
+
         SagaLifecycle.end();
     }
 
@@ -255,7 +259,7 @@ public class OrderSaga {
 
     private void cancelDeadline() {
         if (this.deadlineId != null && !this.deadlineId.isEmpty()) {
-            //this.schedulerManager.cancelAllDeadline(PAYMENT_DEADLINE, this.deadlineId);
+            // this.schedulerManager.cancelAllDeadline(PAYMENT_DEADLINE, this.deadlineId);
             this.deadlineId = null;
         }
     }
