@@ -6,9 +6,9 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.query.domain.ports.IProductQueryGateway;
+import com.app.cqrs.query.domain.queries.product.FilterProductQuery;
+import com.app.cqrs.query.domain.queries.product.FindProductQuery;
 import com.app.cqrs.query.domain.ProductFilter;
-import com.app.cqrs.query.domain.queries.FilterProductQuery;
-import com.app.cqrs.query.domain.queries.FindProductQuery;
 import com.app.cqrs.shared.domain.Product;
 
 @Component
