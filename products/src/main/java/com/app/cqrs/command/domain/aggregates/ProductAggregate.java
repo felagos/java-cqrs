@@ -16,10 +16,11 @@ import com.app.cqrs.command.domain.events.products.ProductCreatedEvent;
 import com.app.cqrs.shared.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.shared.infrastructure.exceptions.InvalidProductException;
 import com.app.cqrs.shared.infrastructure.exceptions.ReserveProductException;
+import com.app.cqrs.shared.constants.SnapshotDefinition;
 import com.app.cqrs.shared.domain.BaseAggregate;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 
-@Aggregate
+@Aggregate(snapshotTriggerDefinition = SnapshotDefinition.SNAPSHOT_TRIGGER_NAME)
 public class ProductAggregate extends BaseAggregate<ProductCreatedEvent> {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductAggregate.class);
