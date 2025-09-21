@@ -8,4 +8,6 @@ public interface IProductLookupRepository {
 
     ProductLookup save(String id, String title);
 
+    void deleteAllProducts();
+
 }

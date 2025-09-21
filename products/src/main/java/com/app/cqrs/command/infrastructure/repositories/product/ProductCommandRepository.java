@@ -98,4 +98,9 @@ public class ProductCommandRepository implements IProductCommandRepository {
         return true;
     }
 
+    @Override
+    public void deleteAllProducts() {
+        this.productRepositoryJpa.deleteAll();
+    }
+
 }

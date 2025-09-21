@@ -29,4 +29,9 @@ public class ProductLookupRepository implements IProductLookupRepository {
         return new ProductLookup(savedEntity.getId(), savedEntity.getTitle());
     }
 
+    @Override
+    public void deleteAllProducts() {
+        this.productLookupJpa.deleteAll();
+    }
+
 }

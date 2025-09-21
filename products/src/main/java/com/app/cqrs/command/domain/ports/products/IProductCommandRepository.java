@@ -17,4 +17,6 @@ public interface IProductCommandRepository {
     boolean decrementQuantityProduct(String productId, Integer decrementBy);
 
     boolean incrementQuantityProduct(String productId, Integer incrementBy);
+
+    void deleteAllProducts();
 }

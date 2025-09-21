@@ -2,6 +2,7 @@ package com.app.cqrs.command.domain.events.products;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.ResetHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
@@ -65,6 +66,11 @@ public class ProductEventsHandler {
             LOGGER.error("Failed to increment product quantity for product ID: " + event.getProductId() +
                     ". Product not found.");
         }
+    }
+
+    @ResetHandler
+    public void reset() {
+        this.productRepository.deleteAllProducts();
     }
 
 }
