@@ -28,14 +28,4 @@ public class ProductCommandController {
         return this.productService.createProduct(product);
     }
     
-    @PutMapping
-    public String updateProduct() {
-        return "Product updated successfully!";
-    }
-
-    @DeleteMapping
-    public String deleteProduct() {
-        return "Product deleted successfully!";
-    }
-
 }
