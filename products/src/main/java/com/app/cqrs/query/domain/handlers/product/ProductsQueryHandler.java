@@ -1,4 +1,4 @@
-package com.app.cqrs.query.domain.handlers;
+package com.app.cqrs.query.domain.handlers.product;
 
 import java.util.List;
 
