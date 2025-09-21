@@ -1,7 +1,8 @@
 package com.app.cqrs.command.application;
 
-import com.app.cqrs.command.domain.ports.EventProcessingPort;
 import org.springframework.stereotype.Service;
+
+import com.app.cqrs.command.domain.ports.replay.EventProcessingPort;
 
 @Service
 public class EventReplayService {

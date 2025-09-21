@@ -1,9 +1,10 @@
-package com.app.cqrs.command.infrastructure.adapter;
+package com.app.cqrs.command.infrastructure.replay;
 
-import com.app.cqrs.command.domain.ports.EventProcessingPort;
 import org.axonframework.config.EventProcessingConfiguration;
 import org.axonframework.eventhandling.TrackingEventProcessor;
 import org.springframework.stereotype.Component;
+
+import com.app.cqrs.command.domain.ports.replay.EventProcessingPort;
 
 /**
  * Adapter that implements the EventProcessingPort using Axon Framework's

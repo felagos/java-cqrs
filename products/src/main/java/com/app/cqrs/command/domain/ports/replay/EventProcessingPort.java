@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.ports;
+package com.app.cqrs.command.domain.ports.replay;
 
 /**
  * Port interface for event processing operations.
