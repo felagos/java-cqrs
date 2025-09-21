@@ -80,6 +80,10 @@ public class OrderSaga {
 
                 logger.error("Failed to reserve product: {} for command: {}", message, commandMessage.getPayload());
                 logger.error("Exception type: {}", exception.getClass().getSimpleName());
+
+                var rejectOrder = this.orderMapper.toRejectOrderCommand(event.getOrderId(),
+                        "Product reservation failed: " + message);
+                this.orderCommandPort.sendSync(rejectOrder);
             } else {
                 logger.info("Successfully reserved product: {}", commandMessage.getPayload());
             }
@@ -199,6 +203,8 @@ public class OrderSaga {
 
         this.queryUpdateEmitter.emit(FindOrderQuery.class, query -> true, order);
 
+        this.logger.info("Order update emitted for order: {}", approvedEvent.getOrderId());
+
         SagaLifecycle.end();
     }
 
@@ -215,6 +221,8 @@ public class OrderSaga {
                 .build();
 
         this.queryUpdateEmitter.emit(FindOrderQuery.class, query -> true, order);
+
+        this.logger.info("Order update emitted for order: {}", rejectedEvent.getOrderId());
 
         SagaLifecycle.end();
     }
