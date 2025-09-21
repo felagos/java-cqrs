@@ -261,14 +261,12 @@ public class OrderSaga {
             //this.schedulerManager.cancelAllDeadline(PAYMENT_DEADLINE, this.deadlineId);
             this.deadlineId = null;
         }
-
     }
 
     private void cancelReservation(ProductReservedEvent event, String reason) {
         var cancelProduct = this.orderMapper.toCancelReservation(event, reason);
 
         this.orderCommandPort.sendSync(cancelProduct);
-
     }
 
 }
