@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.app.cqrs.command.application.OrderCommandService;
-import com.app.cqrs.command.infrastructure.dtos.OrderCreateDto;
-import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
+import com.app.cqrs.shared.infrastructure.dtos.OrderCreateDto;
+import com.app.cqrs.shared.infrastructure.mappers.OrderMapper;
+
 import jakarta.validation.Valid;
 
 @RestController

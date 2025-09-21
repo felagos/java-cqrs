@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.repositories.order;
+package com.app.cqrs.shared.infrastructure.repositories.orders;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.cqrs.shared.domain.orders.OrderStatus;
-import com.app.cqrs.command.infrastructure.entities.OrderEntity;
+import com.app.cqrs.shared.infrastructure.entities.OrderEntity;
 
 public interface OrdersRepositoryJpa extends CrudRepository<OrderEntity, String> {
 

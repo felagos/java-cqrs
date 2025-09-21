@@ -8,5 +8,6 @@ public interface IOrderRepository {
 
     Order createOrder(OrderCreatedEvent event);
     boolean updateOrderStatus(String orderId, OrderStatus orderStatus);
+    Order findOrderById(String orderId);
 
 }

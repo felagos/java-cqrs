@@ -6,31 +6,29 @@ import com.app.cqrs.shared.domain.orders.Order;
 import com.app.cqrs.shared.domain.orders.OrderStatus;
 import com.app.cqrs.shared.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.shared.domain.ports.orders.IOrderRepository;
-import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 
 @Repository
 public class OrderRepository implements IOrderRepository {
 
-    private final OrdersRepositoryJpa ordersRepositoryJpa;
-    private final OrderMapper orderMapper;
+    private final com.app.cqrs.shared.infrastructure.repositories.orders.OrderRepository sharedOrderRepository;
 
-    public OrderRepository(OrdersRepositoryJpa ordersRepositoryJpa, OrderMapper orderMapper) {
-        this.ordersRepositoryJpa = ordersRepositoryJpa;
-        this.orderMapper = orderMapper;
+    public OrderRepository(com.app.cqrs.shared.infrastructure.repositories.orders.OrderRepository sharedOrderRepository) {
+        this.sharedOrderRepository = sharedOrderRepository;
     }
 
     @Override
     public Order createOrder(OrderCreatedEvent event) {
-        var orderEntity = orderMapper.toEntity(event);
-        var orderCreated = ordersRepositoryJpa.save(orderEntity);
-
-        return this.orderMapper.toDomain(orderCreated);
+        return sharedOrderRepository.createOrder(event);
     }
 
     @Override
     public boolean updateOrderStatus(String orderId, OrderStatus orderStatus) {
-        int updatedRows = ordersRepositoryJpa.updateOrderStatusById(orderId, orderStatus);
-        return updatedRows > 0;
+        return sharedOrderRepository.updateOrderStatus(orderId, orderStatus);
+    }
+
+    @Override
+    public Order findOrderById(String orderId) {
+        return sharedOrderRepository.findOrderById(orderId);
     }
 
 }

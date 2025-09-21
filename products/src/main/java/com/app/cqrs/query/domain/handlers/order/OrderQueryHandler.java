@@ -16,6 +16,8 @@ public class OrderQueryHandler {
     }
 
     @QueryHandler
-    public void findOrder(FindOrderQuery query) {}
+    public void findOrder(FindOrderQuery query) {
+        this.orderRepository.findOrderById(query.getOrderId());
+    }
 
 }
