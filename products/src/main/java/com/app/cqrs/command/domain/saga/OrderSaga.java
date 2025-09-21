@@ -208,14 +208,15 @@ public class OrderSaga {
         logger.info("Order rejected for order: {}. Reason: {}",
                 rejectedEvent.getOrderId(), rejectedEvent.getReason());
         logger.info("Ending saga for order: {}", rejectedEvent.getOrderId());
+
+        var order = Order.builder()
+                .orderId(rejectedEvent.getOrderId())
+                .orderStatus(rejectedEvent.getOrderStatus())
+                .build();
+
+        this.queryUpdateEmitter.emit(FindOrderQuery.class, query -> true, order);
+
         SagaLifecycle.end();
-    }
-
-    private void cancelReservation(ProductReservedEvent event, String reason) {
-        var cancelProduct = this.orderMapper.toCancelReservation(event, reason);
-
-        this.orderCommandPort.sendSync(cancelProduct);
-
     }
 
     @DeadlineHandler(deadlineName = PAYMENT_DEADLINE)
@@ -230,6 +231,13 @@ public class OrderSaga {
             this.schedulerManager.cancelAllDeadline(PAYMENT_DEADLINE, this.deadlineId);
             this.deadlineId = null;
         }
+
+    }
+
+    private void cancelReservation(ProductReservedEvent event, String reason) {
+        var cancelProduct = this.orderMapper.toCancelReservation(event, reason);
+
+        this.orderCommandPort.sendSync(cancelProduct);
 
     }
 
