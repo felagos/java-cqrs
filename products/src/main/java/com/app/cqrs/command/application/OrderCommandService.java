@@ -17,12 +17,14 @@ public class OrderCommandService {
     }
 
     public Order createOrder(CreateOrderCommand command) {
-        var querySubscription = this.orderCommandPort.subscriptionQuery(new FindOrderQuery(command.getOrderId()),
-                ResponseTypes.instanceOf(Order.class), ResponseTypes.instanceOf(Order.class));
+        try (var querySubscription = this.orderCommandPort.subscriptionQuery(
+                new FindOrderQuery(command.getOrderId()),
+                ResponseTypes.instanceOf(Order.class), ResponseTypes.instanceOf(Order.class))) {
 
-       this.orderCommandPort.createOrder(command);
+            this.orderCommandPort.createOrder(command);
 
-        return querySubscription.updates().blockFirst();
+            return querySubscription.updates().blockFirst();
+        }
     }
 
 }
