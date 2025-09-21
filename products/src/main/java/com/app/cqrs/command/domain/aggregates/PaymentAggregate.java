@@ -1,5 +1,7 @@
 package com.app.cqrs.command.domain.aggregates;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -13,6 +15,8 @@ import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
 @Aggregate
 public class PaymentAggregate {
 
+    private static final Logger logger = LoggerFactory.getLogger(PaymentAggregate.class);
+
     @AggregateIdentifier
     private String paymentId;
     private String orderId;
@@ -22,12 +26,14 @@ public class PaymentAggregate {
 
     @CommandHandler
     public PaymentAggregate(ProcessPaymentCommand processPaymentCommand) {
+        logger.info("PaymentAggregate: Processing payment for order: {}", processPaymentCommand.getOrderId());
 
         this.validatePaymentDetails(processPaymentCommand);
 
         var paymentProcessedEvent = new PaymentProcessedEvent(processPaymentCommand.getPaymentId(),
                 processPaymentCommand.getOrderId());
 
+        logger.info("PaymentAggregate: Applying PaymentProcessedEvent: {}", paymentProcessedEvent);
         AggregateLifecycle.apply(paymentProcessedEvent);
     }
 

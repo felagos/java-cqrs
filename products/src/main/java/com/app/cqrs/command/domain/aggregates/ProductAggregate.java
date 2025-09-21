@@ -13,7 +13,7 @@ import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.command.domain.commands.CreateProductCommand;
 import com.app.cqrs.command.domain.events.products.CancelProductReservationEvent;
 import com.app.cqrs.command.domain.events.products.ProductCreatedEvent;
-import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
+import com.app.cqrs.shared.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.shared.infrastructure.exceptions.InvalidProductException;
 import com.app.cqrs.shared.infrastructure.exceptions.ReserveProductException;
 import com.app.cqrs.shared.domain.BaseAggregate;

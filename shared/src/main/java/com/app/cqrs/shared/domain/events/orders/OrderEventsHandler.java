@@ -30,6 +30,7 @@ public class OrderEventsHandler {
 
     @EventHandler
     public void handleApprovedOrderEvent(OrderApprovedEvent event) {
+        LOGGER.info("OrderEventsHandler: Received OrderApprovedEvent for order: {}", event.getOrderId());
         LOGGER.info("Handling OrderApprovedEvent for order: " + event);
         this.orderRepository.updateOrderStatus(event.getOrderId(), event.getOrderStatus());
     }

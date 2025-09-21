@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
-import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.domain.ports.email.IEmailPort;
+import com.app.cqrs.shared.domain.events.products.ProductReservedEvent;
 
 @Service
 public class EmailService {

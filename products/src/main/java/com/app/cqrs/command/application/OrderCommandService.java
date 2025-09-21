@@ -1,5 +1,6 @@
 package com.app.cqrs.command.application;
 
+import java.time.Duration;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +26,18 @@ public class OrderCommandService {
                 new FindOrderQuery(command.getOrderId()),
                 ResponseTypes.instanceOf(Order.class), ResponseTypes.instanceOf(Order.class))) {
 
+            logger.info("Created subscription query for order: {}", command.getOrderId());
+
             this.orderCommandPort.createOrder(command);
 
-            var order = querySubscription.updates().blockFirst();
+            logger.info("CreateOrderCommand sent: {}", command);
 
-            this.logger.info("Order created: {}", order);
+            // Add timeout to prevent infinite blocking - wait max 5 seconds for initial response
+            var order = querySubscription.updates()
+                    .timeout(Duration.ofSeconds(20))
+                    .blockFirst();
+
+            logger.info("Order created: {}", order);
 
             return order;
         }

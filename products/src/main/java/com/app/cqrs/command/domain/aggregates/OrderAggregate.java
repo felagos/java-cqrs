@@ -50,8 +50,11 @@ public class OrderAggregate {
 
     @CommandHandler
     public void onApprovedOrder(ApproveOrderCommand approveOrderCommand) {
+        logger.info("OrderAggregate: Handling ApproveOrderCommand for order: {}", approveOrderCommand.getOrderId());
+        
         var orderApprovedEvent = new OrderApprovedEvent(approveOrderCommand.getOrderId());
 
+        logger.info("OrderAggregate: Applying OrderApprovedEvent: {}", orderApprovedEvent);
         AggregateLifecycle.apply(orderApprovedEvent);
     }
 

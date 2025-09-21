@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.app.cqrs.command.domain.ports.products.IProductCommandRepository;
 import com.app.cqrs.shared.constants.ProcessGroups;
+import com.app.cqrs.shared.domain.events.products.ProductReservedEvent;
 
 @Component
 @ProcessingGroup(ProcessGroups.ORDER_GROUP)
