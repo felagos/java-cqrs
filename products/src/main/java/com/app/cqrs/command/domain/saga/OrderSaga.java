@@ -13,6 +13,7 @@ import org.axonframework.modelling.saga.SagaLifecycle;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.app.cqrs.shared.domain.ports.query.IQueryUpdateEmitterPort;
 import com.app.cqrs.shared.domain.commands.orders.ApproveOrderCommand;
 import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.shared.domain.events.orders.OrderApprovedEvent;
@@ -20,6 +21,7 @@ import com.app.cqrs.shared.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.shared.domain.events.orders.RejectOrderEvent;
 import com.app.cqrs.command.domain.events.payments.PaymentProcessedEvent;
 import com.app.cqrs.shared.domain.events.products.ProductReservedEvent;
+import com.app.cqrs.shared.domain.orders.Order;
 import com.app.cqrs.shared.domain.ports.orders.IOrderCommandPort;
 import com.app.cqrs.command.domain.ports.scheduler.ISchedulerManager;
 import com.app.cqrs.shared.constants.ProcessGroups;
@@ -27,6 +29,7 @@ import com.app.cqrs.shared.domain.commands.ProcessPaymentCommand;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 import com.app.cqrs.shared.domain.ports.IUserPaymentDetailGateway;
 import com.app.cqrs.shared.domain.query.FetchUserPaymentDetailsQuery;
+import com.app.cqrs.shared.domain.query.orders.FindOrderQuery;
 import com.app.cqrs.shared.infrastructure.mappers.OrderMapper;
 import com.app.cqrs.shared.utils.IdGenerator;
 import com.app.cqrs.command.domain.ports.email.IEmailPort;
@@ -52,6 +55,9 @@ public class OrderSaga {
 
     @Autowired
     private transient ISchedulerManager schedulerManager;
+
+    @Autowired
+    private transient IQueryUpdateEmitterPort queryUpdateEmitter;
 
     private String deadlineId;
 
@@ -185,6 +191,13 @@ public class OrderSaga {
         }
 
         logger.info("Ending saga for order: {}", approvedEvent.getOrderId());
+
+        var order = Order.builder()
+                .orderId(approvedEvent.getOrderId())
+                .orderStatus(approvedEvent.getOrderStatus())
+                .build();
+
+        this.queryUpdateEmitter.emit(FindOrderQuery.class, query -> true, order);
 
         SagaLifecycle.end();
     }
