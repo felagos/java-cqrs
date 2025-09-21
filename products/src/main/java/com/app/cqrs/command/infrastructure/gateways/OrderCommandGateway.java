@@ -4,6 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseType;
+import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.queryhandling.SubscriptionQueryResult;
 import org.springframework.stereotype.Component;
 
 import com.app.cqrs.shared.domain.orders.Order;
@@ -14,9 +17,11 @@ import com.app.cqrs.shared.domain.ports.orders.IOrderCommandPort;
 public class OrderCommandGateway implements IOrderCommandPort {
 
     private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
 
-    public OrderCommandGateway(CommandGateway commandGateway) {
+    public OrderCommandGateway(CommandGateway commandGateway, QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
     }
 
     @Override
@@ -40,6 +45,11 @@ public class OrderCommandGateway implements IOrderCommandPort {
     @Override
     public <T> void send(T command, CommandCallback<T, Object> callback) {
         this.commandGateway.send(command, callback);
+    }
+
+    @Override
+    public <Q, I, U> SubscriptionQueryResult<I, U> subscriptionQuery(Q query, ResponseType<I> initialResponseType, ResponseType<U> updateResponseType) {
+        return this.queryGateway.subscriptionQuery(query, initialResponseType, updateResponseType);
     }
 
 }

@@ -3,6 +3,8 @@ package com.app.cqrs.shared.domain.ports.orders;
 import java.util.concurrent.TimeUnit;
 
 import org.axonframework.commandhandling.CommandCallback;
+import org.axonframework.messaging.responsetypes.ResponseType;
+import org.axonframework.queryhandling.SubscriptionQueryResult;
 
 import com.app.cqrs.shared.domain.orders.Order;
 import com.app.cqrs.shared.domain.commands.orders.CreateOrderCommand;
@@ -28,5 +30,7 @@ public interface IOrderCommandPort {
      * Sends a command asynchronously with callback
      */
     <T> void send(T command, CommandCallback<T, Object> callback);
+
+    <Q, I, U> SubscriptionQueryResult<I, U> subscriptionQuery(Q query, ResponseType<I> initialResponseType, ResponseType<U> updateResponseType);
 
 }

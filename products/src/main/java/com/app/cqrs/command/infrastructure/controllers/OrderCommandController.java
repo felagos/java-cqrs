@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.app.cqrs.command.application.OrderCommandService;
 import com.app.cqrs.shared.infrastructure.dtos.OrderCreateDto;
+import com.app.cqrs.shared.infrastructure.dtos.OrderCreatedDto;
 import com.app.cqrs.shared.infrastructure.mappers.OrderMapper;
 
 import jakarta.validation.Valid;
@@ -23,9 +24,11 @@ public class OrderCommandController {
     }
 
     @PostMapping
-    public String createOrder(@Valid @RequestBody OrderCreateDto order) {
+    public OrderCreatedDto createOrder(@Valid @RequestBody OrderCreateDto order) {
         var command = this.orderMapper.toDomain(order);
-        return this.orderCommandService.createOrder(command);
+        var response = this.orderCommandService.createOrder(command);
+
+        return this.orderMapper.toDto(response);
     }
 
 }

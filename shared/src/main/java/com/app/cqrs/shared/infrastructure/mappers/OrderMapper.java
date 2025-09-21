@@ -12,6 +12,7 @@ import com.app.cqrs.shared.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.shared.infrastructure.entities.OrderEntity;
 import com.app.cqrs.shared.domain.commands.ReserveProductCommand;
 import com.app.cqrs.shared.infrastructure.dtos.OrderCreateDto;
+import com.app.cqrs.shared.infrastructure.dtos.OrderCreatedDto;
 import com.app.cqrs.shared.domain.commands.CancelProductReservationCommand;
 import com.app.cqrs.shared.domain.events.products.ProductReservedEvent;
 
@@ -73,6 +74,17 @@ public class OrderMapper {
         return RejectOrderCommand.builder()
                 .orderId(orderId)
                 .reason(reason)
+                .build();
+    }
+
+    public OrderCreatedDto toDto(Order order) {
+        return OrderCreatedDto.builder()
+                .orderId(order.getOrderId())
+                .productId(order.getProductId())
+                .userId(order.getUserId())
+                .quantity(order.getQuantity())
+                .addressId(order.getAddressId())
+                .orderStatus(order.getOrderStatus())
                 .build();
     }
 }
