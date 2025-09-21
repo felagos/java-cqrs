@@ -1,11 +1,12 @@
-package com.app.cqrs.command.domain.events.orders;
+package com.app.cqrs.shared.domain.orders;
 
-import com.app.cqrs.command.domain.OrderStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class OrderCreatedEvent {
-    private String orderId;
+@AllArgsConstructor
+public class Order {
+    public String orderId;
     private String productId;
     private String userId;
     private int quantity;

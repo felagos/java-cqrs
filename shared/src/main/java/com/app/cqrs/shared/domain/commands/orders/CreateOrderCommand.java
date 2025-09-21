@@ -1,8 +1,8 @@
-package com.app.cqrs.command.domain.commands;
+package com.app.cqrs.shared.domain.commands.orders;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import com.app.cqrs.command.domain.OrderStatus;
+import com.app.cqrs.shared.domain.orders.OrderStatus;
 import lombok.Value;
 
 @Value

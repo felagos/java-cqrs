@@ -6,9 +6,9 @@ import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.command.domain.Order;
-import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.command.domain.ports.orders.IOrderCommandPort;
+import com.app.cqrs.shared.domain.orders.Order;
+import com.app.cqrs.shared.domain.commands.orders.CreateOrderCommand;
+import com.app.cqrs.shared.domain.ports.orders.IOrderCommandPort;
 
 @Component
 public class OrderCommandGateway implements IOrderCommandPort {

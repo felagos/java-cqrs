@@ -1,6 +1,6 @@
 package com.app.cqrs.command.infrastructure.entities;
 
-import com.app.cqrs.command.domain.OrderStatus;
+import com.app.cqrs.shared.domain.orders.OrderStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -80,5 +80,4 @@ public class OrderEntity {
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
-
 }

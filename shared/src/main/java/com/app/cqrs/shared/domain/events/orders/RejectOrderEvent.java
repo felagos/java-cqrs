@@ -1,6 +1,6 @@
-package com.app.cqrs.command.domain.events.orders;
+package com.app.cqrs.shared.domain.events.orders;
 
-import com.app.cqrs.command.domain.OrderStatus;
+import com.app.cqrs.shared.domain.orders.OrderStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

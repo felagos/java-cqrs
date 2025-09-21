@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.cqrs.command.domain.OrderStatus;
+import com.app.cqrs.shared.domain.orders.OrderStatus;
 import com.app.cqrs.command.infrastructure.entities.OrderEntity;
 
 public interface OrdersRepositoryJpa extends CrudRepository<OrderEntity, String> {

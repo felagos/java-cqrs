@@ -8,13 +8,13 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-import com.app.cqrs.command.domain.OrderStatus;
-import com.app.cqrs.command.domain.commands.ApproveOrderCommand;
-import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.command.domain.commands.RejectOrderCommand;
-import com.app.cqrs.command.domain.events.orders.OrderApprovedEvent;
-import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
-import com.app.cqrs.command.domain.events.orders.RejectOrderEvent;
+import com.app.cqrs.shared.domain.orders.OrderStatus;
+import com.app.cqrs.shared.domain.commands.orders.ApproveOrderCommand;
+import com.app.cqrs.shared.domain.commands.orders.CreateOrderCommand;
+import com.app.cqrs.shared.domain.commands.orders.RejectOrderCommand;
+import com.app.cqrs.shared.domain.events.orders.OrderApprovedEvent;
+import com.app.cqrs.shared.domain.events.orders.OrderCreatedEvent;
+import com.app.cqrs.shared.domain.events.orders.RejectOrderEvent;
 
 @Aggregate
 public class OrderAggregate {

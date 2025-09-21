@@ -1,4 +1,4 @@
-package com.app.cqrs.query.domain.queries.order;
+package com.app.cqrs.shared.domain.query.orders;
 
 import lombok.Value;
 

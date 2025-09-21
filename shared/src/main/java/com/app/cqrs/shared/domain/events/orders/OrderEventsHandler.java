@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.events.orders;
+package com.app.cqrs.shared.domain.events.orders;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.command.domain.ports.orders.IOrderRepository;
+import com.app.cqrs.shared.domain.ports.orders.IOrderRepository;
 import com.app.cqrs.shared.constants.ProcessGroups;
 
 @Component

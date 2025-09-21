@@ -1,11 +1,11 @@
-package com.app.cqrs.command.domain.ports.orders;
+package com.app.cqrs.shared.domain.ports.orders;
 
 import java.util.concurrent.TimeUnit;
 
 import org.axonframework.commandhandling.CommandCallback;
 
-import com.app.cqrs.command.domain.Order;
-import com.app.cqrs.command.domain.commands.CreateOrderCommand;
+import com.app.cqrs.shared.domain.orders.Order;
+import com.app.cqrs.shared.domain.commands.orders.CreateOrderCommand;
 
 public interface IOrderCommandPort {
 

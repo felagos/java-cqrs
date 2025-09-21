@@ -1,17 +1,9 @@
 package com.app.cqrs.query.domain.queries.product;
 
 import com.app.cqrs.query.domain.ProductFilter;
+import lombok.Value;
 
+@Value
 public class FilterProductQuery {
-
-    private final ProductFilter filter;
-
-    public FilterProductQuery(ProductFilter filter) {
-        this.filter = filter;
-    }
-
-    public ProductFilter getFilter() {
-        return filter;
-    }
-
+    ProductFilter filter;
 }

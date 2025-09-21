@@ -1,4 +1,4 @@
-package com.app.cqrs.command.domain.commands;
+package com.app.cqrs.shared.domain.commands.orders;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import lombok.AllArgsConstructor;

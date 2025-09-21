@@ -4,12 +4,12 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.app.cqrs.command.domain.Order;
-import com.app.cqrs.command.domain.OrderStatus;
+import com.app.cqrs.shared.domain.orders.Order;
+import com.app.cqrs.shared.domain.orders.OrderStatus;
 import com.app.cqrs.command.domain.commands.CancelProductReservationCommand;
-import com.app.cqrs.command.domain.commands.CreateOrderCommand;
-import com.app.cqrs.command.domain.commands.RejectOrderCommand;
-import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
+import com.app.cqrs.shared.domain.commands.orders.CreateOrderCommand;
+import com.app.cqrs.shared.domain.commands.orders.RejectOrderCommand;
+import com.app.cqrs.shared.domain.events.orders.OrderCreatedEvent;
 import com.app.cqrs.command.domain.events.products.ProductReservedEvent;
 import com.app.cqrs.command.infrastructure.dtos.OrderCreateDto;
 import com.app.cqrs.command.infrastructure.entities.OrderEntity;

@@ -2,10 +2,10 @@ package com.app.cqrs.command.infrastructure.repositories.order;
 
 import org.springframework.stereotype.Repository;
 
-import com.app.cqrs.command.domain.Order;
-import com.app.cqrs.command.domain.OrderStatus;
-import com.app.cqrs.command.domain.events.orders.OrderCreatedEvent;
-import com.app.cqrs.command.domain.ports.orders.IOrderRepository;
+import com.app.cqrs.shared.domain.orders.Order;
+import com.app.cqrs.shared.domain.orders.OrderStatus;
+import com.app.cqrs.shared.domain.events.orders.OrderCreatedEvent;
+import com.app.cqrs.shared.domain.ports.orders.IOrderRepository;
 import com.app.cqrs.command.infrastructure.mappers.OrderMapper;
 
 @Repository
