@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.exceptions;
+package com.app.cqrs.shared.infrastructure.exceptions;
 
 import java.time.LocalDateTime;
 

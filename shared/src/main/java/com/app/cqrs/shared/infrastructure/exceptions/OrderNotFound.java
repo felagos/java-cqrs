@@ -1,4 +1,4 @@
-package com.app.cqrs.query.domain.exceptions;
+package com.app.cqrs.shared.infrastructure.exceptions;
 
 public class OrderNotFound extends RuntimeException {
 

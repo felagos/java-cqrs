@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.exceptions;
+package com.app.cqrs.shared.infrastructure.exceptions;
 
 import java.util.HashMap;
 
@@ -9,12 +9,16 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import com.app.cqrs.command.domain.exceptions.ExistingProductException;
-import com.app.cqrs.command.domain.exceptions.InvalidProductException;
-import com.app.cqrs.command.domain.exceptions.ReserveProductException;
 
 @ControllerAdvice
-public class ProductErrorHandler {
+public class ExceptionsHandler {
+
+    @ExceptionHandler(value = { OrderNotFound.class })
+    public ResponseEntity<ErrorMessage<String>> handleOrderNotFound(OrderNotFound ex) {
+        var error = new ErrorMessage<String>(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 
     @ExceptionHandler(value = { InvalidProductException.class, ExistingProductException.class,
             ReserveProductException.class })

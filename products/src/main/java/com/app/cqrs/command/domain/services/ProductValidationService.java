@@ -2,7 +2,7 @@ package com.app.cqrs.command.domain.services;
 
 import org.springframework.stereotype.Service;
 
-import com.app.cqrs.command.domain.exceptions.ExistingProductException;
+import com.app.cqrs.shared.infrastructure.exceptions.ExistingProductException;
 import com.app.cqrs.command.domain.ports.products.IProductCommandRepository;
 
 @Service
