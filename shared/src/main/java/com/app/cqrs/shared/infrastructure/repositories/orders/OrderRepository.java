@@ -1,5 +1,7 @@
 package com.app.cqrs.shared.infrastructure.repositories.orders;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import com.app.cqrs.shared.domain.orders.Order;
@@ -33,8 +35,9 @@ public class OrderRepository implements IOrderRepository {
     }
 
     @Override
-    public Order findOrderById(String orderId) {
+    public Optional<Order> findOrderById(String orderId) {
         var orderEntity = ordersRepositoryJpa.findById(orderId);
-        return orderEntity.map(orderMapper::toDomain).orElse(null);
+        
+        return orderEntity.map(orderMapper::toDomain);
     }
 }
