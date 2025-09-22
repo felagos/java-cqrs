@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.email;
+package com.app.cqrs.command.infrastructure.adapters.email;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

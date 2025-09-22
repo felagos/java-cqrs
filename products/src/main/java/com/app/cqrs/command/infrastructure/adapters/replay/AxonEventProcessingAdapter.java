@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.replay;
+package com.app.cqrs.command.infrastructure.adapters.replay;
 
 import org.axonframework.config.EventProcessingConfiguration;
 import org.axonframework.eventhandling.TrackingEventProcessor;

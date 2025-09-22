@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.gateways;
+package com.app.cqrs.command.infrastructure.adapters.gateways;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.gateways;
+package com.app.cqrs.command.infrastructure.adapters.gateways;
 
 import java.util.concurrent.TimeUnit;
 

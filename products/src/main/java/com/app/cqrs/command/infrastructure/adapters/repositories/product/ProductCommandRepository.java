@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.repositories.product;
+package com.app.cqrs.command.infrastructure.adapters.repositories.product;
 
 import java.util.Optional;
 import org.slf4j.Logger;

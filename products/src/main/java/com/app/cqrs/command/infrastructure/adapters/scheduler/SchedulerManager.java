@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.scheduler;
+package com.app.cqrs.command.infrastructure.adapters.scheduler;
 
 import java.time.Duration;
 import org.axonframework.deadline.DeadlineManager;

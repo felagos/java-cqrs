@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.repositories.payment;
+package com.app.cqrs.command.infrastructure.adapters.repositories.payment;
 
 import org.springframework.stereotype.Repository;
 import com.app.cqrs.command.domain.Payment;

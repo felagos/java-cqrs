@@ -1,4 +1,4 @@
-package com.app.cqrs.command.infrastructure.repositories.product;
+package com.app.cqrs.command.infrastructure.adapters.repositories.product;
 
 import org.springframework.stereotype.Repository;
 
