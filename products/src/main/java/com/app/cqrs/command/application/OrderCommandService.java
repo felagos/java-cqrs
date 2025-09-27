@@ -32,7 +32,6 @@ public class OrderCommandService {
 
             logger.info("CreateOrderCommand sent: {}", command);
 
-            // Add timeout to prevent infinite blocking - wait max 5 seconds for initial response
             var order = querySubscription.updates()
                     .timeout(Duration.ofSeconds(20))
                     .blockFirst();
